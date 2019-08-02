@@ -50,5 +50,3 @@ Initial development has been completed.
 
 7.- Type **http://localhost:8085** into your browser
 
-
-## 后台模块
