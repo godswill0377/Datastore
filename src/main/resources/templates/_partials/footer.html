@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<footer th:fragment="footer" id="footer">
+
+	<a href="https://seal.beyondsecurity.com/vulnerability-scanner-verification/www.dataexo.com"><img src="https://seal.beyondsecurity.com/verification-images/www.dataexo.com/vulnerability-scanner-2.gif" alt="Website Security Test" border="0"></a>
+	<div class="footer-section">
+
+		<div class="container">
+
+			<div class="footer-content">
+
+				<div class="row">
+
+					<div class="col-md-6 col-lg-3 innerFooterCol"> <img src="/images/logo.png" alt="logo-footer">
+
+						<p>We have a team of well-informed customer care executives
+							You can contact us between:</p>
+
+						<div class="timeTable">
+
+							<h3><span>MON - FRI</span>: 9AM - 9PM</h3>
+
+							<h3><span>SAT</span>: 9AM - 5PM</h3>
+
+						</div>
+
+
+
+					</div>
+
+					<div class="col-md-6 col-lg-3 innerFooterCol">
+
+						<h2>Resources</h2>
+
+						<ul>
+							<li th:each="data_category : ${data_categoryList}">
+								<a th:id="'cateid'+${data_category.id}"  th:href="'/cateid/'+${data_category.id}">
+									[[${data_category.name}]]
+								</a>
+							</li>
+						</ul>
+
+					</div>
+
+					<div class="col-md-6 col-lg-3 innerFooterCol">
+
+						<h2>Help & Support</h2>
+
+						<ul>
+
+							<li> <a href="/aboutus">About Us</a> </li>
+
+							<li> <a href="/whatwedo">What We do</a> </li>
+
+							<li> <a href="/contactus">Contact</a> </li>
+
+							<li> <a href="/privacy">Privacy Policy</a> </li>
+
+							<li> <a href="/documentation/main">Docs & Help</a> </li>
+
+						</ul>
+
+					</div>
+
+
+					<div class="col-md-6 col-lg-3 innerFooterCol">
+
+						<h2>NEWSLETTER</h2>
+
+						<p>Get weekly updates for the latest news and information from our site by pressing the subscription button.</p>
+
+						<div class="custom-groupFooter">
+						</div>
+
+						<div class="iconSocial-footer"> <a  href="javscript:void(0);"><i class="fa fa-google-plus"></i></a> <a href="javscript:void(0);"><i class="fa fa-github"></i></a> <a href="javscript:void(0);"><i class="fa fa-facebook"></i></a> <a href="javscript:void(0);"><i class="fa fa-linkedin"></i></a> </div>
+
+
+						<script language="JavaScript" type="text/javascript">
+                            TrustLogo("https://www.dataexo.com/images/comodo_secure_seal_113x59_transp.png", "CL1", "none");
+						</script>
+						<a  href="https://www.positivessl.com/" id="comodoTL">Positive SSL</a>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="footerbottom-sec">
+
+		<div class="container">
+
+			<h4 style="float: left;">Copyright @ &nbsp;<span>DataExo Inc</span>.2017. - All rights reserved</h4>
+			<h4 style="float: right;border-left: 1px solid white;padding-left: 9px;padding-right: 20px;"><a style="color: white;" href="/contactus">Contact</a> </h4>
+			<h4 style="float: right;border-left: 1px solid white;padding-left: 9px;padding-right: 20px;"><a style="color: white;" href="/privacy">Privacy Policy</a> </h4>
+		</div>
+
+	</div>
+
+
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+	<script>
+
+        $('.tglBtn > a').click(function(){
+
+            $(this).parents('.navigationBar').toggleClass('navTogl')
+
+        });
+
+
+        $('.user-accoutn').click(function(){
+
+            $('.dropdowns-menu').toggleClass('Show-drop');
+
+        });
+
+
+
+        $('.bannerMenu, .headerSec, section, .breadcomb').click(function(){
+
+            $('.dropdowns-menu').removeClass('Show-drop');
+
+        });
+
+
+
+        $(function(){
+
+            $(window).scroll(function() {
+
+                if ($(this).scrollTop() >= 150) {
+
+                    $('.dropdowns-menu').removeClass('Show-drop');
+
+                }
+
+            });
+
+        });
+
+
+        $('.navbarCollapse').click(function(){
+
+            $('.tglBtn').removeClass('navTogl')
+
+            $(this).removeClass('.navbarCollapse');
+
+        });
+
+
+        $(function(){
+
+            $(window).scroll(function() {
+
+                if ($(this).scrollTop() >= 150) {
+
+                    $('body').addClass('stickytop');
+
+                }
+
+                else {
+
+                    $('body').removeClass('stickytop');
+
+                }
+
+            });
+
+        });
+
+	</script>
+
+
+</footer>
+
+</html>

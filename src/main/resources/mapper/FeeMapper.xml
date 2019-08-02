@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.FeeMapper">
+    <select id="findAll" resultType="fee">
+        SELECT * FROM fee
+    </select>
+
+    <select id="loadFee" resultType="fee">
+        SELECT * FROM fee
+        limit #{start},#{limit}
+    </select>
+
+    <select id="initPage" resultType="int">
+        SELECT count(id) FROM fee
+    </select>
+
+    <select id="getFeeById" resultType="fee">
+        SELECT * FROM fee
+        WHERE id = #{id}
+    </select>
+
+    <update id="updateFee">
+        UPDATE fee SET
+        fee_name = #{fee_name},
+        fee_percent = #{fee_percent}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteFeeById">
+        DELETE FROM fee
+        WHERE id = #{id}
+    </delete>
+
+</mapper>

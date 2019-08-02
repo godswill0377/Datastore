@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.BucketMapper">
+
+   <select id="selectBucket" resultType="bucket">
+       select * from bucket where
+       <if test="id == 0 or id == null" >
+           userid=#{userid} and dataset_id=#{dataset_id}
+       </if>
+       <if test="id != 0 and id != null" >
+           id=#{id}
+       </if>
+   </select>
+
+    <select id="loadBucket" resultType="bucket">
+        select A.id as id, A.userid as userid, A.dataset_id as dataset_id, A.order_date as order_date, A.session_id as session_id  from bucket A,  data_sets C where
+            A.dataset_id=C.id
+        <if test="cateid != '-1'" >
+            and A.userid=#{cateid}
+        </if>
+        <if test="cateid == '-1'" >
+            and A.session_id=#{search_str}
+        </if>
+              order by order_date desc
+        limit #{start},#{limit}
+    </select>
+
+    <insert id="insertBucket" parameterType="bucket"  useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+        insert into bucket(userid,dataset_id,order_date,session_id) VALUES (#{userid},#{dataset_id},#{order_date},#{session_id})
+        <selectKey keyProperty="id" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+  </insert>
+
+
+    <update id="updateBucketInfo">
+        update bucket set userid=#{userid} where session_id=#{session_id}
+    </update>
+    <update id="updateBucketInfoById">
+        update bucket set session_id=#{session_id} where userid=#{userid}
+    </update>
+
+    <delete id="deleteBucket">
+        delete from bucket  where id = #{id}
+    </delete>
+
+    <select id="checkExist" resultType="bucket">
+        select * from bucket where
+        <if test="id == 0 or id == null" >
+          userid=#{userid} and dataset_id=#{dataset_id}
+        </if>
+        <if test="id != 0 and id != null" >
+            id=#{id}
+        </if>
+
+    </select>
+
+    <select id="initPage" resultType="int">
+        select count(A.id) from bucket A,  data_sets C where
+            A.dataset_id=C.id
+        <if test="cateid != '-1'" >
+            and A.userid=#{cateid}
+        </if>
+        <if test="cateid == '-1'" >
+            and A.session_id=#{search_str}
+        </if>
+    </select>
+</mapper>
+

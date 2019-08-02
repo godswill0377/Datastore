@@ -1,0 +1,215 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="_partials/head :: head">
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+	<header id="header" th:replace="_partials/header :: header">
+	</header>
+
+	<div class="breadcomb">
+
+		<div class="container">
+
+			<ul>
+				<li class="menu-item-series"><a href="/documentation/dataexo">DATAEXO</a></li>
+
+				<li class="menu-item-series active"><a href="/documentation/analyze">DATA ANALYZE</a></li>
+
+				<li class=""><a href="#">DOCUMENTATION</a></li>
+			</ul>
+
+		</div>
+
+	</div>
+
+	<div class="container">
+		<div class="helpContent">
+			<div class="header">
+				<h2>GETTING STARTED</h2>
+				<h5>DATAEXO Analysis Platform</h5>
+			</div>
+
+			<div class="mainSec" >
+				<section class="content-toc col-md-3" >
+					<nav>
+						<ul>
+							<li class="list-head"><a><i class="fa fa-list"></i> Table of Contents</a></li>
+							<li class="list-content">
+								<a href="javascript:scrollToByElement('Introduction');">Introduction</a>
+								<ul>
+									<li><a href="javascript:scrollToByElement('data_api_key');">Get DATAEXO API Key?</a></li>
+									<li><a href="javascript:scrollToByElement('result_type');">Result Type</a></li>
+								</ul>
+							</li>
+						</ul>
+					</nav>
+				</section>
+
+				<section class="contentSec col-md-9">
+					<p><strong id="Introduction">DATAEXO Analysis Platform</strong></p>
+					<p>DATAEXO gives a unique Analysis Platform which users can use to analyse the business data which they have purchased or got for free. They can send queries and get the desired result for easier understanding of business data.</p>
+					<p>Users/Customers will use the following link to access the analysis platform <a href="http://www.dataexo.com/data-analysis">http://dataexo.com/data-analysis</a></p>
+					<p><img src="/images/guide/zeppelin/img1.png" alt="" width="1000" height="489" /></p>
+					<p>To start, first time/new users need to register as per below.&nbsp; This registration is free of cost and is independent from registering on the main site <a href="http://www.dataexo.com">http://dataexo.com</a></p>
+					<p>Authentication is done using API Key:</p>
+					<p><img src="/images/guide/zeppelin/img2.png" alt="" width="1000" height="423" /></p>
+					<p>&nbsp;</p>
+					<p><strong id="data_api_key">How to get your DATAEXO API Key?</strong></p>
+					<p>Please sign up at DATAEXO for an absolutely free account. You can purchase either Free data (without any fee) or premium data (Paid)</p>
+					<p><strong>Free data and Premium data</strong></p>
+					<p>DATAEXO has an enormous collection of business data including financial data, marketing data, medical and hospital data, real estate data, and many other data sets.</p>
+					<p>Users/customers can access data on DATAEXO free of cost but with certain limitations.</p>
+					<p>Fore premium dataset, Users/customers may have to pay DATAEXO. Users can purchase this data either directly or through their subscription. All premium datasets have exhaustive information. If the need arises, the subscription can be cancelled at any point of time.</p>
+					<p>Although free datasets are suitable for testing, trialling and study, yet we strongly suggest usage of premium datasets for proficient and professional purposes.</p>
+					<p>&nbsp;</p>
+					<p>To get API Key, login to http://www.dataexo.com</p>
+					<p>Click on Account Settings</p>
+					<p><img src="/images/guide/zeppelin/img3.png" alt="" width="1000" height="423" /></p>
+					<p>&nbsp;</p>
+					<p>You will be directed to the Profile page directly</p>
+					<p><img src="/images/guide/zeppelin/img4.png" alt="" width="1000" height="426" /></p>
+					<p>&nbsp;</p>
+					<p>You can also access profile page by going to <a href="http://www.dataexo.com/account/mydata">http://www.dataexo.com/account/mydata</a></p>
+					<p><img src="/images/guide/zeppelin/img5.png" alt="" width="1000" height="492" /></p>
+					<p>&nbsp;</p>
+					<ul>
+						<li>Click on Edit profile</li>
+						<li>Get your API Key from profile page</li>
+					</ul>
+					<p><img src="/images/guide/zeppelin/img6.png" alt="" width="1000" height="426" /></p>
+					<p>&nbsp;</p>
+					<ul>
+						<li>You will be using this API Key while registering to analyze platform <a href="http://www.dataexo.com/data-analysis">dataexo.com/data-analysis</a></li>
+						<li>Put the User name and Email which you used while registering on DATAEXO- <a href="http://www.dataexo.com">dataexo.com</a></li>
+						<li>Insert the API key which you got while purchasing your datasets and resgister.</li>
+					</ul>
+					<p><img src="/images/guide/zeppelin/img7.png" alt="" width="1000" height="466" /></p>
+					<p>&nbsp;</p>
+					<ul>
+						<li>You will be directed to the following page</li>
+					</ul>
+					<p><img src="/images/guide/zeppelin/img8.png" alt="" width="1000" height="440" /></p>
+					<p>&nbsp;</p>
+					<ul>
+						<li>Click on the upper Left hand side DATAEXO, you will get various options which you can use for getting more information.</li>
+					</ul>
+					<p><img src="/images/guide/zeppelin/img9.png" alt="" width="1000" height="459" /></p>
+					<p>&nbsp;</p>
+					<ul>
+						<li>Notebook Tab is for analysing data by creating queries here.</li>
+					</ul>
+					<p><img src="/images/guide/zeppelin/img10.png" alt="" width="1000" height="435" /></p>
+					<p>&nbsp;</p>
+					<p>You can create different note for each of the queries for easier and quick access.</p>
+					<ul>
+						<li>Click on Create a new note</li>
+						<li>Give it a name synonym with the query you are going to write for easier identification.</li>
+						<li>You can also write a brief description about the query and the expected output.</li>
+					</ul>
+					<p><img src="/images/guide/zeppelin/img11.png" alt="" width="1000" height="435" /></p>
+					<p>&nbsp;</p>
+					<p><img src="/images/guide/zeppelin/img12.png" alt="" width="1000" height="369" /></p>
+					<p>&nbsp;</p>
+					<p>For example &ndash;test for writing note has been created.</p>
+					<p>Click on it</p>
+					<p><img src="/images/guide/zeppelin/img13.png" alt="" width="1000" height="424" /></p>
+					<p>&nbsp;</p>
+					<p>You will directed to the following page.</p>
+					<p>Here you can write your desired query here</p>
+					<p>For example</p>
+					<p>&nbsp;%jdbc</p>
+					<p>select * from dataexo_prod.marketdata</p>
+					<p>You can write more than 1 query in a single note</p>
+					<p><img src="/images/guide/zeppelin/img14.png" alt="" width="1000" height="356" /></p>
+					<p>&nbsp;</p>
+					<p>Then click on the arrow button to fetch the queried result</p>
+					<p><img src="/images/guide/zeppelin/img15.png" alt="" width="1000" height="359" /></p>
+					<p>&nbsp;</p>
+					<p>You will get the output in the following format.</p>
+					<p>&nbsp;You can choose here the desired number of columns and rows in your query and it works just like an SQL query.</p>
+					<p>There are two steps to access full data in analyze platform:</p>
+					<ol>
+						<li>The user has to put API Key (This is DATAEXO API key which comes from the profile page)</li>
+						<li>The user has to purchase this data in DATAEXO main platform- <a href="http://www.dataexo.com">http://dataexo.com</a></li>
+					</ol>
+					<p>In case you have not purchases or subscribed for the data you will get a message after the query runs and fetches the result.</p>
+					<p><strong>Message- </strong>If you are not subscription user, you can see only partial data. You have to purchase&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dataset on DATAEXO system to see full data as can be seen in the below snapshot</p>
+					<p>&nbsp;</p>
+					<p><img src="/images/guide/zeppelin/img16.png" alt="" width="1000" height="395" /></p>
+					<p>&nbsp;</p>
+					<p><strong id="result_type">You can also get the desired result of the query in the following format:</strong></p>
+					<p>&nbsp;</p>
+					<p><strong>Table format</strong></p>
+					<p><strong><img src="/images/guide/zeppelin/img17.png" alt="" width="1000" height="427" /></strong></p>
+					<p>&nbsp;</p>
+					<p><strong>Bar Chart</strong></p>
+					<p><strong><img src="/images/guide/zeppelin/img18.png" alt="" width="1000" height="385" /></strong></p>
+					<p>&nbsp;</p>
+					<p><strong>Pie Chart</strong></p>
+					<p><strong><img src="/images/guide/zeppelin/img19.png" alt="" width="1000" height="381" /></strong></p>
+					<p>&nbsp;</p>
+					<p><strong>Area chart</strong></p>
+					<p><strong><img src="/images/guide/zeppelin/img20.png" alt="" width="1000" height="390" /></strong></p>
+					<p>&nbsp;</p>
+					<p><strong>Line chart</strong></p>
+					<p><strong><img src="/images/guide/zeppelin/img21.png" alt="" width="1000" height="395" /></strong></p>
+					<p>&nbsp;</p>
+					<p><strong>Scatter chart</strong></p>
+					<p><strong><img src="/images/guide/zeppelin/img22.png" alt="" width="1000" height="387" /></strong></p>
+					<p>&nbsp;</p>
+					<p>&nbsp;</p>
+				</section>
+			</div>
+		</div>
+
+	</div>
+
+	<footer th:replace="_partials/footer :: footer"></footer>
+</div>
+
+
+<script>
+
+    function scrollToByElement(name){
+        $("html, body").animate({ scrollTop: $('#'+name).offset().top - 160 }, 400);
+    }
+
+    $(function(){
+
+        $(window).scroll(function() {
+
+            if ($(this).scrollTop() >= 12200) {
+
+                $('.content-toc').removeClass('scroll');
+                $('.contentSec').removeClass('scroll');
+
+            }
+            else {
+                if ($(this).scrollTop() >= 260) {
+
+                    $('.content-toc').addClass('scroll');
+                    $('.contentSec').addClass('scroll');
+
+                }
+
+                else {
+                    $('.content-toc').removeClass('scroll');
+                    $('.contentSec').removeClass('scroll');
+
+                }
+            }
+        });
+    });
+
+
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.Data_typeMapper">
+    <!--通过username获取user对象-->
+   <select id="findAll" resultType="data_type">
+       select * from data_type
+   </select>
+    <!--获取一条-->
+   <select id="getData_typeById" resultType="data_type">
+       select * from data_type where id = #{id}
+   </select>
+    <!--初始化加载 携带查询条件-->
+    <select id="loadData_type" resultType="data_type">
+        select * from data_type
+        <if test="pager.search_str != null and pager.search_str != ''">
+            where name like concat('%',#{pager.search_str},'%')
+        </if>
+        limit #{pager.start},#{pager.limit}
+    </select>
+
+    <select id="checkExist" resultType="data_type">
+        select * from data_type where   name like #{name}
+    </select>
+
+
+    <!--保存一条-->
+    <insert id="saveData_type">
+        insert into data_type(name) VALUES (#{name})
+    </insert>
+    <!--删除一条-->
+    <delete id="deleteData_type">
+        delete from data_type where id = #{id}
+    </delete>
+
+    <update id="updateData_type">
+        update data_type set name = #{name} where id =#{id}
+    </update>
+
+
+    <select id="initPage" resultType="int">
+        SELECT count(id) from data_type
+        <if test="search_str != null and search_str != ''">
+            where name like concat('%',#{search_str},'%')
+        </if>
+    </select>
+</mapper>
+

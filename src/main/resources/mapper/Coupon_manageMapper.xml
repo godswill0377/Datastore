@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.Coupon_manageMapper">
+    <select id="initPage" resultType="java.lang.Integer">
+        SELECT count(id) from coupon_manage
+        <if test="vendor_id != null and vendor_id != ''">
+            where vendor_id = #{vendor_id}
+        </if>
+    </select>
+    <select id="loadCoupon" resultType="coupon_manage">
+        SELECT * from coupon_manage
+        <if test="vendor_id != null and vendor_id != ''">
+            where vendor_id = #{vendor_id}
+        </if>
+        ORDER BY expiry_date desc
+        limit #{start},#{limit}
+    </select>
+
+    <select id="findAll" resultType="coupon_manage">
+        SELECT * FROM coupon_manage
+    </select>
+
+    <select id="getById" parameterType="int" resultType="coupon_manage">
+        SELECT * FROM coupon_manage WHERE id = #{id}
+    </select>
+
+    <select id="getByCoupon" parameterType="java.lang.String" resultType="coupon_manage">
+        SELECT * FROM coupon_manage WHERE coupon = #{coupon}
+    </select>
+
+    <insert id="saveCoupon">
+        INSERT INTO coupon_manage (coupon, discount, coupon_for, created_date, expiry_date, vendor_id, dataset_ids)
+        VALUES (#{coupon}, #{discount}, #{coupon_for}, #{created_date}, #{expiry_date}, #{vendor_id}, #{dataset_ids})
+    </insert>
+
+    <update id="updateCoupon">
+        UPDATE coupon_manage SET
+        coupon = #{coupon},
+        discount = #{discount},
+        coupon_for = #{coupon_for},
+        created_date = #{created_date},
+        expiry_date = #{expiry_date},
+        vendor_id = #{vendor_id},
+        dataset_ids = #{dataset_ids}
+        WHERE id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head th:replace="~{admin/partial/head :: head}"></head>
+
+
+<body>
+<div id="wrapper">
+    <header id="header" th:replace="admin/partial/header :: header">
+
+    </header>
+    <aside class="main-sidebar" style="    height: 124vh;background-color: #222d32;" th:insert="~{admin/partial/sidebar :: sidebar}">
+    </aside>
+    <div class="content-wrapper" style="padding:15px;">
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>Data Publisher Management</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="/admin/home">Home</a>
+                        </li>
+                        <li>
+                            <a>Data Publisher</a>
+                        </li>
+                        <li>
+                            <strong>List</strong>
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+            <div class="wrapper wrapper-content animated fadeInRight" style="padding-bottom:37px;">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-content">
+                                <div class="row">
+                                    <form class="form-inline">
+                                        <div class="col-sm-2">
+                                            <div class="input-group">
+                                                <input type="text" style="width: 268px;" id="keyword" placeholder="please input name" class="input-sm form-control">
+                                                <span class="input-group-btn">
+		                                        		<button id="tag-search" type="button" class="btn btn-sm btn-primary">search</button>
+		                                        	</span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- 表格数据 -->
+                                <div id="dataList" style="margin-top:15px;">
+
+                                </div>
+
+                                <div>
+                                    <div style="float: left" class="pagination">Total
+                                        <span id="total-num"></span>
+                                        Records
+                                        <span id="current-page"></span>
+                                        /
+                                        <span id="total-page"></span>
+                                    </div>
+
+                                    <div id="pagination" class="pagination" style="float: right">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--添加footer-->
+    <div class="main-footer"  th:insert="~{admin/partial/footer :: copyright}" style="padding: 0;width: 100%;position: absolute;border: none;">
+
+    </div>
+</div>
+
+</div>
+
+
+<!-- Mainly scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/admin/js/bootstrap.min.js"></script>
+<script src="/admin/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/admin/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/admin/js/hplus.js"></script>
+<script src="/admin/js/validation.js"></script>
+<script src="/admin/js/data_publisher/list.js"></script>
+<script src="/js/jqPaginator.min.js"></script>
+<script type="text/javascript" src="/admin/js/flavr/flavr/js/flavr.min.js"></script>
+<script type="text/javascript" src="/admin/js/flavr/base.js"></script>
+
+</body>
+
+</html>

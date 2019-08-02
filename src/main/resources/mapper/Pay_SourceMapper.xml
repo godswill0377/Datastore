@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.Pay_SourceMapper">
+
+   <select id="findAll" resultType="pay_sources">
+       select * from pay_sources
+   </select>
+   <select id="getPay_SourceById" resultType="pay_sources">
+       select * from pay_sources where id = #{id}
+   </select>
+
+    <select id="loadPay_Source" resultType="pay_sources">
+        select * from pay_sources
+        WHERE 1 = 1
+        <if test="search_str != null and search_str != ''">
+            AND last_4_digits like concat('%',#{search_str},'%')
+        </if>
+        <if test="user_id != null and user_id != ''">
+            AND user_id = #{user_id}
+        </if>
+        ORDER BY is_default DESC
+    </select>
+
+
+    <insert id="savePay_Source">
+        insert into pay_sources
+        (customer_id, user_id, last_4_digits, card_type, is_default, update_at)
+        VALUES (#{customer_id}, #{user_id}, #{last_4_digits}, #{card_type}, #{is_default}, NOW())
+    </insert>
+
+    <delete id="deletePay_Source">
+        delete from pay_sources where id = #{id}
+    </delete>
+
+    <update id="updatePay_Source">
+        update pay_sources set
+        customer_id = #{customer_id}
+        , user_id=#{user_id}
+        , last_4_digits=#{last_4_digits}
+        , card_type=#{card_type}
+        , is_default=#{is_default}
+        where id =#{id}
+    </update>
+
+    <update id="setDefaultCard">
+        update pay_sources set
+        is_default = 0
+        where user_id =#{user_id} and id != #{id}
+    </update>
+
+</mapper>
+

@@ -1,0 +1,268 @@
+<!doctype html>
+<!--todo for subscriber membership-->
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="_partials/head :: head">
+
+</head>
+
+
+<body>
+
+<div class="wrapper">
+
+	<header id="header" th:replace="_partials/header :: header">
+	</header>
+
+	<div class="breadcomb">
+		<div class="container">
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+				<li><a href="#">Membership</a></li>
+				<li><a href="#">Membership</a></li>
+			</ul>
+		</div>
+	</div>
+
+
+	<input type="hidden" th:value="${pubkey}" id="pubkey"/>
+
+	<input type="hidden" th:value="${userinfo.membership}" id="user_membership_type"/>
+
+	<input type="hidden" th:value="${membership_price.m_single}" id="m_single"/>
+	<input type="hidden" th:value="${membership_price.m_enterprise}" id="m_enterprise"/>
+	<input type="hidden" th:value="${membership_price.y_single}" id="y_single"/>
+	<input type="hidden" th:value="${membership_price.y_enterprise}" id="y_enterprise"/>
+
+	<input type="hidden" th:value="${m_single_id}" id="m_single_id"/>
+	<input type="hidden" th:value="${m_enterprise_id}" id="m_enterprise_id"/>
+	<input type="hidden" th:value="${y_single_id}" id="y_single_id"/>
+	<input type="hidden" th:value="${y_enterprise_id}" id="y_enterprise_id"/>
+
+
+	<input type="hidden" th:value="${current_plan_type}" id="current_plan_type"/>
+	<input type="hidden" th:value="${current_plan_expiry}" id="current_plan_expiry"/>
+	<input type="hidden" th:value="${upcoming_plan_type}" id="upcoming_plan_type"/>
+
+	<section>
+		<div class="browserSec main-membershp">
+			<div class="container">
+				<div class="membership-sec">
+					<div class="container">
+						<div class="membership-content">
+							<h2>DataExo Memberships</h2>
+							<p>No obligations. Change plans anytime!</p>
+							<div class="togldata">
+								<label class="toggler toggler--is-active" id="to-monthly">Monthly</label>
+								<div class="toggle">
+									<input type="checkbox" id="annual-switch" class="check">
+									<b class="b switch"></b> </div>
+								<label class="toggler" id="to-annual" >Annual</label>
+							</div>
+
+							<div class="row" id="month_membership">
+
+								<li class="col-md-4 memberCstmCol">
+									<div class="card">
+										<div id="free_month" class="card-body bodyCstm">
+											<h4 class="card-title">Free</h4>
+											<p class="card-text"><a href="javascript:void(0)">$0.00</a> Per Month</p>
+
+											<div class="labelSelected">
+												<div>Selected Plan</div>
+												<div>Starts : [[${current_plan_expiry}]]</div>
+											</div>
+
+											<button type="button" value="0" class="btn btn-outline-primary bttnCstmP">Cancel</button>
+											<button type="button" class="btn btn-outline-primary bttnCstmP selected">[[${current_plan_expiry}]]</button>
+
+											<div class="innerCstmCard">
+												<h5><span><img src="/images/membershipIcon-1.png"></span>Sample Data Available</h5>
+												<h5><span><img src="/images/membershipIcon-2.png"></span>Real Time Update data</h5>
+												<h5><span><img src="/images/membershipIcon-3.png"></span>One Time Purchase function</h5>
+												<h5><span><i class="fa fa-money"></i></span>You can't download with this membership</h5>
+												<p>This is free membership. You should pay each of data set to purchase.</p>
+											</div>
+
+										</div>
+									</div>
+								</li>
+								<li class="col-md-4 memberCstmCol">
+									<div class="card">
+										<div id="m_single_type" class="card-body bodyCstm">
+											<h4 class="card-title">Single</h4>
+											<p class="card-text"><a href="javascript:void(0)">$[[${m_single_int}]].[[${m_single_dec}]]</a> Per Month</p>
+
+											<div class="labelSelected">
+												<div>Selected Plan</div>
+												<div>Starts : [[${current_plan_expiry}]]</div>
+											</div>
+											<div th:if="${m_single_int != '0'}">
+											<button type="button" th:value="${m_single_id}" class="btn btn-outline-primary bttnCstmP">Purchase Now</button>
+											<button type="button" class="btn btn-outline-primary bttnCstmP selected">Expire at [[${current_plan_expiry}]]</button>
+												<a href="#" class="labelContinue">continue this plan</a>
+											</div>
+											<div th:if="${m_single_int == '0'}">
+												<button type="button" th:value="${m_single_id}" class="btn btn-outline-primary bttnCstmP" disabled>Purchase Now</button>
+												<button type="button" class="btn btn-outline-primary bttnCstmP selected">Expire at [[${current_plan_expiry}]]</button>
+												<a href="#" class="labelContinue">continue this plan</a>
+											</div>
+											<div class="innerCstmCard">
+												<h5><span><img src="/images/membershipIcon-1.png"></span>Sample Data Available</h5>
+												<h5><span><img src="/images/membershipIcon-2.png"></span>Real Time Update data</h5>
+												<h5><span><img src="/images/membershipIcon-3.png"></span>One Time Purchase function</h5>
+												<h5><span><i class="fa fa-money"></i></span>$[[${membership_price.m_single_value}]] value of data download</h5>
+
+												<p>You can download $[[${membership_price.m_single_value}]] value of data set. $[[${membership_price.m_single_value}]] is maxium value of data set you can download. </p>
+											</div>
+
+										</div>
+									</div>
+								</li>
+								<li class="col-md-4 memberCstmCol">
+									<div class="card">
+										<div id="m_enterprise_type" class="card-body bodyCstm">
+											<h4 class="card-title">Enterprise</h4>
+											<p class="card-text"><a href="javascript:void(0)">$[[${m_enterprise_int}]].[[${m_enterprise_dec}]]</a> Per Month</p>
+
+											<div class="labelSelected">
+												<div>Selected Plan</div>
+												<div>Starts : [[${current_plan_expiry}]]</div>
+											</div>
+											<div th:if="${m_enterprise_int != '0'}">
+											<button type="button" th:value="${m_enterprise_id}" class="btn btn-outline-primary bttnCstmP">Purchase Now</button>
+											<button type="button" class="btn btn-outline-primary bttnCstmP selected">Expire at [[${current_plan_expiry}]]</button>
+											<a href="#" class="labelContinue">continue this plan</a>
+											</div>
+											<div th:if="${m_enterprise_int == '0'}">
+												<button type="button" th:value="${m_enterprise_id}" class="btn btn-outline-primary bttnCstmP" disabled>Purchase Now</button>
+												<button type="button" class="btn btn-outline-primary bttnCstmP selected">Expire at [[${current_plan_expiry}]]</button>
+												<a href="#" class="labelContinue">continue this plan</a>
+											</div>
+											<div class="innerCstmCard">
+												<h5><span><img src="/images/membershipIcon-1.png"></span>Sample Data Available</h5>
+												<h5><span><img src="/images/membershipIcon-2.png"></span>Real Time Update data</h5>
+												<h5><span><img src="/images/membershipIcon-3.png"></span>One Time Purchase function</h5>
+												<h5><span><i class="fa fa-money"></i></span>$[[${membership_price.m_enterprise_value}]] value of data download</h5>
+
+												<p>You can download $[[${membership_price.m_enterprise_value}]] value of data set. $[[${membership_price.m_enterprise_value}]] is maxium value of data set you can download.</p>
+											</div>
+
+										</div>
+									</div>
+								</li>
+
+							</div>
+
+							<div class="row" id="year_membership" style="display: none;">
+
+								<li class="col-md-4 memberCstmCol">
+									<div class="card">
+										<div id="free_year" class="card-body bodyCstm">
+											<h4 class="card-title">Free</h4>
+											<p class="card-text"><a href="javascript:void(0)">$0.00</a> Per Month</p>
+
+											<div class="labelSelected">
+												<div>Selected Plan</div>
+												<div>Starts : [[${current_plan_expiry}]]</div>
+											</div>
+
+											<button type="button" value="0" class="btn btn-outline-primary bttnCstmP">Cancel</button>
+											<button type="button" class="btn btn-outline-primary bttnCstmP selected">[[${current_plan_expiry}]]</button>
+
+											<div class="innerCstmCard">
+												<h5><span><img src="/images/membershipIcon-1.png"></span>Sample Data Available</h5>
+												<h5><span><img src="/images/membershipIcon-2.png"></span>Real Time Update data</h5>
+												<h5><span><img src="/images/membershipIcon-3.png"></span>One Time Purchase function</h5>
+												<h5><span><i class="fa fa-money"></i></span>You can't download with this membership</h5>
+												<p>This is free membership. You should pay each of data set to purchase.</p>
+											</div>
+
+										</div>
+									</div>
+								</li>
+								<li class="col-md-4 memberCstmCol">
+									<div class="card">
+										<div id="y_single_type" class="card-body bodyCstm">
+											<h4 class="card-title">Single</h4>
+											<p class="card-text"><a href="javascript:void(0)">$[[${y_single_int}]].[[${y_single_dec}]]</a> Per Year</p>
+
+											<div class="labelSelected">
+												<div>Selected Plan</div>
+												<div>Starts : [[${current_plan_expiry}]]</div>
+											</div>
+											<div th:if="${y_single_int != '0'}">
+											<button type="button" th:value="${y_single_id}" class="btn btn-outline-primary bttnCstmP">Purchase Now</button>
+											<button type="button" class="btn btn-outline-primary bttnCstmP selected">Expire at [[${current_plan_expiry}]]</button>
+											<a href="#" class="labelContinue">continue this plan</a>
+											</div>
+											<div th:if="${y_single_int == '0'}">
+												<button type="button" th:value="${y_single_id}" class="btn btn-outline-primary bttnCstmP" disabled>Purchase Now</button>
+												<button type="button" class="btn btn-outline-primary bttnCstmP selected">Expire at [[${current_plan_expiry}]]</button>
+												<a href="#" class="labelContinue">continue this plan</a>
+											</div>
+											<div class="innerCstmCard">
+												<h5><span><img src="/images/membershipIcon-1.png"></span>Sample Data Available</h5>
+												<h5><span><img src="/images/membershipIcon-2.png"></span>Real Time Update data</h5>
+												<h5><span><img src="/images/membershipIcon-3.png"></span>One Time Purchase function</h5>
+												<h5><span><i class="fa fa-money"></i></span>$[[${membership_price.y_single_value}]] value of data download</h5>
+
+												<p>You can download $[[${membership_price.y_single_value}]] value of data set. $[[${membership_price.y_single_value}]] is maxium value of data set you can download.</p>
+											</div>
+
+										</div>
+									</div>
+								</li>
+								<li class="col-md-4 memberCstmCol">
+									<div class="card">
+										<div id="y_enterprise_type" class="card-body bodyCstm">
+											<h4 class="card-title">Enterprise</h4>
+											<p class="card-text"><a href="javascript:void(0)">$[[${y_enterprise_int}]].[[${y_enterprise_dec}]]</a> Per Year</p>
+
+											<div class="labelSelected">
+												<div>Selected Plan</div>
+												<div>Starts : [[${current_plan_expiry}]]</div>
+											</div>
+
+											<div th:if="${y_enterprise_int != '0'}">
+											<button type="button" th:value="${y_enterprise_id}" class="btn btn-outline-primary bttnCstmP">Purchase Now</button>
+											<button type="button" class="btn btn-outline-primary bttnCstmP selected">Expire at [[${current_plan_expiry}]]</button>
+											<a href="#" class="labelContinue">continue this plan</a>
+											</div>
+											<div th:if="${y_enterprise_int == '0'}">
+												<button type="button" th:value="${y_enterprise_id}" class="btn btn-outline-primary bttnCstmP" disabled>Purchase Now</button>
+												<button type="button" class="btn btn-outline-primary bttnCstmP selected">Expire at [[${current_plan_expiry}]]</button>
+												<a href="#" class="labelContinue">continue this plan</a>
+											</div>
+											<div class="innerCstmCard">
+												<h5><span><img src="/images/membershipIcon-1.png"></span>Sample Data Available</h5>
+												<h5><span><img src="/images/membershipIcon-2.png"></span>Real Time Update data</h5>
+												<h5><span><img src="/images/membershipIcon-3.png"></span>One Time Purchase function</h5>
+
+												<h5><span><i class="fa fa-money"></i></span>$[[${membership_price.y_enterprise_value}]] value of data download</h5>
+
+												<p>You can download $[[${membership_price.y_enterprise_value}]] value of data set. $[[${membership_price.y_enterprise_value}]] is maxium value of data set you can download.</p>
+											</div>
+
+										</div>
+									</div>
+								</li>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+</div>
+
+<footer th:replace="_partials/footer :: footer"></footer>
+
+</body>
+
+<script src="https://checkout.stripe.com/checkout.js"></script>
+<script src="/js/user/pch_membership.js"></script>
+
+</html>

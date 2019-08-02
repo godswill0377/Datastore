@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.UserMapper">
+
+    <select id="getUser" parameterType="String" resultType="user">
+        SELECT * from user where username = #{username}  and username != ''
+    </select>
+
+    <select id="checkUser" parameterType="com.dataexo.zblog.vo.User" resultType="user">
+        SELECT * from user where username = #{username}  and  email = #{email}
+    </select>
+
+    <select id="loadUserByAdminUsername" parameterType="String" resultType="user">
+        SELECT * from user where username = #{username} AND role='admin'
+    </select>
+
+    <select id="getUserById" parameterType="String" resultType="user">
+        SELECT * from user where id = #{id}
+    </select>
+
+    <select id="loadUserByVendorId" parameterType="long" resultType="user">
+        SELECT * from user where vendor_id = #{id}
+    </select>
+
+    <select id="getUserByCustomerId" parameterType="String" resultType="user">
+        SELECT * from user where customer_id = #{id}
+    </select>
+
+    <select id="getUserByEmail" parameterType="String" resultType="user">
+        SELECT * from user where email = #{email} and email != ''
+    </select>
+
+    <select id="getUserByApiKey" parameterType="String" resultType="user">
+        SELECT * from user where apiKey = #{apikey}
+    </select>
+
+    <select id="allUser" resultType="user">
+        select * from user
+    </select>
+
+
+    <select id="load_userList" resultType="user">
+        SELECT * from user where role NOT LIKE 'admin'
+        <if test="pager.search_str != null" >
+             AND username like concat('%',#{pager.search_str},'%')
+        </if>
+        <if test="pager.vendor_flag == 1" >
+            AND vendor_id != 0
+        </if>
+        <if test="pager.vendor_flag == 0" >
+            AND vendor_id = 0
+        </if>
+        order by createTime desc
+        limit #{pager.start},#{pager.limit}
+    </select>
+
+    <select id="getAllUsers" parameterType="java.lang.Integer" resultType="user">
+        SELECT * from user where role NOT LIKE 'admin'
+        <if test="vendor_id == 1" >
+            AND vendor_id != 0
+        </if>
+        <if test="vendor_id == 0" >
+            AND vendor_id = 0
+        </if>
+        order by createTime desc
+    </select>
+
+    <select id="initPage" resultType="int">
+        SELECT count(id) from user
+        where role NOT LIKE 'admin'
+
+        <if test="pager.search_str != null" >
+            AND username like concat('%',#{pager.search_str},'%')
+        </if>
+        <if test="pager.vendor_flag == 1" >
+            AND vendor_id != 0
+        </if>
+        <if test="pager.vendor_flag == 0" >
+            AND vendor_id = 0
+        </if>
+    </select>
+
+    <insert id="insertUserInfo">
+        INSERT INTO user
+            (username,password,email,createTime,token,membership
+            ,balance,expire_date,apiKey,vendor_id, customer_id)
+        VALUES
+            (#{username},#{password},#{email},#{createTime},#{token},#{membership},#{balance}
+            ,#{expire_date},#{apiKey},#{vendor_id}, #{customer_id})
+    </insert>
+
+    <update id="resetPassword">
+        update user set password = #{password} where id =#{id}
+    </update>
+
+
+    <update id="updatePassword">
+        update user set
+          password=#{password}
+        where id =#{id}
+    </update>
+
+    <update id="updateInfo">
+        update user set
+        username = #{username}
+        ,email=#{email}
+        ,membership=#{membership}
+        ,up_membership=#{up_membership}
+        ,balance=#{balance}
+        ,expire_date=#{expire_date}
+        , apiKey=#{apiKey}
+        , customer_id=#{customer_id}
+        , vendor_id=#{vendor_id}
+        where id =#{id}
+    </update>
+
+
+    <update id="activeAccount">
+        update user set
+        activate = 1
+        where id =#{id}
+    </update>
+
+
+    <update id="deactiveAccount">
+        update user set
+        activate = 0
+        where id =#{id}
+    </update>
+
+    <update id="updateCustomerID">
+        update user set
+        customer_id=#{customer_id}
+        where vendor_id=#{vendor_id}
+    </update>
+
+    <delete id="deleteUser">
+        delete from user where id =#{id}
+    </delete>
+
+    <update id="updateBalance">
+        UPDATE user SET
+        balance = balance + #{balance}
+        WHERE vendor_id = #{vendor_id}
+    </update>
+
+</mapper>

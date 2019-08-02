@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head th:replace="~{admin/partial/head :: head}">
+
+</head>
+
+<style>
+    .bootstrap-tagsinput{
+        width: 100%;
+    }
+</style>
+
+<link rel="stylesheet" href="/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="/css/bootstrap-tagsinput.css">
+
+<body>
+<div id="wrapper">
+    <header id="header" th:replace="admin/partial/header :: header">
+
+    </header>
+    <aside class="main-sidebar"  th:insert="~{admin/partial/sidebar :: sidebar}">
+    </aside>
+    <div class="content-wrapper" style="padding:15px;">
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>Notification Management</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="/admin/home">Home</a>
+                        </li>
+
+                        <li>
+                            <a>Notification</a>
+                        </li>
+                        <li>
+                            <strong>Add</strong>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+            <div class="wrapper wrapper-content animated fadeInRight" style="padding-bottom:37px;">
+                <div class="col-md-7">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Notification Add</h3>
+                        </div>
+
+                        <div class="callout callout-danger" style="display:none;">
+                            <p></p>
+                        </div>
+
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        <form role="form">
+                            <div class="box-body">
+
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <input type="text" class="form-control" id="title"  placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="content">Content</label>
+                                    <textarea type="text" class="form-control" id="content" ></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="title">To Users</label>
+                                    <input  type="text" class="form-control"  data-role="tagsinput"  id="to_user_ids" >
+
+                                </div>
+
+                            </div>
+                            <!-- /.box-body -->
+
+                            <div class="box-footer">
+                                <a href="/admin/inbox/notification/list" class="btn btn-primary">Go Back</a>
+                                <a class="btn btn-primary" id="btnAdd">Add</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="col-md-12">
+                        <a class="btn btn-primary" style="z-index: 100;position: relative;float: right;margin-top: 18px;" id="btnSelUser">Select User</a>
+                    </div>
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">User Table</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table id="userList" class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Select</th>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <th>Is Vendor</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="data : ${userList}">
+                                    <td><input th:id="${data.id}"  type="checkbox" /></td>
+                                    <td>[[${data.id}]]</td>
+                                    <td>
+                                        <a th:if="${data.vendor_id == 0}" th:href="'javascript:userProfileOpen('+${data.id}+');'">
+                                            [[${data.username}]]</a>
+                                        <a th:if="${data.vendor_id != 0}" th:href="'javascript:vendorProfileOpen('+${data.id}+');'">
+                                            [[${data.username}]]</a>
+                                    </td>
+                                    <td th:if="${data.vendor_id == 0}">NO</td>
+                                    <td th:if="${data.vendor_id != 0}">YES</td>
+
+                                </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!--添加footer-->
+    <div class="main-footer"  th:insert="~{admin/partial/footer :: copyright}" style="padding: 0;width: 100%;position: absolute;border: none;">
+
+    </div>
+</div>
+
+</div>
+
+<!-- Mainly scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/admin/js/bootstrap.min.js"></script>
+<script src="/admin/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/admin/js/hplus.js"></script>
+<script src="/admin/js/validation.js"></script>
+<script src="/admin/js/inbox_notification/add.js"></script>
+
+<script type="text/javascript" src="/admin/js/flavr/flavr/js/flavr.min.js"></script>
+<script type="text/javascript" src="/admin/js/flavr/base.js"></script>
+
+
+
+<script src="/js/jquery.dataTables.min.js"></script>
+<script src="/js/dataTables.bootstrap.min.js"></script>
+<script src="/js/bootstrap-tagsinput.min.js"></script>
+
+<script>
+
+
+    $(function(){
+        $('#userList').DataTable({
+            'paging'      : true,
+            'lengthChange': false,
+            'searching'   : false,
+            'ordering'    : true,
+            'info'        : true,
+            'autoWidth'   : false
+        });
+
+        $('#to_user_ids').tagsinput({
+            allowDuplicates: false
+        });
+
+    });
+
+    $("#btnSelUser").on('click', function(){
+
+        $('#to_user_ids').tagsinput('removeAll');
+
+        $('#userList input[type=checkbox]').each(function () {
+            if(this.checked ){
+                var text = $(this).parent().next().html() + "";
+                $('#to_user_ids').tagsinput('add', text );
+            }
+        });
+
+    });
+
+    function userProfileOpen(id){
+
+        window.open("/admin/user/edit/" + id, '_blank');
+    }
+
+    function vendorProfileOpen(id){
+
+        window.open("/admin/vendor/edit/" + id, '_blank');
+    }
+</script>
+
+</body>
+
+</html>

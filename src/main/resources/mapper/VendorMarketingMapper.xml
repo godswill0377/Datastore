@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.VendorMarketingMapper">
+    <!--通过username获取user对象-->
+   <select id="findAll" resultType="email_lists">
+       select * from email_lists
+   </select>
+   <select id="getEmail_listsById" resultType="email_lists">
+       select * from email_lists where id = #{id}
+   </select>
+
+    <select id="loadEmail_lists" resultType="email_lists">
+        select * from email_lists where
+        vendor_id = #{vendor_id}
+        AND couponOrEmail = 1
+        <if test="search_str != null and search_str != ''">
+            and title like concat('%',#{search_str},'%')
+        </if>
+        limit #{start},#{limit}
+    </select>
+
+    <select id="checkExist" resultType="email_lists">
+        select * from email_lists where   title like #{title}
+    </select>
+
+
+    <insert id="saveEmail_lists">
+        insert into email_lists
+        ( title
+           , content
+           , vendor_id
+           , dataset_ids
+           , email_address
+           , email_nums
+           , updated_at
+           , couponOrEmail
+            )
+        VALUES (#{title}
+           , #{content}
+           , #{vendor_id}
+           , #{dataset_ids}
+           , #{email_address}
+           , #{email_nums}
+           , NOW()
+           , #{couponOrEmail})
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+    <!--删除一条-->
+    <delete id="deleteEmail_lists">
+        delete from email_lists where id = #{id}
+    </delete>
+
+    <update id="updateEmail_lists">
+        update email_lists set
+          title = #{title}
+           , content = #{content}
+            , send_flag = #{send_flag}
+           where id =#{id}
+    </update>
+
+    <select id="initPage" resultType="int">
+        SELECT count(id) from email_lists
+        where vendor_id = #{vendor_id}
+        AND couponOrEmail = 1
+        <if test="search_str != null and search_str != ''">
+            and title like concat('%',#{search_str},'%')
+        </if>
+    </select>
+
+    <select id="initCouponPage" resultType="int">
+        SELECT count(id) from email_lists
+        where vendor_id = #{vendor_id}
+        AND couponOrEmail = 2
+        <if test="search_str != null and search_str != ''">
+            and title like concat('%',#{search_str},'%')
+        </if>
+    </select>
+
+    <select id="loadCouponEmail" resultType="email_lists">
+        select * from email_lists where
+        vendor_id = #{vendor_id}
+        AND couponOrEmail = 2
+        <if test="search_str != null and search_str != ''">
+            and title like concat('%',#{search_str},'%')
+        </if>
+        limit #{start},#{limit}
+    </select>
+
+</mapper>
+

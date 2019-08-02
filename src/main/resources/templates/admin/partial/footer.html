@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<body>
+
+<footer class="main-footer" th:fragment="copyright" style="background: transparent; border: none;">
+    <script>
+        var height = $('.content-wrapper').outerHeight() + 100;
+
+        if(document.getElementById("dataList")){
+            height =$('.content-wrapper').outerHeight() + 540 ;
+        }
+
+        $('aside').css('height',height + 'px');
+        //$('footer').css('top',(height-30) + 'px');
+
+    </script>
+</footer>
+
+</body>
+</html>

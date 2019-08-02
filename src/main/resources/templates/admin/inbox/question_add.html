@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head th:replace="~{admin/partial/head :: head}">
+</head>
+<body>
+<div id="wrapper">
+    <header class="main-header" id="header" th:replace="admin/partial/header :: header">
+    </header>
+    <aside class="main-sidebar"  th:insert="~{admin/partial/sidebar :: sidebar}">
+    </aside>
+    <div class="content-wrapper" style="padding:15px;">
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>Question Edit</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="/admin/home">Home</a>
+                        </li>
+                        <li>
+                            <a>Question</a>
+                        </li>
+                        <li>
+                            <strong>Add</strong>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+            <div class="wrapper wrapper-content animated fadeInRight" style="padding-bottom:37px;">
+                <div class="col-md-7">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Question Add</h3>
+                        </div>
+
+                        <div class="callout callout-danger" style="display:none;">
+                            <p></p>
+                        </div>
+
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        <form role="form">
+                            <div class="box-body">
+
+                                <div class="form-group">
+                                    <label for="content">Content</label>
+                                    <textarea class="form-control" id="content"  rows="8"></textarea>
+                                </div>
+
+
+                            </div>
+                            <!-- /.box-body -->
+
+                            <div class="box-footer">
+                                <a th:href="'/admin/inbox/question/list'" class="btn btn-primary">Go Back</a>
+                                <a class="btn btn-primary" id="btnSave">Save</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--添加footer-->
+    <footer class="main-footer" th:replace="admin/partial/footer :: footer">
+
+    </footer>
+</div>
+
+</div>
+
+<!-- Mainly scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/admin/js/bootstrap.min.js"></script>
+<script src="/admin/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/admin/js/hplus.js"></script>
+<script src="/admin/js/validation.js"></script>
+<script src="/admin/js/inbox/question_add.js"></script>
+
+<script type="text/javascript" src="/admin/js/flavr/flavr/js/flavr.min.js"></script>
+<script type="text/javascript" src="/admin/js/flavr/base.js"></script>
+
+
+</body>
+
+</html>

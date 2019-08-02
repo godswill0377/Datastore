@@ -1,0 +1,122 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="_partials/head :: head">
+
+</head>
+
+
+<body>
+
+<input type="hidden" th:value="${upcoming}" id="upcoming"/>
+
+<div class="wrapper">
+
+	<header id="header" th:replace="_partials/header :: header">
+	</header>
+
+	<div class="breadcomb">
+		<div class="container">
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+				<li><a href="#">Membership</a></li>
+				<li><a href="#">Membership</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<section>
+		<div class="settingSec">
+			<div class="container">
+				<div class="d-flex flex-row">
+					<div class="nav-tabs-left nav-tabs">
+						<h2>Settings</h2>
+						<ul id="user_leftmenu" th:replace="subpart/user_leftmenu :: user_leftmenu">
+
+						</ul>
+					</div>
+
+
+					<div class="tab-content">
+						<div class="tab-innerSec">
+							<h2>Membership</h2>
+							<h6>Current Plans</h6>
+							<div class="innerMember_info">
+								<div class="infoLeft">
+									<h4>[[${membership_text1}]]</h4>
+									<h6>[[${membership_text2}]]</h6>
+
+									<h8 id="upcoming_membership" style="color: white; display: none; margin-bottom: 10px; float: left;">Upcoming membership "[[${upcoming_membership}]]" starts at [[${expiry}]]</h8>
+
+									<button type="button" class="btn btn-primary bttnMange">
+										<a style="color: white;" href="/account/membership/manage">Manage</a></button>
+									<button id="btnCancel" th:if="${membership != 0}"  type="button" class="btn btn-primary bttnMange" style="display: none;">Cancel</button>
+
+								</div>
+								<div class="infoRight" style="float: right;">
+									<h4>Information</h4>
+									<h6>Available value : [[${userinfo.balance}]]$</h6>
+									<p>[[${expire_time}]]</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+</div>
+
+<footer th:replace="_partials/footer :: footer"></footer>
+
+</body>
+
+<script>
+
+    $(document).ready(function() {
+        var upcoming = $('#upcoming').val();
+        if (upcoming >= 0) {
+            $('#upcoming_membership').show();
+		}
+    });
+
+    $('#btnCancel').on('click',function(){
+        swal({
+                title: "Are you sure to cancel your membership?",
+                text: "Submit to cancel membership.",
+                type: "info",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+            },
+            function(){
+                $.ajax({
+                    url:'/account/membership/order',
+                    type:'POST',
+                    data:'mode=0',
+                    success: function(result){
+                        if(result.resultCode == "success"){
+
+                            swal({
+                                title: "Success!",
+                                text: "",
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+
+                            setTimeout(function(){
+                                window.location.href = "/account/membership";
+                            }, 2000);
+                        }
+                        else{
+                            window.location.href = "/";
+                        }
+                    }
+                });
+            });
+    });
+
+</script>
+</html>

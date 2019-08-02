@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head th:replace="vendor/_partials/head :: head">
+</head>
+
+<style>
+    .bootstrap-tagsinput{
+        width: 100%;
+    }
+</style>
+
+<link rel="stylesheet" href="/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="/css/bootstrap-tagsinput.css">
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div id="wrapper">
+    <header id="header" th:replace="vendor/_partials/header :: header">
+
+    </header>
+    <aside class="main-sidebar"  th:insert="~{vendor/_partials/sidebar :: sidebar}">
+    </aside>
+    <div class="content-wrapper" style="padding:15px;">
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>Withdraw Management</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="/vendor/dashboard">Home</a>
+                        </li>
+
+                        <li>
+                            <a>Withdraw</a>
+                        </li>
+                        <li>
+                            <strong>Request</strong>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+            <div class="wrapper wrapper-content animated fadeInRight" style="padding-bottom:37px;">
+                <div class="col-md-7">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Withdraw Request</h3>
+                        </div>
+                        <input type="hidden" th:value="${withdraw_request}" id="withdraw_request">
+
+                        <div class="callout callout-danger" style="display:none;">
+                            <p></p>
+                        </div>
+
+                        <div class="form-inline">
+                            <label for="total_amount"> Available Balance: </label>
+                            <input type="text" style="width: 150px;" class="form-control" th:value="${total}" readonly id="total_amount" placeholder="">
+                        </div>
+
+                        <form role="form" id="withdraw_form">
+                            <div class="box-body">
+
+                                <div class="form-group">
+                                    <label for="amount">Withdraw Amount</label>
+                                    <input type="text" class="form-control" id="amount" required placeholder="">
+                                </div>
+
+                               <div class="form-group">
+                                    <label for="source">Withdraw Source</label>
+                                    <select class="form-control" id="source" required>
+                                        <option value="Bank">Bank</option>
+<!--                                        <option value="Credit Card">Credit Card</option>
+                                        <option value="Stripe">Stripe</option>-->
+                                    </select>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea  style="min-height: 200px;" class="form-control" id="description" placeholder="">Withdraw Request</textarea>
+                                </div>
+
+                            </div>
+
+                            <div class="box-footer">
+                                <a href="/vendor/withdraw/list" class="btn btn-primary">Go Back</a>
+
+                                <a class="btn btn-primary" id="btnAdd"><i style="margin-right:10px;display:none;" id="btWaiting" class="fa fa-circle-o-notch fa-spin"></i></i>Add</a>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="main-footer" th:replace="vendor/_partials/footer :: footer">
+    </footer>
+</div>
+
+</div>
+
+<!-- Mainly scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/vendor/js/bootstrap.min.js"></script>
+<script src="/vendor/js/withdraw/add.js"></script>
+
+<script src="/js/main/jquery.mask.js"></script>
+
+<script>
+
+    $('#amount').keypress(function (event) {
+        var keycode = event.which;
+        if (!(event.shiftKey == false && (keycode == 46 || keycode == 8 || keycode == 37 || keycode == 39 || (keycode >= 48 && keycode <= 57)))) {
+            event.preventDefault();
+        }
+    });
+
+</script>
+</body>
+
+</html>

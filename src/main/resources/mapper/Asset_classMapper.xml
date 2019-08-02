@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.Asset_classMapper">
+   <select id="findAll" resultType="asset_class">
+       select * from asset_class
+   </select>
+   <select id="getAsset_classById" resultType="asset_class">
+       select * from asset_class where id = #{id}
+   </select>
+
+    <select id="checkExist" resultType="asset_class">
+        select * from asset_class where name like #{name}
+    </select>
+
+    <select id="loadAsset_class" resultType="asset_class">
+        select * from asset_class
+        <if test="pager.search_str != null and pager.search_str != ''">
+            where name like concat('%',#{pager.search_str},'%')
+        </if>
+        limit #{pager.start},#{pager.limit}
+    </select>
+    <insert id="saveAsset_class">
+        insert into asset_class(name) VALUES (#{name})
+    </insert>
+    <delete id="deleteAsset_class">
+        delete from asset_class where id = #{id}
+    </delete>
+
+    <update id="updateAsset_class">
+        update asset_class set name = #{name} where id =#{id}
+    </update>
+
+
+    <select id="initPage" resultType="int">
+        SELECT count(id) from asset_class
+        <if test="search_str != null and search_str != ''">
+            where name like concat('%',#{search_str},'%')
+        </if>
+    </select>
+</mapper>
+

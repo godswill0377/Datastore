@@ -1,0 +1,71 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="_partials/head :: head">
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+	<header id="header" th:replace="_partials/header :: header">
+	</header>
+
+	<div class="breadcomb">
+		<div class="container">
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+				<li><a href="#">Contact</a></li>
+				<li><a href="#">Contact Us</a></li>
+			</ul>
+		</div>
+	</div>
+
+
+	<section>
+		<div class="contact-section">
+			<div class="container">
+				<div class="ContactContent">
+					<div class="contactLeft-sec">
+						<h2>Contact Us</h2>
+						<form action="/user/sendmessage" method="POST" id="form">
+							<div class="form-group">
+								<span class="text-blank"  id="valid_ab_name">CAN'T BE BLANK</span>
+								<input type="text" name="name" id="name" class="form-control cstmInputCntrl" placeholder="Name">
+							</div>
+							<div class="form-group">
+								<span class="text-blank"  id="valid_ab_email">CAN'T BE BLANK</span>
+								<input type="text" name="email" id="email" class="form-control cstmInputCntrl" placeholder="Email">
+							</div>
+							<div class="form-group">
+								<span class="text-blank"  id="valid_ab_content">CAN'T BE BLANK</span>
+								<textarea class="form-control cstmInputCntrl" name="content" id="content"  rows="4" placeholder="Message"></textarea>
+							</div>
+							<span class="text-blank" id="valid_ab_captcha">Captcha Error!</span>
+							<div id="captcha"></div>
+							<button id="btnSendMsg"  class="btn btn-default bttnSubmit" type="submit"><i style="color: white;margin-right:10px;display:none;" id="sm_btWaiting" class="fa fa-circle-o-notch fa-spin"></i>Submit</button>
+						</form>
+					</div>
+					<div class="contactRight-sec">
+						<p>We are the company that can evaluate the tangible value of data in today’s capital market. We understand the fact that data is one of the best modern-day resources, which all business requires to flourish. We make our clients understand the tangible value of accurate database and help them to stay ahead in the global competition.</p>
+						<p>We help our customers to bring out the best from the available resources. We inspire our customers to incorporate new strategies into their business and improve their products and services. We tell our customers how to find new and efficient ways to deal with complex information that can create opportunities and regulate market movement.  So, fill up the form with your query/requirement, we will get back to you asap.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<footer th:replace="_partials/footer :: footer"></footer>
+</div>
+
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit">
+</script>
+
+<script src="/js/user/contactus.js"></script>
+
+</body>
+
+</html>

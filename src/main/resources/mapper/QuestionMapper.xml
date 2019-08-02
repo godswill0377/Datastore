@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.QuestionMapper">
+    <select id="loadQuestionByDatasetId" parameterType="Map" resultType="question_anwser">
+        SELECT * FROM question_anwsers
+         WHERE parent_id = 0
+        <if test="dataset_id != ''">
+            AND dataset_id=#{dataset_id}
+        </if>
+
+         <if test="content != null">
+             <bind name="content" value="'%' + content + '%'" />
+             AND content  like #{content}
+         </if>
+        AND deleted_date IS  NULL
+        ORDER BY updated_date DESC , id DESC
+    </select>
+
+    <select id="loadAnswerList" parameterType="java.lang.Integer"  resultType="question_anwser">
+        SELECT * FROM question_anwsers
+        WHERE parent_id=#{id}
+        AND deleted_date IS  NULL
+        ORDER BY updated_date DESC
+    </select>
+
+    <select id="initPage" resultType="int">
+        SELECT count(qa.id) FROM question_anwsers qa, data_sets ds
+        WHERE qa.type=1
+        and ds.id=qa.dataset_id
+        AND parent_id=0
+        AND deleted_date IS  NULL
+        <if test="search_str != null and search_str != ''">
+            AND content like concat('%',#{search_str},'%')
+        </if>
+        <if test="vendor_id != null and vendor_id != ''">
+            AND ds.vendor_id=#{vendor_id}
+        </if>
+        <if test="questionId != null and questionId != ''">
+            AND qa.parent_id=#{questionId}
+        </if>
+    </select>
+
+    <select id="initAnswerPage" resultType="int">
+        SELECT count(qa.id) FROM question_anwsers qa, data_sets ds
+        WHERE qa.type=2
+        and ds.id=qa.dataset_id
+        AND qa.deleted_date IS  NULL
+        <if test="search_str != null and search_str != ''">
+            AND qa.content like concat('%',#{search_str},'%')
+        </if>
+        <if test="vendor_id != null and vendor_id != ''">
+            AND ds.vendor_id=#{vendor_id}
+        </if>
+        <if test="questionId != null and questionId != ''">
+            AND qa.parent_id=#{questionId}
+        </if>
+    </select>
+
+    <select id="loadQuestionList" resultType="question_anwser">
+        SELECT qa.*,ds.name as dataset_name FROM question_anwsers qa, data_sets ds
+        WHERE qa.parent_id=0
+        AND ds.id=qa.dataset_id
+        AND qa.deleted_date IS  NULL
+        <if test="search_str != null and search_str != ''">
+            AND  qa.content like concat('%',#{search_str},'%')
+        </if>
+        <if test="vendor_id != null and vendor_id != ''">
+            AND ds.vendor_id=#{vendor_id}
+        </if>
+        <if test="questionId != null and questionId != ''">
+            AND qa.parent_id=#{questionId}
+        </if>
+        ORDER BY updated_date DESC
+        limit #{start},#{limit}
+    </select>
+
+    <select id="loadAnswerListPage" resultType="question_anwser">
+        SELECT qa.* FROM question_anwsers qa, data_sets ds
+        WHERE qa.type=2
+        and ds.id=qa.dataset_id
+        AND qa.deleted_date IS  NULL
+        <if test="search_str != null and search_str != ''">
+           AND qa.content like concat('%',#{search_str},'%')
+        </if>
+        <if test="vendor_id != null and vendor_id != ''">
+            AND ds.vendor_id=#{vendor_id}
+        </if>
+        <if test="questionId != null and questionId != ''">
+            AND qa.parent_id=#{questionId}
+        </if>
+        limit #{start},#{limit}
+    </select>
+
+    <update id="deleteQuestion" >
+        UPDATE question_anwsers SET deleted_date=NULL
+        WHERE id=#{id}
+    </update>
+
+    <update id="updateQuestion" parameterType="question_anwser">
+        update question_anwsers
+        set   content = #{content}
+            ,dataset_id = #{dataset_id}
+            ,question_by_userid = #{question_by_userid}
+            ,type = #{type}
+            ,parent_id = #{parent_id}
+            ,votes = #{votes}
+            ,answer_by = #{answer_by}
+            ,deleted_date = #{deleted_date}
+            ,updated_date = #{updated_date}
+        where id=#{id}
+    </update>
+
+    <update id="makeVote" parameterType="Map">
+        update question_anwsers
+        set votes=#{votes}
+        where id=#{questionItemId}
+    </update>
+    
+    <insert id="postQuestion" parameterType="Map" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+        INSERT INTO question_anwsers (content,dataset_id,question_by_userid,type,parent_id,votes,updated_date)
+        VALUES (#{content},
+        #{dataset_id},
+        #{question_by_userid},
+        #{type},
+        #{parent_id},
+        #{votes},
+        #{updated_date}
+        )
+        <selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
+
+    <select id="getRowById" parameterType="java.lang.Integer"  resultType="question_anwser">
+        SELECT qa.*,ds.name as dataset_name  FROM question_anwsers  qa, data_sets ds
+        WHERE qa.id=#{id}
+        AND ds.id=qa.dataset_id
+    </select>
+
+    <update id="updateAnswer" parameterType="question_anwser">
+        update question_anwsers
+        set   content = #{content}
+        ,updated_date = #{updated_date}
+        ,votes = #{votes}
+        ,answer_by = #{answer_by}
+        where id=#{id}
+    </update>
+
+    <insert id="createAnswer" parameterType="Map" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+        INSERT INTO question_anwsers (content,type,parent_id,question_by_userid,updated_date,answer_by,dataset_id)
+        VALUES (#{content},
+        #{type},
+        #{parent_id},
+        #{question_by_userid},
+        #{updated_date},
+        #{answer_by},
+        #{dataset_id}
+        )
+        <selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
+    <update id="deleteAnswer" parameterType="Map" >
+        update question_anwsers
+        set  deleted_date = #{deleted_date}
+        where id=#{id}
+    </update>
+</mapper>
+

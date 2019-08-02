@@ -1,0 +1,45 @@
+html{
+  background-color: #ecf0f5;
+}
+.sidebar-menu a{
+  color:#7ea4a4;
+}
+.sidebar-menu>li.active>a {
+  color: #fff;
+  background: #1e282c;
+  border-left-color: #3c8dbc;
+}
+.sidebar-menu>li>a {
+  border-left: 3px solid transparent;
+}
+.treeview{
+  cursor:pointer;
+}
+.treeview-menu>li.active>a{
+  color: #fff;
+}
+.treeview-menu>li>a:hover {
+  color: #fff;
+}
+.treeview-menu>li>a {
+  padding: 6px 0px 4px 16px;
+  font-size:13px;
+
+}
+.sidebar-menu>li>.treeview-menu {
+  margin: 0 1px;
+  background: #2c3b41;
+}
+
+.sidebar-menu>li:hover>a{
+  color: #fff;
+  background: #1e282c;
+  border-left-color: #3c8dbc;
+}
+
+.dropdown-toggle:hover{
+  background-color:red;
+}
+.hidden-xs:hover{
+  color:black;
+}

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.InboxNotifyMapper">
+    <!--通过username获取user对象-->
+   <select id="findAll" resultType="inbox_notify">
+       select * from inbox_notification where deleted_at is null
+   </select>
+    <!--获取一条-->
+   <select id="getInbox_NotifyById" resultType="inbox_notify">
+       select * from inbox_notification where id = #{id}
+   </select>
+    <!--初始化加载 携带查询条件-->
+    <select id="loadInbox_Notify" resultType="inbox_notify">
+        select * from inbox_notification
+        where deleted_at is null
+        <if test="search_str != null and search_str != ''">
+            and title like concat('%',#{search_str},'%')
+        </if>
+        <if test="user_id != null and user_id != '' and user_id != '0'">
+            and to_user_ids like concat('%',#{user_id},',%')
+        </if>
+        ORDER BY read_flag ASC , id DESC
+        limit #{start},#{limit}
+    </select>
+
+    <select id="getUnreadNums" resultType="int">
+        select count(*) from inbox_notification
+        where deleted_at is null
+        <if test="search_str != null and search_str != ''">
+            and title like concat('%',#{search_str},'%')
+        </if>
+        <if test="user_id != null and user_id != '' and user_id != '0'">
+            and to_user_ids like concat('%',#{user_id},',%')
+        </if>
+        and read_flag=0
+    </select>
+
+
+    <select id="checkExist" resultType="inbox_notify">
+        select * from inbox_notification where   title like #{title}
+    </select>
+
+    <!--保存一条-->
+    <insert id="saveInbox_Notify">
+        insert into inbox_notification (title, content, to_user_ids, updated_at)
+        VALUES (#{title}, #{content}, #{to_user_ids}, #{updated_at})
+    </insert>
+    <!--删除一条-->
+    <update id="deleteInbox_Notify">
+        update inbox_notification set deleted_at = NOW() where id = #{id}
+    </update>
+
+    <update id="updateInbox_Notify">
+        update inbox_notification set
+        title = #{title}
+        , content = #{content}
+        , to_user_ids = #{to_user_ids}
+        , updated_at = #{updated_at}
+        , read_flag = #{read_flag}
+        where id =#{id}
+    </update>
+
+    <update id="eraseReadFlag">
+        update inbox_notification set
+         read_flag = 1
+        where  id = #{id}
+    </update>
+
+
+    <select id="initPage" resultType="int">
+        SELECT count(id) from inbox_notification
+        where deleted_at is null
+        <if test="search_str != null and search_str != ''">
+            and title like concat('%',#{search_str},'%')
+        </if>
+        <if test="user_id != null and user_id != '' and user_id != '0'">
+            and to_user_ids like concat('%',#{user_id},',%')
+        </if>
+    </select>
+</mapper>
+

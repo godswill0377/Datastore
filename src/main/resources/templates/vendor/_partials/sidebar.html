@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<body>
+<section class="sidebar" th:fragment="sidebar" >
+	<div class="user-panel">
+		<div class="pull-left image">
+			<img src="/vendor/img/avatar.png" class="img-circle" alt="User Image">
+		</div>
+		<div class="pull-left info">
+			<p>[[${vendor_name}]]</p>
+			<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+		</div>
+	</div>
+	<ul class="sidebar-menu" data-widget="tree">
+		<li class="header">MAIN NAVIGATION</li>
+
+		<li id="main-manage-li" onclick="javascript: window.location.href = '/vendor/dashboard'; " class="treeview">
+			<a href="/vendor/dashboard">
+				<i class="fa fa-dashboard"></i> <span>Dashboard</span>
+			</a>
+		</li>
+
+		<li class="treeview" id="data-set-manage-li">
+			<a href="#">
+				<i class="fa fa-table"></i> <span>DataSet Management</span>
+				<span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+			</a>
+			<ul class="treeview-menu">
+				<li id="data-set-list-li"><a href="/vendor/dataset_management/list"><i class="fa fa-circle-o"></i> Datasets List</a></li>
+				<li id="data-set-add-li"><a href="/vendor/dataset_management/add"><i class="fa fa-circle-o"></i> Add Datasets</a></li>
+
+				<li id="data-set-analyze-li"><a href="/vendor/dataset_management/analyze"><i class="fa fa-circle-o"></i>Datasets Statistics</a></li>
+
+			</ul>
+		</li>
+
+		<li class="treeview" id="trans-manage-li">
+			<a href='javascript: window.location.href="/vendor/transaction/list"'>
+				<i class="fa fa-pie-chart"></i> <span>Transaction</span>
+				<span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>  </span>
+			</a>
+
+			<ul class="treeview-menu">
+				<li id="trans-list-li"><a href="/vendor/transaction/list"><i class="fa fa-circle-o"></i>Transaction History</a></li>
+			</ul>
+
+		</li>
+
+
+		<li class="treeview" id="payment-manage-li">
+			<a href="#">
+				<i class="fa fa-bank"></i> <span>Payment Analysis</span>
+				<span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+			</a>
+			<ul class="treeview-menu">
+				<li id="payment-list-li"><a href="/vendor/payment/list"><i class="fa fa-circle-o"></i>Analyze</a></li>
+			</ul>
+		</li>
+
+		<li class="treeview " id="withdraw-manage-li">
+			<a href="#">
+				<i class="fa fa-money"></i> <span>Balance Withdraw</span>
+				<span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+			</a>
+			<ul class="treeview-menu">
+				<li id="withdraw-list-li"><a href="/vendor/withdraw/list"><i class="fa fa-circle-o"></i>Withdraw List</a></li>
+				<li id="withdraw-request-li"><a href="/vendor/withdraw/add"><i class="fa fa-circle-o"></i>New Request</a></li>
+			</ul>
+		</li>
+
+
+		<!--<li class="treeview" id="card-manage-li">
+			<a href="#">
+				<i class="fa fa-credit-card"></i> <span>Card Management</span>
+				<span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+			</a>
+			<ul class="treeview-menu">
+				<li id="card-list-li"><a href="/vendor/card/list"><i class="fa fa-circle-o"></i> My Card List</a></li>
+				<li id="card-add-li" ><a href="/vendor/card/add"><i class="fa fa-circle-o"></i> Add Card</a></li>
+			</ul>
+		</li>-->
+
+
+
+		<li class="treeview" id="coupon-manage-li">
+			<a href="#">
+				<i class="fa fa-message-settings fa-user-plus"></i> <span>Coupon Management</span>
+				<span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+			</a>
+			<ul class="treeview-menu">
+				<li id="coupon-list-li"><a href="/vendor/coupon/list"><i class="fa fa-circle-o"></i>Coupons</a></li>
+				<li id="coupon-add-li"><a href="/vendor/coupon/add"><i class="fa fa-circle-o"></i> New Coupon</a></li>
+				<li id="coupon-market-li"><a href="/vendor/couponmarketing/list"><i class="fa fa-circle-o"></i>Coupon Marketing</a></li>
+				<li id="coupon-marketadd-li"><a href="/vendor/couponmarketing/add"><i class="fa fa-circle-o"></i>Coupon Marketing Request</a></li>
+			</ul>
+		</li>
+
+		<li class="treeview" id="marketing-manage-li">
+			<a href="#">
+				<i class="fa fa-message-settings fa-user-plus"></i> <span>Email Marketing</span>
+				<span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+			</a>
+			<ul class="treeview-menu">
+				<li id="marketing-list-li"><a href="/vendor/marketing/list"><i class="fa fa-circle-o"></i>  History</a></li>
+				<li id="marketing-add-li"><a href="/vendor/marketing/add"><i class="fa fa-circle-o"></i> New Request</a></li>
+			</ul>
+		</li>
+
+		<li class="treeview"  id="dataset-review-manage-li">
+			<a href="#">
+				<i class="fa fa-message-settings fa-star"></i> <span>Customer Reviews</span>
+				<span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+			</a>
+			<ul class="treeview-menu">
+				<li id="dataset-review-list-li"><a href="/vendor/reviews/list"><i class="fa fa-circle-o"></i>Review Management</a></li>
+			</ul>
+		</li>
+
+		<li class="treeview" id="question-answer-manage-li">
+			<a href="#">
+				<i class="fa fa-question-circle"></i> <span>Questions & Answers</span>
+				<span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+			</a>
+			<ul class="treeview-menu">
+				<li id="question-answer-list-li"><a href="/vendor/dataset/question/list"><i class="fa fa-circle-o"></i>Questions Management</a></li>
+			</ul>
+		</li>
+
+		<li class="treeview" id="setting-li" onclick="sidebar_item(this);">
+
+			<a class="treeview-toggle" >
+				<i class="fa fa-dollar"></i> <span>Settings</span>
+				<span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+			</a>
+
+			<ul class="treeview-menu">
+				<li id="setting-list-li"><a href="/vendor/plan/list"><i class="fa fa-circle-o"></i>Membership</a></li>
+				<li id="verify-list-li"><a href="/vendor/verification"><i class="fa fa-circle-o"></i>Verification</a></li>
+				<li id="source-list-li"><a href="/vendor/account_source"><i class="fa fa-circle-o"></i>My Account Source</a></li>
+
+			</ul>
+		</li>
+
+		<li class="treeview" id="inbox-question-answer-manage-li">
+			<a href="#">
+				<i class="fa fa-envelope"></i> <span>Mailbox</span>
+				<span class="pull-right-container">
+				  <small class="label pull-right bg-green">[[${notify_read_nums}]]</small>
+				  <small class="label pull-right bg-red">[[${read_nums}]]</small>
+				</span>
+			</a>
+			<ul class="treeview-menu">
+				<li id="inbox-question-answer-list-li"><a href="/vendor/inbox/question/list"><i class="fa fa-circle-o"></i>Questions</a></li>
+				<li id="inbox-notification-list-li"><a href="/vendor/inbox/notification/list"><i class="fa fa-circle-o"></i>Notifications</a></li>
+			</ul>
+		</li>
+
+	</ul>
+</section>
+
+</body>
+</html>

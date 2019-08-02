@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+
+<header id="header" th:fragment="header">
+	<input type="hidden" th:value="${userid}" id="userid"/>
+	<input type="hidden" th:value="${items}" id="input_id_cartItems"/>
+	<input type="hidden" id="cateid" th:value="${cateid}" />
+	<input type="hidden" id="resetPassword" th:value="${resetPassword}" />
+	<input type="hidden" id="resetUserid" th:value="${userid}" />
+	<input type="hidden" id="login_username" th:value="${username}" />
+	<input type="hidden" id="user_apikey" th:value="${user_apikey}" />
+
+	<input type="hidden" id="zeppelin_url" th:value="${zeppelin_url}" />
+	<input type="hidden" id="enc_data" th:value="${enc_data}" />
+	<input type="hidden" id="key_data" th:value="${key_data}" />
+	<input type="hidden" id="user_email" th:value="${user_email}" />
+	<input type="hidden" id="resetToken" th:value="${token}" />
+	<input type="hidden" th:value="${sitekey}" id="sitekey" />
+	<input type="hidden" th:value="${jforum_url}" id="jforum_url" />
+	<input type="hidden" th:value="${domain}" id="domain" />
+	<input type="hidden" th:value="${forgetSSOPermit}" id="forgetSSOPermit" />
+
+	<div class="headerTop">
+		<div class="container">
+			<ul class="left-menu-items">
+				<li><a th:href="'mailto:' + ${contact_email}"><i><img src="/images/envolpeIcon.png"></i>[[${contact_email}]]</a></li>
+				<li><a href="/aboutus">About us</a></li>
+				<li><a href="/whatwedo">What we do</a></li>
+			</ul>
+
+			<ul class="right-menu-items">
+
+				<li>
+					<a href="javascript: openForumWindow();">JFORUM
+						<span th:if="${total_unread > 0}" style="background-color: red;">[[${total_unread}]]</span>
+					</a>
+				</li>
+
+				<li th:if="${userid == '0'}"><a href="#" id="btSignin">SIGN IN</a></li>
+				<li><a href="/contactus">CONTACT</a></li>
+				<li><a  href="/account/mycart">CART<i><img src="/images/cartIcon.png"></i><span>[[${items}]]</span></a></li>
+
+				<li th:if="${userid != '0'}">
+					<a href="javascript:void(0);">
+						<img class="user-accoutn" src="/images/menu-drop.png">
+					</a>
+					<div class="dropdowns-menu">
+						<ul>
+							<li ><a href="/account/favourite" >FAVORITES</a></li>
+							<li ><a href="/account/profile">ACCOUNT SETTINGS</a></li>
+							<li ><a href="/account/active">MY SUBSCRIPTIONS</a></li>
+							<li ><a href="javascript: openForumWindow();">JFORUM</a></li>
+							<li><a href="/user/logout">LOGOUT</a></li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="headerSec">
+
+		<div class="container">
+
+			<nav class="navbarSec">
+
+				<!-- Brand and toggle get grouped for better mobile display -->
+
+
+				<div class="navbar navbar-expand-lg navigationBar"> <a class="navbar-brand logobrand" href="/"><img src="/images/logo.png"></a>
+
+					<div class="tglBtn"><a href="javascript:void(0)"><span class="tglline"></span></a></div>
+
+					<div class="navbar-collapse navbarCollapse" id="navbarSupportedContent">
+
+						<ul class="navLink ml-auto">
+
+							<div class="tglBtn ul-close-btn">
+								<a href="javascript:void(0)"><span class="tglline"></span></a>
+							</div>
+
+							<li th:each="data_category : ${data_categoryList}">
+								<a th:id="'cateid'+${data_category.id}"  th:href="'/cateid/'+${data_category.id}">
+									[[${data_category.name}]]
+								</a>
+							</li>
+
+						</ul>
+
+					</div>
+
+				</div>
+
+			</nav>
+
+		</div>
+
+	</div>
+
+	<div id="resetFormSection" style="z-index: 999;display:none; width: 100%;" class="modal-section">
+		<a id="bt-modal-close" class="x-bt-modal-close" >
+			<i class="fa qa-modal-dialog-close fa-close ember-view"></i>
+		</a>
+		<div style="float: left;" class="col-md-4">
+		</div>
+		<div   class="col-md-4" style="float: left;margin-top: 56px;">
+			<div class="form-signin">
+				<div id="text_reset" class="" style="display: none;"></div>
+				<h2 class="form-signin-heading" style="width: 93%; text-align: center;color: white;margin-bottom: 21px;    font-size: 26px;">Choose a new Password</h2>
+				<div class="text-blank"  id="valid_rs_password">CAN'T BE BLANK</div>
+				<input type="password" class="form-control" id="rs_password" name="password" placeholder="password" required="" autofocus="" style="width: 90%;" />
+				<div class="text-blank"  id="valid_rs_confirmpassword">CAN'T BE BLANK</div>
+				<input type="password" class="form-control" id="rs_confirmpassword" name="confirmpassword" placeholder="confirm password" required="" autofocus="" style="width: 90%;" />
+
+				<button class="btn btn-lg btn-primary btn-block" id="rs_btnReset" style="color:white;background-color: #eb5210; border: none;margin-top: 23px; outline: none;width: 88%;" >
+					<i style="margin-right:10px;display:none;" id="rs_btRsWaiting" class="fa fa-circle-o-notch fa-spin"></i>RESET PASSWORD</button>
+			</div>
+		</div>
+
+	</div>
+
+	<script src="/js/head.js"></script>
+
+	<script>
+		 // Sign In top menu item click event
+        $("#btSignin").on('click',function(){
+
+            window.location.href="/sso_login/redirect?redirect=" + window.location;
+        });
+
+        // JForum top menu item click event
+        $("#btJforum").on('click',function(){
+            var link = $(this).attr("href");
+
+            window.open( link, '_blank');
+
+        });
+         function openForumWindow(){
+             var jforum_url = $("#jforum_url").val();
+             window.open(jforum_url +'/forums/list.page', '_blank');
+
+         }
+	</script>
+</header>
+
+</html>

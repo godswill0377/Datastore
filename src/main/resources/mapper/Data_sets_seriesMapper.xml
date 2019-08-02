@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.Data_sets_seriesMapper">
+    <!--通过username获取user对象-->
+   <select id="findAll" resultType="data_sets_series">
+       select * from data_set_series
+   </select>
+
+   <select id="getData_sets_seriesById" resultType="data_sets_series">
+       SELECT
+            A.id,
+            A.name,
+            A.description,
+            A.code,
+            A.is_sample_available,
+            A.latest_update_date,
+            A.data_update_frequency_id,
+            A.chat_diagram,
+            B.name as data_update_frequency_text,
+            A.source_url,
+            A.diagram_update_time,
+            A.filter_condition,
+            A.filter_id,
+            A.data_set_id ,
+            A.embed_url_chart,
+            A.embed_url_datagrid
+        FROM
+            data_set_series A,
+            data_update_frequency B
+
+        WHERE
+           A.data_update_frequency_id = B.id
+         AND A.id = #{id}
+   </select>
+
+    <select id="getData_sets_count"  resultType="int">
+        SELECT
+          count(id)
+        FROM
+            data_set_series
+        WHERE
+            data_set_id = #{id}
+    </select>
+
+
+    <select id="loadData_sets_series"  resultType="data_sets_series">
+        SELECT
+            A.id,
+            A.name,
+            A.description,
+            A.code,
+            SUBSTR(A.latest_update_date FROM 1 FOR 10) as latest_update_date,
+            A.data_update_frequency_id,
+            A.chat_diagram,
+            A.is_sample_available,
+            B.name as data_update_frequency_text,
+            A.diagram_update_time,
+            A.filter_condition,
+            A.filter_id,
+            A.data_set_id,
+            A.embed_url_chart,
+            A.embed_url_datagrid
+        FROM
+            data_set_series A,
+            data_update_frequency B
+
+        WHERE
+            A.data_update_frequency_id = B.id
+            AND (A.name like concat('%',#{pager.search_str},'%'))
+        <if test="pager.parent_code != null and pager.parent_code != ''">
+            AND (A.code like concat('%',#{pager.parent_code},'/%'))
+        </if>
+            <if test="pager.is_free == 0 and pager.is_sample_available == 1" >
+                AND A.is_sample_available = #{pager.is_sample_available}
+            </if>
+      order by code
+            limit #{pager.start},#{pager.limit}
+    </select>
+
+    <select id="loadThree_sets_series"  resultType="data_sets_series">
+        SELECT
+            A.id,
+            A.name,
+            A.description,
+            A.code,
+            SUBSTR(A.latest_update_date FROM 1 FOR 10) as latest_update_date,
+            A.data_update_frequency_id,
+            A.chat_diagram,
+            A.is_sample_available,
+            B.name as data_update_frequency_text,
+            A.diagram_update_time,
+            A.filter_condition,
+            A.filter_id,
+              A.data_set_id
+        FROM
+            data_set_series A,
+            data_update_frequency B
+
+        WHERE
+        A.data_update_frequency_id = B.id
+        AND ((A.name like concat('%',#{pager.search_str},'%'))
+          OR (A.code like concat('%/',#{pager.search_str},'%')))
+        order by code
+        limit 0,3
+    </select>
+
+    <!--保存一条-->
+    <insert id="saveData_sets_series">
+        insert into data_set_series(name,description,code,latest_update_date,data_update_frequency_id
+                  ,chat_diagram,is_sample_available,source_url,filter_condition,filter_id,  data_set_id
+                  , embed_url_datagrid , embed_url_chart )
+        VALUES (#{name},#{description},#{code},#{latest_update_date},#{data_update_frequency_id}
+                  ,#{chat_diagram},#{is_sample_available},#{source_url},#{filter_condition},#{filter_id},#{data_set_id}
+                  , #{embed_url_datagrid} , #{embed_url_chart} )
+    </insert>
+
+    <!--删除一条-->
+    <delete id="deleteData_sets_series">
+        delete from data_set_series where id = #{id}
+    </delete>
+
+    <delete id="deleteData_sets_seriesByParent">
+        delete from data_set_series where data_set_id = #{id}
+    </delete>
+
+
+    <delete id="deleteDataByCode">
+        delete from data_set_series where code like concat('%',#{code},'%')
+    </delete>
+
+    <update id="updateChart_Diagram">
+        update data_set_series set chat_diagram = #{data},diagram_update_time=#{update_date}
+        where id =#{id}
+    </update>
+
+    <update id="updateData_sets_series">
+        update data_set_series set name = #{name},description=#{description},code=#{code}
+         , latest_update_date=#{latest_update_date}, data_update_frequency_id=#{data_update_frequency_id},is_sample_available=#{is_sample_available}
+         , source_url=#{source_url} ,filter_condition=#{filter_condition},filter_id=#{filter_id},data_set_id=#{data_set_id}
+          , embed_url_chart = #{embed_url_chart} , embed_url_datagrid = #{embed_url_datagrid}
+         where id =#{id}
+    </update>
+
+    <select id="initPage" resultType="int">
+        SELECT count(A.id)
+        FROM
+            data_set_series A,
+            data_update_frequency B
+        WHERE
+            A.data_update_frequency_id = B.id
+            AND (A.name like concat('%',#{pager.search_str},'%'))
+        <if test="pager.parent_code != null and pager.parent_code != ''">
+            AND (A.code like concat('%',#{pager.parent_code},'/%'))
+        </if>
+        <if test="pager.is_free == 0 and pager.is_sample_available != 2 ">
+            AND A.is_sample_available = #{pager.is_sample_available}
+        </if>
+    </select>
+
+    <select id="checkExist" resultType="data_sets_series">
+        select * from data_set_series where (name like #{name} or code like #{code})
+        <if test="id != null">
+            and id!=#{id}
+        </if>
+    </select>
+</mapper>
+

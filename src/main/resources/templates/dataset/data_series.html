@@ -1,0 +1,352 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="_partials/head :: head">
+
+</head>
+<link href="/css/lib/bootstrap-glyphicons.css" rel="stylesheet">
+
+<body>
+
+<div class="wrapper">
+
+	<header id="header" th:replace="_partials/header :: header">
+	</header>
+
+	<div class="breadcomb">
+		<div class="container">
+			<ul>
+				<li class="menu-item-series active"><a th:href="'/data_sets/cateid/' + ${cateid} +'/details/' + ${data_sets.id}">DATA</a></li>
+
+				<li class="menu-item-series"><a th:href="'/data_sets/cateid/' + ${cateid} +'/details/' + ${parent_code} + '/documentation'">DOCUMENTATION</a></li>
+
+				<li class=""><a href="#">Dataset Series</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<section>
+		<input type="hidden" th:value="${parent_code}" id="parent_code"/>
+		<input type="hidden" th:value="${cateid}" id="cateid"/>
+		<input type="hidden" th:value="${dataset_id}" id="dataset_id"/>
+		<input type="hidden" id="is_free" th:value="${is_free}"/>
+		<input type="hidden" id="base_url" th:value="${base_url}"/>
+		<input type="hidden" id="chart_days" th:value="${chart_days}"/>
+
+		<div class="data-company">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-8">
+						<div class="data-detail">
+							<div class="data-title">
+								<h3>DATASET SERIES</h3>
+							</div>
+							<div class="data-search">
+								<div class="input-group">
+									<input type="text" onkeyup="keydownevent();" class="form-control InputSearch" id="search_text" placeholder="Search this database">
+									<span class="addonIcon"><img src="/images/searchIcon.png"></span> </div>
+							</div>
+							<div th:if="${expired != '0'}" id="filter_viewer" class="filter">
+								<ul>
+									<li>Filter</li>
+									<li><a href="javascript:void(0);">
+										<span  id="sample_view" class="sampleFilter">Sample</span>
+										<span id="all_view" class="allFilter">All</span></a>
+									</li>
+									<li><a class="tooltipIcon" href="#" data-toggle="tooltip"  data-placement="right" title="The “SAMPLE” filter shows all sample datasets that are available without a subscription. You may view and download details for the sample datasets as often and as much as you wish.The “ALL” filter displays all datasets for this database. You must be a subscriber to access all datasets. Note: to search all datasets, set this filter to “ALL.”">
+										<img src="/images/qut-mark.png"></a>
+									</li>
+								</ul>
+							</div>
+
+							<div  class="data-code">
+								<ul id="main-article">
+
+								</ul>
+							</div>
+
+
+
+							<div class="paginationLink">
+
+								<div style="float: left;display: none" class="pagination">共
+									<span id="total-num"></span>
+									条记录
+									<span id="current-page"></span>
+									/
+									<span id="total-page"></span>
+								</div>
+
+								<ul id="pagination"  class="pagination">
+
+									<li class="page-item active"><a href="javascript:void(0);">1</a></li>
+
+
+								</ul>
+							</div>
+
+						</div>
+
+						<div id="noresult" style="display: none" >
+							<div class="no-results-message" style="padding: 49px;">
+								<p style="font-size: 1.5rem;">We couldn't find any databases.</p>
+								<p style="font-size: 1.32rem; margin-bottom: 20px;">Try browsing categories or use another search term</p>
+								<a href="" class='clear-all'>Clear search</a>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-4">
+						<div class="databaseSec">
+							<div class="database-title">
+								<h2>ABOUT THIS DATABASE</h2>
+							</div>
+							<div class="testingData">
+								<div class="database-title">
+									<h2> [[${data_sets.description}]]</h2>
+								</div>
+								<table class="table tableData">
+									<thead>
+									<tr>
+										<th>Code</th>
+										<th>Dataset</th>
+										<th>API</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr>
+										<td><a href="javascript:void(0);">[[${data_sets.code}]]</a></td>
+										<td><a href="javascript:void(0);">[[${datasets_count}]]</a></td>
+										<td><a href="javascript:void(0);">[[${data_sets.api}]]</a></td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="subscribeData">
+								<div class="database-title">
+									<h2> Vendor Name: [[${vendorName}]]</h2>
+								</div>
+								<table class="table subscriptionData">
+									<thead>
+									<tr>
+										<th>Single Monthly</th>
+										<th>Single Yearly</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr>
+										<td><a href="javascript:void(0);">[[${single_monthly}]]</a></td>
+										<td><a href="javascript:void(0);">[[${single_yearly}]]</a></td>
+									</tr>
+									</tbody>
+								</table>
+								<table class="table subscriptionData">
+									<thead>
+									<tr>
+										<th>Enterprise Monthly</th>
+										<th>Enterprise Yearly</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr>
+										<td><a href="javascript:void(0);">[[${enterprise_monthly}]]</a></td>
+										<td><a href="javascript:void(0);">[[${enterprise_yearly}]]</a></td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<div th:if="${is_free == '0'} AND ${flagMembership == '0'}" class="purchaseBtn">
+								<button type="button"  class="btn btn-danger disabled col-md-5">SUBSCRIBE TO</button>
+								<button type="button"  class="btn btn-danger col-md-5"><a style="color: white;" th:href="'/data_sets/cateid/' + ${cateid} +'/details/' + ${parent_code} + '/purchase'">PURCHASE</a></button>
+							</div>
+							<div th:if="${is_free == '0'} AND ${flagMembership == '1'}" class="purchaseBtn">
+								<button type="button"  class="btn btn-danger col-md-5"><a style="color: white;" th:href="'javascript: subscribeTo(' + ${data_sets.vendor_id} +')'" >SUBSCRIBE TO</a></button>
+								<button type="button"  class="btn btn-danger col-md-5"><a style="color: white;" th:href="'/data_sets/cateid/' + ${cateid} +'/details/' + ${parent_code} + '/purchase'">PURCHASE</a></button>
+							</div>
+							<div th:if="${is_free != '0'}" style="margin-top: 15px;">
+							<!--	<button type="button"  class="btn btn-danger col-md-5"><a style="color: white;" th:href="'/data_sets/cateid/' + ${cateid} +'/details/' + ${parent_code} + '/purchase'">PURCHASE</a></button>-->
+								<button type="button"  class="btn btn-danger col-md-5"><a style="color: white;" th:href="'javascript:free_download('+${data_sets.id}+')'">DOWNLOAD</a></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="question-section">
+		<div class="container">
+			<hr>
+			<div class="data-title" style="margin-top: 20px;">
+				<h3>Customer questions & answers</h3>
+			</div>
+			<div  style="float: right;">
+				<div th:include="subpart/question-ask :: question-ask"></div>
+			</div>
+			<div class="data-search col-md-6">
+				<div class="input-group">
+					<input type="text"  id="searchQuestion" th:value="${searchQuestion}" class="form-control InputSearch" placeholder="Search this database">
+					<span id="searchQuestionIcon" class="addonIcon"><img  src="/images/searchIcon.png"></span>
+				</div>
+			</div>
+
+			<div id="questionListContent">
+			<div  class="question-list" th:replace="subpart/question-list :: question-list">
+
+			</div>
+			</div>
+
+		</div>
+	</section>
+
+	<section class="review-section">
+		<div th:include="subpart/review-edit :: review-edit"></div>
+		<div class="container">
+			<hr>
+			<div class="data-title" style="margin-top: 20px;">
+				<h3>Customer Reviews</h3>
+			</div>
+
+			<div >
+				<input style="float: left;" id="total_rating_stars" name="input-1" class="rating rating-loading" data-min="0" data-max="5" data-step="0.1" th:value="${totalstars}">
+
+				<span class="a-button">
+				  <span class="a-button-inner">
+					<a  class="a-button-text"  data-toggle="modal" data-target="#reviewModal">Write a customer review</a>
+				  </span>
+
+				</span>
+				<br/> <br/>
+				<div style="margin-left: 15px;">[[${totalstars}]] out of 5 Stars</div>
+			</div>
+
+			<br/>  <br/>
+			<div class="review-main-content">
+				<h3 style="margin-left: 10px; font-weight: bold;">Top customer reviews</h3>
+
+				<input type="hidden" id="totalReviewNums" th:value="${#lists.size(reviewList)}" />
+				<div id="reviewListContent">
+					<div class="review-list" th:replace="subpart/review-list :: review-list">
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+
+
+	<footer th:replace="_partials/footer :: footer"></footer>
+</div>
+
+</body>
+
+<script>
+
+	var cnt = $("#totalReviewNums").val();
+    cnt = Math.floor(cnt);
+	for(var i = 0 ; i < cnt ; i ++) {
+        $("#users_rating_stars"+i).rating({
+            min: 1, max: 5, step: 0.1, size: 'xs'
+            , displayOnly: true
+            , starCaptions: {
+                0.5: '0.5 out of 5 stars',
+                1: '1 out of 5 stars',
+                1.5: '1.5 out of 5 stars',
+                2: '2 out of 5 stars',
+                2.5: '2.5 out of 5 stars',
+                3: '3 out of 5 stars',
+                3.5: '3.5 out of 5 stars',
+                4: '4 out of 5 stars',
+                4.5: '4.5 out of 5 stars',
+                5: '5 out of 5 stars'
+            }
+            , clearButton: '<i class="glyphicon "></i>'
+        });
+    }
+
+
+    $("#total_rating_stars").rating({min:1, max:5, step:0.1, size:'xs'
+        ,displayOnly: true
+        , starCaptions: {
+            0.5: '0.5 out of 5 stars',
+            1: '1 out of 5 stars',
+            1.5: '1.5 out of 5 stars',
+            2: '2 out of 5 stars',
+            2.5: '2.5 out of 5 stars',
+            3: '3 out of 5 stars',
+            3.5: '3.5 out of 5 stars',
+            4: '4 out of 5 stars',
+            4.5: '4.5 out of 5 stars',
+            5: '5 out of 5 stars'
+        }
+        ,clearButton: '<i class="glyphicon "></i>'
+    });
+
+    $('#askQuestionModal').on('show.bs.modal', function(event) {
+        if($("#userid").val() == "0" || $("#userid").val() == ""){
+            event.preventDefault();
+            $("#btSignin").click();
+        }
+    });
+    $('#reviewModal').on('show.bs.modal', function(event) {
+        if($("#userid").val() == "0" || $("#userid").val() == ""){
+            event.preventDefault();
+            $("#btSignin").click();
+        }
+    });
+</script>
+
+<script src="/js/highstock.js"></script>
+<script src="/js/exporting.js"></script>
+<script src="/js/export-csv.js"></script>
+
+<script src="/js/dataset/data_series.js"></script>
+<script src="/js/dataset/question_review.js"></script>
+<script src="/js/jqPaginator.min.js"></script>
+<script src="/admin/js/plugins/chosen/chosen.jquery.js"></script>
+
+<script>
+    function free_download(id){
+        $.ajax({
+            url: '/user/checklogin',
+            type: 'POST',
+            data: {},
+            success: function(response){
+                if(response.resultCode == "success"){
+                    window.location.href = "/api/v3/free_dataset_download/" + id;
+                }
+                else{
+                    $('#btSignin').click();
+                }
+            }
+        });
+    }
+</script>
+
+<script>
+	function toggleBtn(id , flag){
+	    if(flag == '0'){
+			$("#btnMoreView"+id).css('display','none');
+		}
+		else{
+            $("#btnMoreView"+id).css('display','block');
+		}
+	}
+    function subscribeTo(vendor_id){
+
+        var userid = $("#userid").val();
+        if(userid == '0'){
+            $('#btSignin').click();
+            return;
+        }
+        window.location.href = "/account/membership/manage/" + vendor_id;
+    }
+</script>
+
+<script>
+
+</script>
+
+</html>

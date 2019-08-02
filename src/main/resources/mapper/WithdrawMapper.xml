@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.WithdrawMapper">
+    <select id="findAll" resultType="withdraw">
+        SELECT w.* FROM withdraw w
+    </select>
+
+    <select id="initPage" resultType="int">
+        SELECT count(id) from withdraw
+        where 1=1
+        <if test="vendor_id != null and vendor_id != ''">
+            AND vendor_id = #{vendor_id}
+        </if>
+        <if test="status != null and status != ''">
+            AND status != #{status}
+        </if>
+    </select>
+
+    <select id="loadWithdraw" resultType="withdraw">
+        SELECT w.*, v.legal_name as vendor_name from withdraw w, vendors v
+        WHERE w.vendor_id = v.id
+        <if test="vendor_id != null and vendor_id != ''">
+            AND w.vendor_id = #{vendor_id}
+        </if>
+        <if test="status != null and status != ''">
+            AND status != #{status}
+        </if>
+        ORDER BY status asc, order_date desc
+        limit #{start},#{limit}
+    </select>
+
+    <select id="getById" resultType="withdraw">
+        SELECT w.*, v.legal_name as vendor_name from withdraw w, vendors v
+        WHERE w.vendor_id = v.id
+        AND w.id = #{id}
+    </select>
+
+    <select id="getByStatus" resultType="withdraw" parameterType="Map">
+        SELECT w.*, v.legal_name as vendor_name from withdraw w, vendors v
+        WHERE w.vendor_id = v.id
+        AND w.status = #{status}
+        <if test="pager.vendor_id != null and pager.vendor_id != ''">
+            AND w.vendor_id = #{pager.vendor_id}
+        </if>
+        ORDER BY order_date desc
+    </select>
+    <select id="withdrawTotalByStatus" resultType="java.lang.Double" parameterType="Map">
+        SELECT SUM(withdraw_amount) FROM withdraw
+        WHERE status = #{status}
+        <if test="pager.vendor_id != null and pager.vendor_id != ''">
+            AND vendor_id = #{pager.vendor_id}
+        </if>
+    </select>
+
+    <insert id="saveWithdraw" parameterType="withdraw">
+        INSERT INTO withdraw (vendor_id, withdraw_amount, available_balance, description, source, source_account, source_name, order_date, status)
+        VALUES (#{vendor_id}, #{withdraw_amount}, #{available_balance}, #{description}, #{source}, #{source_account}, #{source_name}, #{order_date}, #{status})
+    </insert>
+
+    <update id="updateWithdraw" parameterType="withdraw">
+        UPDATE withdraw SET
+        vendor_id = #{vendor_id},
+        withdraw_amount = #{withdraw_amount},
+        description = #{description},
+        source = #{source},
+        source_account = #{source_account},
+        source_name = #{source_name},
+        order_date = #{order_date},
+        status = #{status}
+        WHERE id = #{id}
+    </update>
+</mapper>

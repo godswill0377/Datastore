@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <title>Vendor Setup</title>
+
+    <link href="/vendor/css/bootstrap.min.css" rel="stylesheet" >
+    <link href="/vendor/css/set-info.css" rel="stylesheet" >
+
+    <link rel="stylesheet" type="text/css" href="/css/lib/sweetalert.css">
+
+    <script src="/js/main/popper.min.js"></script>
+    <script src="/js/lib/jquery-3.2.1.min.js"></script>
+
+    <script src="/js/lib/jquery-ui.js"></script>
+
+    <script src="/js/main/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/main/jquery.mask.js"></script>
+    <script src="/js/main/jquery.mask.js"></script>
+    <script src="/js/lib/sweetalert-dev.js" ></script>
+
+</head>
+
+<body>
+
+<div class="top-bar" >
+    <img src="/images/logo.png" class="logo"  />
+    <a href="/vendor/logout" style="float: right; color: white;    margin-right: 28px;margin-top: 16px;">Logout</a>
+</div>
+
+<div class="stepwizard col-md-12">
+    <div class="stepwizard-row setup-panel">
+        <div class="stepwizard-step">
+            <a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a>
+            <p>Vendor Agreement</p>
+        </div>
+        <div class="stepwizard-step">
+            <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+            <p>Vendor Information</p>
+        </div>
+
+        <div class="stepwizard-step1">
+            <a class="btn btn-default btn-circle" disabled="disabled">3</a>
+            <p>Authentication</p>
+        </div>
+
+    </div>
+    <div class="a-divider-inner"></div>
+</div>
+
+<div class="container col-md-5 col-md-offset-4" style="padding-bottom: 100px;">
+    <div role="form"  style="padding-top: 30px;" >
+       <form action="/vendor/registerVendor" id="registerForm"  class="login100-form validate-form">
+
+        <div class="row setup-content" id="step-1">
+            <div class="col-xs-12">
+                <div class="col-md-12">
+                    <h3> Set up your DataExo vendor account</h3>
+
+                    <h4> Have the following available:</h4>
+
+                    <div class="a-row a-spacing-top-medium a-ws-row">
+                        <div class="a-column">
+                            <div align="center" class="mob-hide ng-scope">
+                                <img  height="78px" width="78px" src="/images/vendor/step1.png">
+                                <p  class="">Business name &amp; address</p>
+                            </div>
+                        </div>
+                        <div class="a-column">
+                            <div align="center" class="mob-hide ng-scope">
+                                <img  height="78px" width="78px" src="/images/vendor/step2.png">
+                                <p  class="">Mobile or telephone number</p>
+                            </div>
+                        </div>
+                        <div class="a-column">
+                            <div  align="center" class="mob-hide ng-scope">
+                                <img  height="78px" width="78px" src="/images/vendor/step3.png">
+                                <p  class="">Chargeable credit card &amp; valid bank account</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 25px;">
+                        <label class="control-label">Legal Name</label>
+                        <input required="required"  id="legal_name" name="legal_name"  maxlength="100" type="text" class="form-control" placeholder="Enter Legal Name"  />
+                    </div>
+                    <div class="form-group" style="margin-top: 25px;">
+                        <h5 style="font-weight: bold">Seller Agreement</h5>
+                        <input required="required" name="chb_agree" id="chb_agree" type="checkbox" />
+                        <span>I have read and accepted the terms and conditions of the
+                  <br/>DataExo Vendor Solutions Agreement</span>
+                    </div>
+                    <button class="btn btn-primary nextBtn btn-lg pull-right" type="button"  >Next</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row setup-content" id="step-2">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <h3> Tell us about your business.</h3>
+
+                    <div class="form-group">
+                        <label class="control-label">Street address</label>
+                        <input maxlength="200" id="address" name="address" type="text" required="required" class="form-control" placeholder="Enter Street address" />
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <div class="col-md-6" style="float: left;">
+                            <label class="control-label">City / Town</label>
+                            <input maxlength="200" type="text" id="city" name="city" required="required" class="form-control" placeholder="Enter City/Town"  />
+                        </div>
+                        <div class="col-md-6" style="float: left;">
+                            <label class="control-label">State / Region / Province</label>
+                            <input maxlength="200" type="text" id="state_province" name="state_province" required="required" class="form-control" placeholder="Enter State / Region / Province"  />
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <div class="col-md-6" style="float: left;">
+                            <label class="control-label">Country</label>
+                            <select style="width: 100%;height: 35px;" name="country" id="country" required="required"><option value="Albania">Albania</option><option value="Algeria">Algeria</option><option value="Angola">Angola</option><option value="Argentina">Argentina</option><option value="Armenia">Armenia</option><option value="Australia">Australia</option><option value="Austria">Austria</option><option value="Azerbaijan">Azerbaijan</option><option value="Bangladesh">Bangladesh</option><option value="Belarus">Belarus</option><option value="Belgium">Belgium</option><option value="Benin">Benin</option><option value="Bolivia">Bolivia</option><option value="Botswana">Botswana</option><option value="Brazil">Brazil</option><option value="Brunei Darussalam">Brunei Darussalam</option><option value="Bulgaria">Bulgaria</option><option value="Burkina Faso">Burkina Faso</option><option value="Cambodia">Cambodia</option><option value="Cameroon">Cameroon</option><option value="Canada">Canada</option><option value="Chad">Chad</option><option value="Chile">Chile</option><option value="China">China</option><option value="Colombia">Colombia</option><option value="Costa Rica">Costa Rica</option><option value="Cote d'Ivoire">Cote d'Ivoire</option><option value="Croatia">Croatia</option><option value="Cyprus">Cyprus</option><option value="Czech Republic">Czech Republic</option><option value="Denmark">Denmark</option><option value="Dominican Republic">Dominican Republic</option><option value="Egypt">Egypt</option><option value="El Salvador">El Salvador</option><option value="Equatorial Guinea">Equatorial Guinea</option><option value="Estonia">Estonia</option><option value="Finland">Finland</option><option value="France">France</option><option value="Gabon">Gabon</option><option value="Georgia">Georgia</option><option value="Germany">Germany</option><option value="Gibraltar">Gibraltar</option><option value="Greece">Greece</option><option value="Guinea">Guinea</option><option value="Haiti">Haiti</option><option value="Honduras">Honduras</option><option value="Hong Kong">Hong Kong</option><option value="Hungary">Hungary</option><option value="Iceland">Iceland</option><option value="India">India</option><option value="Indonesia">Indonesia</option><option value="Ireland">Ireland</option><option value="Israel">Israel</option><option value="Italy">Italy</option><option value="Japan">Japan</option><option value="Jordan">Jordan</option><option value="Kenya">Kenya</option><option value="Korea (South)">Korea (South)</option><option value="Latvia">Latvia</option><option value="Liechtenstein">Liechtenstein</option><option value="Lithuania">Lithuania</option><option value="Luxembourg">Luxembourg</option><option value="Macedonia">Macedonia</option><option value="Madagascar">Madagascar</option><option value="Malaysia">Malaysia</option><option value="Mali">Mali</option><option value="Mauritius">Mauritius</option><option value="Mexico">Mexico</option><option value="Morocco">Morocco</option><option value="Mozambique">Mozambique</option><option value="Namibia">Namibia</option><option value="Nepal">Nepal</option><option value="Netherlands">Netherlands</option><option value="New Zealand">New Zealand</option><option value="Niger">Niger</option><option value="Norway">Norway</option><option value="Oman">Oman</option><option value="Panama">Panama</option><option value="Paraguay">Paraguay</option><option value="Peru">Peru</option><option value="Philippines">Philippines</option><option value="Poland">Poland</option><option value="Portugal">Portugal</option><option value="Romania">Romania</option><option value="Russia">Russia</option><option value="Senegal">Senegal</option><option value="Serbia">Serbia</option><option value="Singapore">Singapore</option><option value="Slovakia">Slovakia</option><option value="Slovenia">Slovenia</option><option value="South Africa">South Africa</option><option value="Spain">Spain</option><option value="Sri Lanka">Sri Lanka</option><option value="Sweden">Sweden</option><option value="Switzerland">Switzerland</option><option value="Taiwan">Taiwan</option><option value="Thailand">Thailand</option><option value="Togo">Togo</option><option value="Trinidad and Tobago">Trinidad and Tobago</option><option value="Turkey">Turkey</option><option value="Uganda">Uganda</option><option value="Ukraine">Ukraine</option><option value="United Kingdom">United Kingdom</option><option value="United States" selected="selected">United States</option><option value="Vietnam">Vietnam</option></select>
+                        </div>
+
+                        <div class="col-md-6" style="float: left;">
+                            <label class="control-label">ZIP / Postal Code</label>
+                            <input maxlength="200" type="text" id="zip_postal" name="zip_postal" required="required" class="form-control" placeholder="Enter ZIP / Postal Code"  />
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <div class=" col-md-6" style="float: left;">
+                            <label class="control-label">Business Name</label>
+                            <input maxlength="200" id="business_name" name="business_name" type="text" required="required" class="form-control" />
+                        </div>
+
+                        <div class=" col-md-6" style="float: left;">
+                            <label class="control-label">Mobile number</label>
+                            <input maxlength="250" id="mobile_num" name="mobile_num" type="text" required="required" class="form-control" placeholder="" />
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12" >
+                        <label class="control-label">Enter your website URL (optional)</label>
+                        <input maxlength="250" id="website_url" name="website_url" type="text"  class="form-control" placeholder="www.example.com" />
+                    </div>
+
+                    <div class="form-group col-md-12" >
+                        <button class="btn btn-primary nextBtn btn-lg pull-left" type="submit" >Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="row setup-content" id="step-3">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <h3>Enter Payment Information</h3>
+
+                    <div class="form-group">
+                        <img src="/images/stripe.jpg" style="margin-top: 40px;">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Card number</label>
+                        <input maxlength="200" id="card_number" name="card_number" type="text" required="required" class="form-control" placeholder="4242 4242 4242 4242" />
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-6" style="float: left;">
+                            <label class="control-label">Expiration</label>
+                            <input maxlength="50" type="text" id="expiration" name="expiration" required="required" class="form-control" placeholder="11/19"  />
+                        </div>
+                        <div class="col-md-6" style="float: left;">
+                            <label class="control-label">CVC</label>
+                            <input maxlength="10" type="text" id="cvc_num" name="cvc_num" required="required" class="form-control" placeholder="1234"  />
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg pull-right"  >
+                        <i style="margin-right:10px;display:none;" id="rg_btWaiting" class="fa fa-circle-o-notch fa-spin"></i>Submit
+                    </button>
+                </div>
+            </div>
+        </div>-->
+
+    </form>
+    </div>
+
+    </div>
+
+</div>
+
+<script src="/vendor/js/set-info.js"></script>
+
+<script>
+/*
+    $(document).ready(function(){
+        $("#expiration").mask('00/00');
+        $("#card_number").mask('0000 0000 0000 0000');
+        $("#cvc_num").mask('0000');
+    });
+*/
+
+</script>
+</body>
+</html>

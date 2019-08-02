@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.ReviewMapper">
+
+    <select id="loadReviewsByDatasetId" parameterType="java.lang.Integer" resultType="customer_review">
+        SELECT A.*, B.username as customer_name FROM customer_reviews  A, user B
+         WHERE A.dataset_id=#{id}
+         AND A.deleted_date IS  NULL
+         AND A.customer_id=B.id
+        ORDER BY A.updated_date DESC, A.id DESC
+    </select>
+
+    <select id="getTotalStars" parameterType="java.lang.Integer" resultType="java.lang.Double">
+        SELECT ROUND(SUM(stars)/COUNT(id),1) FROM customer_reviews
+        WHERE dataset_id=#{id}
+        AND deleted_date IS  NULL
+    </select>
+
+    <update id="makeHelpful" parameterType="Map">
+        update customer_reviews
+        set helpful_num=#{helpfulNum}
+        where id=#{reviewItemId}
+    </update>
+
+
+    <insert id="postReview" parameterType="Map" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+        INSERT INTO customer_reviews (title, content, stars, customer_id, dataset_id, updated_date, additional_imgs, helpful_num)
+        VALUES (#{title},
+        #{content},
+        #{stars},
+        #{customer_id},
+        #{dataset_id},
+        #{updated_date},
+        #{additional_imgs},
+        #{helpful_num}
+        )
+        <selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
+
+
+    <select id="findAll" resultType="customer_review">
+        select * from customer_reviews
+    </select>
+
+    <select id="getReviewsById" resultType="customer_review">
+        SELECT cr.*,ds.name as dataset_name
+         FROM customer_reviews cr, data_sets ds
+         WHERE cr.id = #{id}
+         AND cr.dataset_id = ds.id
+    </select>
+
+    <select id="loadReviews" resultType="customer_review">
+        SELECT cr.*,ds.name as dataset_name
+        FROM customer_reviews cr, data_sets ds
+        WHERE deleted_date IS NULL
+        AND cr.dataset_id = ds.id
+        <if test="search_str != null and search_str != ''">
+            AND title like concat('%',#{search_str},'%')
+        </if>
+        <if test="vendor_id != null and vendor_id != ''">
+            AND ds.vendor_id=#{vendor_id}
+        </if>
+        ORDER BY updated_date DESC
+        limit #{start},#{limit}
+    </select>
+
+    <select id="loadReviews4Vendor" resultType="customer_review">
+        SELECT * from customer_reviews cr, data_sets ds
+        WHERE cr.deleted_date IS NULL
+        and ds.id=cr.dataset_id
+        <if test="vendor_id != null and vendor_id != ''">
+            AND ds.vendor_id = #{vendor_id}
+        </if>
+        <if test="search_str != null and search_str != ''">
+            AND title like concat('%',#{search_str},'%')
+        </if>
+        limit #{start},#{limit}
+    </select>
+
+    <!--保存一条-->
+    <insert id="saveReviews" parameterType="customer_review">
+        insert into customer_reviews
+        (title, content, stars, customer_id, dataset_id, updated_date, additional_imgs, helpful_num)
+        VALUES (#{title}, #{content}, #{stars}, #{customer_id}, #{dataset_id}
+        , #{updated_date}, #{deleted_date}, #{additional_imgs}, #{helpful_num})
+    </insert>
+    <!--删除一条-->
+    <update id="deleteReviews">
+        update customer_reviews set deleted_date=NULL where id = #{id}
+    </update>
+
+    <update id="updateReviews">
+        update customer_reviews set
+        title = #{title}
+        , content = #{content}
+        , stars = #{stars}
+        , customer_id = #{customer_id}
+        , dataset_id = #{dataset_id}
+        , updated_date = #{updated_date}
+        , deleted_date = #{deleted_date}
+         , additional_imgs = #{additional_imgs}
+          , helpful_num = #{helpful_num}
+        where id =#{id}
+    </update>
+
+    <select id="initPage" resultType="int" >
+        SELECT count(cr.id) from customer_reviews cr, data_sets ds
+        WHERE cr.deleted_date IS NULL
+        and ds.id=cr.dataset_id
+        <if test="search_str != null and search_str != ''">
+            AND title like concat('%',#{search_str},'%')
+        </if>
+        <if test="vendor_id != null and vendor_id != ''">
+            AND ds.vendor_id=#{vendor_id}
+        </if>
+    </select>
+    <select id="getTotalReview" resultType="int">
+        SELECT SUM(helpful_num) FROM customer_reviews cr, data_sets ds
+        WHERE ds.id=cr.dataset_id
+        AND ds.vendor_id = #{vendor_id}
+    </select>
+</mapper>
+

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<ul id="status_leftmenu" th:fragment="status_leftmenu" class="nav-tabs-vertical nav" role="navigation">
+    <li class="nav-item active">
+        <a th:if="${menu == 'active'}" href="/account/active" class="nav-link active">My Subscription</a>
+        <a th:if="${menu != 'active'}" href="/account/active" class="nav-link">My Subscription</a>
+    </li>
+    <li class="nav-item">
+        <a th:if="${menu == 'subscriptions'}"  href="/account/subscriptions" class="nav-link active">All Subscription</a>
+        <a th:if="${menu != 'subscriptions'}"  href="/account/subscriptions" class="nav-link">All Subscription</a>
+    </li>
+    <li class="nav-item">
+        <a th:if="${menu == 'past'}"  href="/account/past" class="nav-link active" active>Past Subscription</a>
+        <a th:if="${menu != 'past'}"  href="/account/past" class="nav-link">Past Subscription</a>
+    </li>
+
+</ul>
+
+</html>

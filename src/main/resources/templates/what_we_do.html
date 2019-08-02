@@ -1,0 +1,138 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="_partials/head :: head">
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+	<header id="header" th:replace="_partials/header :: header">
+	</header>
+
+	<div class="breadcomb">
+		<div class="container">
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+				<li><a href="#">What We Do</a></li>
+				<li><a href="#">What We Do</a></li>
+			</ul>
+		</div>
+	</div>
+	<section>
+		<div class="user-can-do">
+			<div class="container">
+				<h3 class="user">User Can Do</h3>
+				<div class="row">
+					<div class="col-sm">
+						<div class="box-do-one"> <img src="/images/browser.png">
+							<h5>Browse the Data</h5>
+							<p>We present a vast pool of all kind of is redundant business data
+								so that our clients can browse and pick their required ones.</p>
+						</div>
+					</div>
+					<div class="col-sm">
+						<div class="box-do-one"> <img src="/images/data-bro.png">
+							<h5>Do the Analysis</h5>
+							<p>Through our years of experience, we have
+								been able to collect a vast amount of data catering various industries.
+								We allow our clients to do the analysis before purchasing our products.</p>
+						</div>
+					</div>
+					<div class="col-sm">
+						<div class="box-do-one"> <img src="/images/buy-down.png">
+							<h5>Buy & Download Data</h5>
+							<p>We bring useful business data at your fingertips and
+								you can use them by simply purchasing and downloading them from our official website.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="payment-secure">
+			<div class="container">
+				<h3 class="user">Secure Your Payment</h3>
+				<div class="row">
+					<div class="col-lg">
+						<div class="box-do-one">
+							<h5>What is an SSL Certificate?</h5>
+							<p>SSL Certificates are small data files that digitally bind a cryptographic key to an organization's details. When installed on a web server, it activates the padlock and the https protocol and allows secure connections from a web server to a browser. Typically, SSL is used to secure credit card transactions, data transfer and logins, and more recently is becoming the norm when securing browsing of social media sites.</p>
+							<p>SSL Certificates are small data files that digitally bind a cryptographic key to an organization's details. When installed on a web server, it activates the padlock and the https protocol and allows secure connections from a web server to a browser. Typically, SSL is used to secure credit card transactions, data transfer and logins, and more recently is becoming the norm when securing browsing of social media sites.</p>
+						</div>
+					</div>
+					<div class="col-lg">
+						<div class="scure-pmnt-img"><img src="/images/secure-pay.jpg"> </div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg">
+						<div class="box-do-one">
+							<h5>The Top SSL Certificate Providers</h5>
+							<p>SSL Certificates are small data files that digitally bind a cryptographic key to an organization's details. When installed on a web server, it activates the padlock and the https protocol and allows secure connections from a web server to a browser. Typically, SSL is used to secure credit card transactions, data transfer and logins, and more recently is becoming the norm when securing browsing of social media sites. SSL Certificates are small data files that digitally bind a cryptographic key to an organization's details. When installed on a web server, it activates the padlock and the https protocol and allows secure connections from a web server to a browser. Typically, SSL is used to secure credit card transactions, data transfer and logins, and more recently is becoming the norm when securing browsing of social media sites.</p>
+							<p>SSL Certificates are small data files that digitally bind a cryptographic key to an organization's details. When installed on a web server, it activates the padlock and the https protocol and allows secure connections from a web server to a browser. Typically, SSL is used to secure credit card transactions, data transfer and logins, and more recently is becoming the norm when securing browsing of social media sites. SSL Certificates are small data files that digitally bind a cryptographic key to an organization's details. When installed on a web server, it activates the padlock and the https protocol and allows secure connections from a web server to a browser. Typically, SSL is used to secure credit card transactions, data transfer and logins, and more recently is becoming the norm when securing browsing of social media sites.</p>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg">
+						<div class="box-do-one last-text-pay">
+							<p style="margin-bottom: 60px;font-size: 15px !important;">We have catered more than 250,000 clients worldwide by deliver wide range of effective data.
+								We are committed to provide high quality data to developers and investors across the world.
+								DATAEXO comes with a wide array of alpha-generating alternative database that help professionals to access the platform of opportunities.
+								We feel proud to cater some of the world’s leading financial organizations.
+								Our effective desktop analytic, user-friendly mobile applications and complete data feeds help our clients to stay ahead in the global competition. We are the leading business data provider in the world and we have gained reputation by serving some of the world’s top hedge funds, banks and financial organizations with a team of experienced technician, consultants and database specialists.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+	<section>
+		<div class="contact-section">
+			<div class="container">
+				<div class="ContactContent">
+					<div class="contactLeft-sec">
+						<h2>Contact Us</h2>
+						<form action="/user/sendmessage" method="POST" id="form">
+							<div class="form-group">
+								<span class="text-blank"  id="valid_ab_name">CAN'T BE BLANK</span>
+								<input type="text" name="name" id="name" class="form-control cstmInputCntrl" placeholder="Name">
+							</div>
+							<div class="form-group">
+								<span class="text-blank"  id="valid_ab_email">CAN'T BE BLANK</span>
+								<input type="text" name="email" id="email" class="form-control cstmInputCntrl" placeholder="Email">
+							</div>
+							<div class="form-group">
+								<span class="text-blank"  id="valid_ab_content">CAN'T BE BLANK</span>
+								<textarea class="form-control cstmInputCntrl" name="content" id="content"  rows="4" placeholder="Message"></textarea>
+							</div>
+							<span class="text-blank" id="valid_ab_captcha">Captcha Error!</span>
+							<div id="captcha"></div>
+							<button id="btnSendMsg"  class="btn btn-default bttnSubmit" type="submit"><i style="color: white;margin-right:10px;display:none;" id="sm_btWaiting" class="fa fa-circle-o-notch fa-spin"></i>Submit</button>
+						</form>
+					</div>
+					<div class="contactRight-sec">
+						<p>We are the company that can evaluate the tangible value of data in today’s capital market. We understand the fact that data is one of the best modern-day resources, which all business requires to flourish. We make our clients understand the tangible value of accurate database and help them to stay ahead in the global competition.</p>
+						<p>We help our customers to bring out the best from the available resources. We inspire our customers to incorporate new strategies into their business and improve their products and services. We tell our customers how to find new and efficient ways to deal with complex information that can create opportunities and regulate market movement.  So, fill up the form with your query/requirement, we will get back to you asap.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<footer th:replace="_partials/footer :: footer"></footer>
+</div>
+
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit">
+</script>
+
+<script src="/js/user/contactus.js"></script>
+
+
+</body>
+
+</html>

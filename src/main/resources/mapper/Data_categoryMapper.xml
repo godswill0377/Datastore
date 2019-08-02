@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.Data_categoryMapper">
+
+   <select id="findAll" resultType="data_category">
+       select * from data_category
+   </select>
+
+    <select id="checkExist" resultType="data_category">
+        select * from data_category where   name like #{name}
+    </select>
+
+   <select id="getData_categoryById" resultType="data_category">
+       select * from data_category where id = #{id}
+   </select>
+
+    <select id="loadData_category" resultType="data_category">
+        select * from data_category
+        <if test="pager.search_str != null and pager.search_str != ''">
+            where name like concat('%',#{pager.search_str},'%')
+        </if>
+        limit #{pager.start},#{pager.limit}
+    </select>
+
+    <select id="initPage" resultType="int">
+        SELECT count(id) from data_category
+        <if test="search_str != null and search_str != ''">
+            where name like concat('%',#{search_str},'%')
+        </if>
+    </select>
+
+    <insert id="saveData_category">
+        insert into data_category(name, description) VALUES (#{name}, #{description})
+    </insert>
+    <delete id="deleteData_category">
+        delete from data_category where id = #{id}
+    </delete>
+
+    <update id="updateData_category">
+        update data_category set name = #{name} , description=#{description} where id =#{id}
+    </update>
+
+
+
+</mapper>
+

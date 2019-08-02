@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.Trans_logMapper">
+    <select id="findAll" resultType="trans_log">
+        SELECT * FROM trans_log
+    </select>
+
+    <select id="loadTrans" resultType="trans_log">
+        SELECT A.*, B.business_name as vendor_name FROM trans_log A, vendors B
+        WHERE
+        A.vendor_id = B.id
+        <if test="vendor_id != -100 and vendor_id != ''">
+            AND  vendor_id = #{vendor_id}
+        </if>
+        <if test="vendor_id == -100">
+            AND  vendor_id != -1
+        </if>
+        <if test="dateFrom != null and dateFrom != ''">
+            <if test="dateTo != null and dateTo !=''">
+                AND date BETWEEN #{dateFrom} AND #{dateTo}
+            </if>
+        </if>
+        <if test="trans_type != null and trans_type != ''">
+            AND trans_type = #{trans_type}
+        </if>
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+        ORDER BY date DESC
+        limit #{start},#{limit}
+    </select>
+
+    <select id="getAmountByDateRange" resultType="java.lang.Double">
+        SELECT SUM(amount) FROM trans_log
+        Where vendor_id = #{vendor_id}
+        <if test="dateFrom != null and dateFrom != ''">
+            <if test="dateTo != null and dateTo !=''">
+                AND date BETWEEN #{dateFrom} AND #{dateTo}
+            </if>
+        </if>
+        <if test="trans_type != null and trans_type != ''">
+            AND trans_type = #{trans_type}
+        </if>
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+    </select>
+
+    <select id="initPage" resultType="int">
+        SELECT count(id) FROM trans_log
+        WHERE
+        1 = 1
+        <if test="vendor_id != -100 and vendor_id != ''">
+            AND  vendor_id = #{vendor_id}
+        </if>
+        <if test="vendor_id == -100">
+            AND  vendor_id != -1
+        </if>
+        <if test="dateFrom != null and dateFrom != ''">
+            <if test="dateTo != null and dateTo !=''">
+                AND date BETWEEN #{dateFrom} AND #{dateTo}
+            </if>
+        </if>
+        <if test="trans_type != null and trans_type != ''">
+            AND trans_type = #{trans_type}
+        </if>
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+    </select>
+
+    <insert id="saveTrans" parameterType="trans_log">
+        insert into trans_log
+        (trans_type, amount, raw_amount, date, status, description,vendor_id, datasets_id)
+        VALUES (#{trans_type}, #{amount}, #{raw_amount}, #{date}, #{status}, #{description}, #{vendor_id}, #{datasets_id})
+    </insert>
+
+    <select id="getTransById" resultType="trans_log" parameterType="Map">
+        SELECT * FROM trans_log
+        WHERE vendor_id = #{pager.vendor_id}
+        AND id = #{id}
+    </select>
+
+    <select id="getPaymentById" parameterType="Map" resultType="trans_log">
+        SELECT * FROM trans_log
+        WHERE vendor_id = #{pager.vendor_id}
+        AND trans_type = #{trans_type}
+        AND id = #{id}
+    </select>
+
+    <select id="getTotalAmount" parameterType="int" resultType="java.lang.Double">
+        SELECT SUM(amount * trans_type) FROM trans_log
+        Where vendor_id = #{vendor_id}
+    </select>
+
+    <select id="getTotalSales" resultType="int">
+        SELECT count(id) from trans_log where vendor_id = #{vendor_id} and datasets_id > 0;
+    </select>
+</mapper>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+
+<li th:each="data_set : ${data_setsList}" th:id="'/data_sets/details/'+${data_set.code}">
+
+    <a th:href="'/data_sets/cateid/'+${cateid}+'/details/'+${data_set.id}">
+        <h6 th:class="${data_set.price_model_name}">[[${data_set.price_model_name}]]</h6>
+        <div class="codeText">
+
+            <div class="zipCode col-md-12" style="word-wrap: break-word">
+                <img class="codeImg" th:if="${data_set.icon != '' && data_set.icon != null}" th:src="${domain}+'/'+ ${data_set.icon}" alt="DATASET">
+                <span th:if="${data_set.icon == '' || data_set.icon == null}" class="ZCTD">[[${#strings.substring(data_set.code,0,3)}]]</span>
+                <h2>[[${data_set.name}]]<span>[[${data_set.description}]]</span></h2>
+            </div>
+        </div>
+    </a>
+    <div class="zipCode">
+
+        <span class="price-tag-label">
+            <label>OneTime Purchase Price:</label>
+            <a href="javascript:void(0);">$ [[${data_set.onetime_price}]]</a>
+        </span>
+
+        <span style="margin-left: 30px;" class="price-tag-label">
+            <label>Subscription Download Price:</label>
+            <a href="javascript:void(0);">$ [[${data_set.download_price}]]</a>
+        </span>
+
+    </div>
+</li>
+
+</html>
+

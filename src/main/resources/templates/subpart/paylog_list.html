@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+
+
+<table class="col-md-12">
+    <thead>
+        <tr>
+            <th style="padding: 7px;border: 1px solid #dfdfdf;text-align: center;">Amount</th>
+            <th style="padding: 7px;border: 1px solid #dfdfdf;text-align: center;padding: 0px 94px;">Time</th>
+            <th style="padding: 7px;border: 1px solid #dfdfdf;text-align: center;">Description</th>
+        </tr>
+    </thead>
+    <tbody style="text-align: center">
+        <tr style="height: 45px;" th:each="pay_logs : ${pay_logsList}">
+            <td>$[[${pay_logs.amount}]]</td>
+            <td>[[${pay_logs.time}]]</td>
+            <td>[[${pay_logs.description}]]</td>
+        </tr>
+    </tbody>
+
+</table>
+
+
+</html>
+

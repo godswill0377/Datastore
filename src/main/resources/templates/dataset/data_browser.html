@@ -1,0 +1,247 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="_partials/head :: head">
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <header id="header" th:replace="_partials/header :: header">
+    </header>
+
+    <div class="breadcomb">
+        <div class="container">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                <li><a href="#">Data browser</a></li>
+                <li><a href="#">Data Browser</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <section>
+        <div class="browserSec">
+            <div class="container">
+                <div class="row">
+                    <!-- Search Filter Section -->
+                    <div class="col-md-4 col-lg-3">
+                        <div class="sideBarSec">
+                            <h2><span><img src="/images/refresh.png"></span>BROWSE</h2>
+
+                            <div class="checkInput">
+                                <h4>FILTER</h4>
+                                <div class="ais-body ais-refinement-list--body">
+                                    <div id="browser_filter" class="ais-refinement-list--list">
+                                        <div th:each="price_model : ${price_modelsList}"
+                                             class="ais-refinement-list--item">
+                                            <div>
+                                                <label class="ais-refinement-list--label">
+                                                    <input type="hidden" class="price_ids"
+                                                           th:value="${price_model.id}"/>
+                                                    <input th:value="${price_model.name}" type="checkbox"
+                                                           class="ais-refinement-list--checkbox"/>
+                                                    <span style="position: relative;top: -2px;"
+                                                          th:text="${price_model.name}"></span>
+                                                    <span class="ais-refinement-list--count">0</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="checkInput">
+                                <h4>ASSET CLASS</h4>
+                                <div class="ais-body ais-refinement-list--body">
+                                    <div id="browser_assetclass" class="ais-refinement-list--list">
+
+                                        <div th:each="asset_class : ${asset_classList}"
+                                             class="ais-refinement-list--item">
+                                            <div th:if="${asset_class.id} != 1">
+                                                <label class="ais-refinement-list--label">
+                                                    <input type="hidden" class="price_ids"
+                                                           th:value="${asset_class.id}"/>
+                                                    <input th:value="${asset_class.name}" type="checkbox"
+                                                           class="ais-refinement-list--checkbox"/>
+                                                    <span style="position: relative;top: -2px;"
+                                                          th:text="${asset_class.name}"></span>
+                                                    <span class="ais-refinement-list--count">0</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="checkInput">
+                                <h4>DATA TYPE</h4>
+                                <div class="ais-body ais-refinement-list--body">
+                                    <div id="browser_datatype" class="ais-refinement-list--list">
+
+                                        <div th:each="data_type : ${data_typeList}" class="ais-refinement-list--item">
+                                            <div>
+                                                <label class="ais-refinement-list--label">
+                                                    <input type="hidden" class="price_ids" th:value="${data_type.id}"/>
+                                                    <input th:value="${data_type.name}" type="checkbox"
+                                                           class="ais-refinement-list--checkbox"/>
+                                                    <span style="position: relative;top: -2px;"
+                                                          th:text="${data_type.name}"></span>
+                                                    <span class="ais-refinement-list--count">0</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="checkInput">
+                                <h4>REGION</h4>
+                                <div class="ais-body ais-refinement-list--body">
+
+                                    <div id="browser_region" class="ais-refinement-list--list">
+
+                                        <div th:each="region : ${regionList}" class="ais-refinement-list--item">
+                                            <div>
+                                                <label class="ais-refinement-list--label">
+                                                    <input type="hidden" class="price_ids" th:value="${region.id}"/>
+                                                    <input th:value="${region.name}" type="checkbox"
+                                                           class="ais-refinement-list--checkbox"/>
+                                                    <span style="position: relative;top: -2px;"
+                                                          th:text="${region.name}"></span>
+                                                    <span class="ais-refinement-list--count">0</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="checkInput">
+                                <h4>VENDOR</h4>
+                                <div class="ais-body ais-refinement-list--body">
+
+                                    <div id="browser_publisher" class="ais-refinement-list--list">
+                                        <div class="ais-refinement-list--item">
+                                            <div>
+                                                <label class="ais-refinement-list--label">
+                                                    <input type="hidden" class="price_ids" th:value="-1"/>
+                                                    <input th:value="DataEXO" type="checkbox"
+                                                           class="ais-refinement-list--checkbox"/>
+                                                    <span style="position: relative;top: -2px;"
+                                                          th:text="DataEXO"></span>
+                                                    <span class="ais-refinement-list--count">0</span>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div th:each="vendor : ${vendorList}" class="ais-refinement-list--item">
+                                            <div>
+                                                <label class="ais-refinement-list--label">
+                                                    <input type="hidden" class="price_ids" th:value="${vendor.id}"/>
+                                                    <input th:value="${vendor.legal_name}" type="checkbox"
+                                                           class="ais-refinement-list--checkbox"/>
+                                                    <span style="position: relative;top: -2px;"
+                                                          th:text="${vendor.legal_name}"></span>
+                                                    <span class="ais-refinement-list--count">0</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+                    <!-- Browser Data Section -->
+                    <div class="col-md-8 col-lg-9">
+                        <div class="data-detail dataBrowser">
+                            <div class="data-title">
+                                <h3>Featured Data</h3>
+                            </div>
+                            <div class="data-search">
+                                <div class="input-group">
+                                    <span class="addonIcon"><img src="/images/searchIcon2.png"></span>
+                                    <input type="text" class="form-control InputSearch" id="search_text"
+                                           placeholder="example: stocks, macroeconomic statistics, fx rates"/>
+                                </div>
+
+                                <div id="search-input-icon"></div>
+                                <div class="tag-container">
+                                    <div id="current-refined-values" style="">
+                                        <div data-reactroot="" class="ais-root ais-current-refined-values">
+                                            <div class="ais-body ais-current-refined-values--body refinedList">
+                                                <div>
+                                                    <div id="browser_filter_list"
+                                                         class="ais-current-refined-values--list">
+                                                    </div>
+                                                </div>
+                                                <a id="browser_clear_all" style="display: none"
+                                                   class="ais-current-refined-values--clear-all" href="#">
+                                                    <div>Clear all</div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="data-code">
+                                <ul id="main-article">
+
+                                </ul>
+                            </div>
+
+
+                            <div class="paginationLink">
+
+                                <div style="float: left;display: none" class="pagination">共
+                                    <span id="total-num"></span>
+                                    条记录
+                                    <span id="current-page"></span>
+                                    /
+                                    <span id="total-page"></span>
+                                </div>
+
+                                <ul id="pagination" class="pagination">
+
+                                    <li class="page-item active"><a href="javascript:void(0);">1</a></li>
+
+                                </ul>
+                            </div>
+
+                        </div>
+
+                        <div id="noresult" style="display: none">
+                            <div class="no-results-message" style="padding: 49px;">
+                                <p style="font-size: 1.5rem;">We couldn't find any databases.</p>
+                                <p style="font-size: 1.32rem; margin-bottom: 20px;">Try browsing categories or use
+                                    another search term</p>
+                                <a href="" class='clear-all'>Clear search</a>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+
+    <footer th:replace="_partials/footer :: footer"></footer>
+</div>
+
+</body>
+
+<script src="/js/dataset/data_browser.js"></script>
+<script src="/js/jqPaginator.min.js"></script>
+<script src="/admin/js/plugins/chosen/chosen.jquery.js"></script>
+
+</html>

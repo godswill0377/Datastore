@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head th:replace="vendor/_partials/head :: head">
+</head>
+
+<style>
+    .bootstrap-tagsinput{
+        width: 100%;
+    }
+</style>
+
+<link rel="stylesheet" href="/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="/css/bootstrap-tagsinput.css">
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div id="wrapper">
+    <header id="header" th:replace="vendor/_partials/header :: header">
+
+    </header>
+    <aside class="main-sidebar"  th:insert="~{vendor/_partials/sidebar :: sidebar}">
+    </aside>
+    <div class="content-wrapper" style="padding:15px;">
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>Email Marketing Management</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="/vendor/dashboard">Home</a>
+                        </li>
+
+                        <li>
+                            <a>Email Marketing</a>
+                        </li>
+                        <li>
+                            <strong>Add</strong>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+            <div class="wrapper wrapper-content animated fadeInRight" style="padding-bottom:37px;">
+                <div class="col-md-7">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Email Marketing Add</h3>
+                        </div>
+
+                        <div class="callout callout-danger" style="display:none;">
+                            <p></p>
+                        </div>
+
+                        <form role="form">
+                            <div class="box-body">
+
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <input type="text" class="form-control" id="title" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="content">Content</label>
+                                    <textarea type="text" class="form-control" id="content" ></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="title">Datasets</label>
+
+                                    <input  type="text" class="form-control" id="dataset_ids"  data-role="tagsinput"  >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="title">Email Address</label>
+                                    <input type="file" name="file"  id="csv_file" />
+                                    <a class="btn btn-primary" style="margin: 5px;" onclick="fileChange();" id="btnImport">Load CSV </a>
+                                    <input  type="text" class="form-control"  data-role="tagsinput"  id="email_address" >
+
+                                </div>
+
+                            </div>
+                            <!-- /.box-body -->
+
+                            <div class="box-footer">
+                                <a href="/vendor/marketing/list" class="btn btn-primary">Go Back</a>
+                                <a class="btn btn-primary" id="btnAdd"><i style="margin-right:10px;display:none;" id="btWaiting" class="fa fa-circle-o-notch fa-spin"></i>Add</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="col-md-12">
+                        <a class="btn btn-primary" style="z-index: 100;position: relative;float: right;margin-top: 18px;" id="btnSelDatasets">Select Datasets</a>
+                    </div>
+                    <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Dataset Table</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="datasetList" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Code</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="data : ${dataList}">
+                                    <td><input th:id="${data.id}"  type="checkbox" /></td>
+                                    <td>[[${data.id}]]</td>
+                                    <td>[[${data.name}]]</td>
+                                    <td>[[${data.code}]]</td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="main-footer" th:replace="vendor/_partials/footer :: footer">
+
+    </footer>
+</div>
+
+</div>
+
+<!-- Mainly scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/vendor/js/bootstrap.min.js"></script>
+<script src="/vendor/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/vendor/js/hplus.js"></script>
+<script src="/vendor/js/validation.js"></script>
+<script src="/vendor/js/email_marketing/add.js"></script>
+
+<script type="text/javascript" src="/vendor/js/flavr/flavr/js/flavr.min.js"></script>
+<script type="text/javascript" src="/vendor/js/flavr/base.js"></script>
+
+<script src="/js/jquery.dataTables.min.js"></script>
+<script src="/js/dataTables.bootstrap.min.js"></script>
+<script src="/js/bootstrap-tagsinput.min.js"></script>
+
+<script>
+
+    function fileChange(){
+        var emails = "";
+
+        var fileUpload = document.getElementById("csv_file");
+        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+        if (regex.test(fileUpload.value.toLowerCase())) {
+            if (typeof (FileReader) != "undefined") {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var table = document.createElement("table");
+                    var rows = e.target.result.split("\n");
+                    for (var i = 0; i < rows.length; i++) {
+                        var row = table.insertRow(-1);
+                        var cells = rows[i].split(",");
+                        for (var j = 0; j < cells.length; j++) {
+                            if(cells[j] != ""){
+                                $('#email_address').tagsinput('add', cells[j]);
+
+                              //  emails += cells[j] + ",";
+                            }
+                        }
+                    }
+                   // $("#email_address").val(emails);
+                }
+                reader.readAsText(fileUpload.files[0]);
+            } else {
+                alert("This browser does not support HTML5.");
+            }
+        } else {
+            alert("Please upload a valid CSV file.");
+        }
+    }
+
+    $(function(){
+        $('#datasetList').DataTable({
+            'paging'      : true,
+            'lengthChange': false,
+            'searching'   : false,
+            'ordering'    : true,
+            'info'        : true,
+            'autoWidth'   : false
+        });
+
+        $('#email_address').tagsinput({
+            allowDuplicates: false
+        });
+
+        $('#dataset_ids').tagsinput({
+            allowDuplicates: false
+        });
+    });
+
+    $("#btnSelDatasets").on('click', function(){
+
+        $('#dataset_ids').tagsinput('removeAll');
+
+        $('#datasetList input[type=checkbox]').each(function () {
+            if(this.checked ){
+                var text = $(this).parent().next().html() + "";
+                $('#dataset_ids').tagsinput('add', text );
+            }
+        });
+
+    });
+
+</script>
+</body>
+
+</html>

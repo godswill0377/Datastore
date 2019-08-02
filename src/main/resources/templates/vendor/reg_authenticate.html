@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <title>Vendor Setup</title>
+    <link href="/vendor/css/bootstrap.min.css" rel="stylesheet" >
+    <link href="/vendor/css/set-info.css" rel="stylesheet" >
+
+</head>
+
+<body>
+
+<div class="top-bar" >
+    <img src="/images/logo.png" class="logo"  />
+    <a href="/vendor/logout" style="float: right; color: white;    margin-right: 28px;margin-top: 16px;">Logout</a>
+
+</div>
+
+<div class="stepwizard col-md-12">
+    <div class="stepwizard-row setup-panel">
+        <div class="stepwizard-step">
+            <a href="#step-1" type="button" class="btn btn-default btn-circle" disabled="disabled">1</a>
+            <p>Vendor Agreement</p>
+        </div>
+        <div class="stepwizard-step">
+            <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+            <p>Vendor Information</p>
+        </div>
+  <!--      <div class="stepwizard-step">
+            <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+            <p>Billing / Deposit</p>
+        </div>-->
+
+        <div class="stepwizard-step">
+            <a href="#step-4" type="button" class="btn btn-primary btn-circle" >3</a>
+            <p>Authentication</p>
+        </div>
+
+    </div>
+    <div class="a-divider-inner"></div>
+</div>
+
+<div class="container col-md-5 col-md-offset-4">
+    <div role="form"  style="padding-top: 30px;" >
+        <form  id="loginForm" name="LoginForm"  class="login100-form validate-form">
+            <div class="row setup-content" id="step-1">
+            </div>
+
+            <div class="row setup-content" id="step-2">
+            </div>
+
+            <div class="row setup-content" id="step-3">
+            </div>
+
+           <div class="row setup-content" id="step-4">
+                <h2 style="color: red;"> Please watch your email box. Account approve notification will send to your email.</h2>
+           </div>
+        </form>
+    </div>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.Pay_logMapper">
+
+    <select id="loadPay_log" resultType="pay_log">
+        select A.id,A.amount,A.time,A.description,A.userid,A.dataset_name,A.dataset_id,B.username from pay_log A, user B
+        where A.userid=B.id
+        and B.username like concat('%',#{search_str},'%')
+        <if test="cateid != '-1'">
+            and  A.userid=#{cateid}
+        </if>
+            ORDER by time DESC
+        limit #{start},#{limit}
+    </select>
+
+    <insert id="savePay_log">
+        insert into pay_log(amount,time,description,userid,dataset_id,dataset_name)
+        VALUES (#{amount},#{time},#{description},#{userid},#{dataset_id},#{dataset_name})
+    </insert>
+
+    <delete id="deletePay_log">
+        delete from pay_log where id = #{id}
+    </delete>
+
+    <select id="initPage" resultType="int">
+        SELECT count(A.id)  from pay_log A, user B
+        where A.userid=B.id
+        and B.username like concat('%',#{search_str},'%')
+        <if test="cateid != '-1'">
+           and A.userid=#{cateid}
+        </if>
+    </select>
+
+    <select id="getTotalPrice" resultType="float">
+        SELECT
+          COALESCE(sum(amount) , 0)
+        FROM
+        pay_log A , user B
+        where A.userid=B.id
+        and B.username like concat('%',#{search_str},'%')
+    </select>
+
+</mapper>
+

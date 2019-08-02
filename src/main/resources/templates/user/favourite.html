@@ -1,0 +1,67 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="_partials/head :: head">
+
+</head>
+
+
+<body>
+
+<div class="wrapper">
+
+	<header id="header" th:replace="_partials/header :: header">
+	</header>
+
+	<div class="breadcomb">
+		<div class="container">
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+				<li><a href="#">My Favorite</a></li>
+				<li><a href="#">My Favorite</a></li>
+			</ul>
+		</div>
+	</div>
+
+
+	<div class="favorite-table">
+		<div class="container">
+			<h4 style="margin-top: 97px;">Favorite</h4>
+			<div class="scroll-help" style="margin-bottom: 125px;">
+				<table>
+					<tr>
+						<th> TYPE </th>
+						<th> NAME </th>
+						<th> DESCRIPTION </th>
+						<th> ACTION </th>
+					</tr>
+					<tr  th:each="data: ${favouriteList}" th:value="${data.id}">
+						<td> DATASET </td>
+						<td> <a th:href="'/data_sets/cateid/1/ddetails/'+${data.series_id}" >[[${data.series_name}]]</a> </td>
+						<td> [[${data.series_description}]] </td>
+						<td>
+							<ul>
+							<li><a onclick="unlike(this);" href="javascript:void(0);">
+								<div class="icon-btn">
+									<img src="/images/remove-btn.png">
+								</div>
+								Remove</a>
+							</li>
+						</ul></td>
+					</tr>
+
+				</table>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<footer th:replace="_partials/footer :: footer"></footer>
+
+</body>
+
+
+<script src="/js/user/favourite.js"></script>
+</html>

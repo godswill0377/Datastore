@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.Price_modelMapper">
+    <!--通过username获取user对象-->
+   <select id="findAll" resultType="price_model">
+       select * from price_model
+   </select>
+    <!--获取一条-->
+   <select id="getPrice_modelById" resultType="price_model">
+       select * from price_model where id = #{id}
+   </select>
+    <!--初始化加载 携带查询条件-->
+    <select id="loadPrice_model" resultType="price_model">
+        select * from price_model
+        <if test="pager.search_str != null and pager.search_str != ''">
+            where name like concat('%',#{pager.search_str},'%')
+        </if>
+        limit #{pager.start},#{pager.limit}
+    </select>
+    <!--保存一条-->
+    <insert id="savePrice_model">
+        insert into price_model(name) VALUES (#{name})
+    </insert>
+    <!--删除一条-->
+    <delete id="deletePrice_model">
+        delete from price_model where id = #{id}
+    </delete>
+
+    <update id="updatePrice_model">
+        update price_model set name = #{name} where id =#{id}
+    </update>
+
+
+    <select id="initPage" resultType="int">
+        SELECT count(id) from price_model
+        <if test="search_str != null and search_str != ''">
+            where name like concat('%',#{search_str},'%')
+        </if>
+    </select>
+
+    <select id="checkExist" resultType="price_model">
+        select * from price_model where name like #{name}
+    </select>
+</mapper>
+

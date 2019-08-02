@@ -1,0 +1,191 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="vendor/_partials/head :: head">
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <header class="main-header" id="header" th:replace="vendor/_partials/header :: header">
+    </header>
+
+    <aside class="main-sidebar">
+        <section class="sidebar" th:replace="vendor/_partials/sidebar :: sidebar">
+        </section>
+    </aside>
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>
+                Vendor
+                <small>Dashboard</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+        </section>
+
+        <section class="content">
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-aqua"><i class="ion ion-grid"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">DataSets</span>
+                            <span class="info-box-number">[[${datasets_count}]]<small></small></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix visible-sm-block"></div>
+
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Sales</span>
+                            <span class="info-box-number">[[${sales}]]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-red"><i class="fa fa fa-money"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Balance</span>
+                            <span class="info-box-number">$[[${total}]]</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Monthly Recap Report</h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                <input type="hidden" th:value="${labels}" id="labels">
+                                <input type="hidden" th:object="${earnings}" id="earnings">
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p class="text-center">
+                                        <strong>[[${dates}]]</strong>
+                                    </p>
+                                    <div class="chart">
+                                        <canvas id="salesChart" style="height: 180px;"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">
+
+                    <div class="box box-info">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Latest Event</h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="table-responsive">
+                                <table class="table no-margin">
+                                    <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Date</th>
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="data : ${notification}">
+                                        <td th:text="${data.id}"></td>
+                                        <td th:text="${data.updated_at}"></td>
+                                        <td th:text="${data.title}"></td>
+                                        <td th:text="${data.content}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="box-footer clearfix">
+                            <a href="/vendor/inbox/notification/list" class="btn btn-sm btn-default btn-flat pull-right">View All Events</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Recently Added Datasets</h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <ul class="products-list product-list-in-box">
+                                <li class="item" th:each="data : ${datasets}">
+                                    <div class="product-img">
+                                        <img src="/vendor/img/default-50x50.gif" alt="Product Image">
+                                    </div>
+                                    <div class="product-info" style="overflow: hidden">
+                                        <a th:href="@{/vendor/inbox/dataset_management/edit/}+${data.id}">[[${data.name}]]
+                                            <span class="label label-warning pull-right">$[[${data.onetime_price}]]</span></a>
+                                        <span class="product-description">
+                                          [[${data.description}]]
+                                        </span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="box-footer text-center">
+                            <a href="/vendor/dataset_management/list" class="uppercase">View All Datasets</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="main-footer" th:replace="vendor/_partials/footer :: footer">
+
+    </footer>
+
+</div>
+
+<script src="/vendor/js/dashboard.js"></script>
+
+<script type="text/javascript" th:inline="javascript">
+    labels = [[${labels}]];
+    earnings = [[${earnings}]];
+
+</script>
+
+</body>
+</html>

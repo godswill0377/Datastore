@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head th:replace="~{admin/partial/head :: head}"></head>
+
+
+<body>
+<div id="wrapper">
+    <header id="header" th:replace="admin/partial/header :: header">
+
+    </header>
+    <aside class="main-sidebar" style="height: 124vh;background-color: #222d32;" th:insert="~{admin/partial/sidebar :: sidebar}">
+    </aside>
+    <div class="content-wrapper" style="padding:15px;">
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>Data Set Series Management</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="/admin/home">Home</a>
+                        </li>
+                        <li>
+                            <a>Data Series</a>
+                        </li>
+                        <li>
+                            <strong>Edit</strong>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+            <div class="wrapper wrapper-content animated fadeInRight" style="padding-bottom:37px;">
+                <div class="col-md-7">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Data Series Edit</h3>
+                        </div>
+
+                        <div class="callout callout-danger" style="display:none;">
+                            <p></p>
+                        </div>
+
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        <form role="form">
+                            <div class="box-body">
+
+                                <div class="form-group">
+                                    <label for="data-id">ID</label>
+                                    <input type="text" class="form-control" th:value="${data.id}" readonly id="data-id" placeholder="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="data-name">Dataset ID</label>
+                                    <input type="text" class="form-control" readonly th:value="${data.data_set_id}" id="data-set-id"  placeholder="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="data-name">Data Name</label>
+                                    <input type="text" class="form-control" id="data-name" th:value="${data.name}" placeholder="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="code">Code  (<span style="font-weight: bold;" th:text="${data_sets.code} + '/'"></span>)</label>
+                                    <input type="hidden" id="parent_code" th:value="${data_sets.code}" />
+                                    <input type="text" class="form-control" th:value="${data.code}" id="code"  placeholder="">
+                                </div>
+
+                                <div style="display:none;" class="form-group">
+                                    <label >Latest Update Date</label>
+                                    <div class="input-group date form_datetime col-md-9" data-date="2010-05-04 12:34:23" data-date-format="yyyy-mm-dd HH:ii:ss" data-link-field="dtp_input1">
+                                        <input class="form-control" size="16" type="text" id="latest_update_date" th:value="${data.latest_update_date}" readonly>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                    </div>
+                                    <input type="hidden" id="dtp_input1" value="" /><br/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control"  style=" resize: none;" id="description" placeholder="">[[${data.description}]]</textarea>
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <label >Data Frequency</label>
+                                    <select id="data_update_frequency"  th:value="${data.data_update_frequency_id}" class="form-control">
+                                        <option th:each="data : ${frequencyList}"  th:value="${data.id}">[[${data.name}]]</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <label>Sample Available</label>
+                                    <select id="is_sample_available" th:value="${data.is_sample_available}"  class="form-control">
+                                        <option  th:value="1">Yes</option>
+                                        <option  th:value="2">No</option>
+                                    </select>
+                                </div>
+
+                                <div id="sourceUrl_field">
+
+                                    <div class="col-xs-12" >
+                                        <div class="col-md-12">
+                                            <label style="margin-top: 10px;" for="data-name">Source Url</label>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <input type="radio"  id="source_type"  class="radiobox" checked name="source_type" value="source">
+                                        </div>
+                                        <div class="col-md-11">
+                                            <input type="text"   class="form-control" th:value="${data.source_url}" id="source_url" placeholder="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12" >
+                                        <div class="col-md-12">
+                                            <label style="margin-top: 10px;" for="data-name">Emebed Url </label>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <input type="radio" id="embed_type"   class="radiobox"  name="source_type" value="embed">
+                                        </div>
+                                        <div class="col-md-11">
+                                            <span>Table: </span>  <input style="width: 90%;" type="text" disabled class="form-control" th:value="${data.embed_url_chart}" id="embed_url_chart" placeholder="">
+                                        </div>
+                                        <div class="col-md-1">
+                                            <input type="radio" style="visibility: hidden"  class="radiobox" >
+                                        </div>
+                                        <div class="col-md-11">
+                                            <span>Chart: </span>  <input style="width: 90%;" type="text" disabled class="form-control" th:value="${data.embed_url_datagrid}" id="embed_url_datagrid" placeholder="">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="code">Filter Condition</label>
+                                    <input type="text" class="form-control" th:value="${data.filter_condition}" id="filter_condition"  placeholder="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="code">Filter ID</label>
+                                    <input type="text" class="form-control" th:value="${data.filter_id}" id="filter_id"  placeholder="">
+                                    <a class="btn btn-primary" id="btnShowFilterList">Select List</a>
+                                </div>
+
+                                <form role="form" >
+                                    <div class="box-body" id="data_set_filter_section" style="display : none;">
+                                        <div id="dataList" style="margin-top:15px;">
+
+                                        </div>
+
+                                        <div>
+                                            <div style="float: left" class="pagination">Total
+                                                <span id="total-num"></span>
+                                                Records
+                                                <span id="current-page"></span>
+                                                /
+                                                <span id="total-page"></span>
+                                            </div>
+
+                                            <div id="pagination" class="pagination" style="float: right">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                            <!-- /.box-body -->
+
+                            <div class="box-footer">
+                                <a href="/admin/data_series/list" class="btn btn-primary">Go Back</a>
+                                <a class="btn btn-primary" id="btnUpdate">Update</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <!--添加footer-->
+    <div class="main-footer"  th:insert="~{admin/partial/footer :: copyright}" style="padding: 0;width: 100%;position: absolute;border: none;">
+
+    </div>
+</div>
+
+</div>
+
+<link href="/admin/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+
+<!-- Mainly scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/admin/js/bootstrap.min.js"></script>
+<script src="/admin/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/admin/js/hplus.js"></script>
+<script src="/admin/js/validation.js"></script>
+<script src="/admin/js/bootstrap-datetimepicker.js"></script>
+
+<script src="/admin/js/bootstrap-datetimepicker.fr.js"></script>
+
+
+<script src="/admin/js/data_series/edit.js"></script>
+
+<script type="text/javascript" src="/admin/js/flavr/flavr/js/flavr.min.js"></script>
+<script type="text/javascript" src="/admin/js/flavr/base.js"></script>
+
+
+<script src="/admin/js/data_set_filter/listsel.js"></script>
+<script src="/js/jqPaginator.min.js"></script>
+
+</body>
+
+</html>

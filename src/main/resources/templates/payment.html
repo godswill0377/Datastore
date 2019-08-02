@@ -1,0 +1,280 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="_partials/head :: head">
+
+</head>
+
+<body>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script src="/js/main/jquery.mask.js"></script>
+
+<div class="wrapper">
+
+	<header id="header" th:replace="_partials/header :: header">
+	</header>
+
+	<div class="breadcomb">
+		<div class="container">
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+				<li><a href="#">Payment Information</a></li>
+				<li><a href="#">Payment Information</a></li>
+			</ul>
+		</div>
+	</div>
+	<input type="hidden" id="paypalMode" th:value="${paypalMode}" />
+	<input type="hidden" id="paypalClientId" th:value="${paypalClientId}" />
+
+	<input type="hidden" id="pubkey" th:value="${pubkey}" />
+	<input type="hidden" id="mode" th:value="${mode}" />
+	<input type="hidden" id="amount" th:value="${amount}" />
+	<input type="hidden" id="order_id" th:value="${order_id}" />
+	<input type="hidden" id="sourceNums" th:value="${#lists.size(sourceList)}" />
+
+	<input type="hidden" id="final_amount" th:value="${final_amount}" />
+
+	<div class="payment-page-section">
+		<div class="container">
+
+			<div class="row">
+				<form id="paymentForm">
+
+					<div style="float: left;" class="col-lg-6 payment-option payment-select-btns">
+					<h3>Enter Payment Information</h3>
+
+						<ul th:if="${not #lists.isEmpty(sourceList)}">
+
+							<li>
+								<input type="radio" checked name="payment-option" value="0" id="opt_default_card">
+								<label for="opt_default_card">**** **** **** [[${sourceList[0].last_4_digits}]]</label>
+							</li>
+
+							<li> <img src="/images/stripe.png">
+
+							</li>
+						</ul>
+
+						<ul>
+
+							<li th:if="${not #lists.isEmpty(sourceList)}">
+								<input type="radio" name="payment-option" value="1" id="opt_stripe">
+								<label for="opt_stripe">Stripe</label>
+							</li>
+
+							<li th:if="${#lists.isEmpty(sourceList)}">
+								<input type="radio" checked name="payment-option" value="1" id="opt_stripe">
+								<label for="opt_stripe">Stripe</label>
+							</li>
+
+							<li> <img src="/images/stripe.png">
+
+							</li>
+
+							<div class="divide"></div>
+
+							<div style="height: 80px;">
+								<div class="left-img-left"><img src="/images/stripe.jpg"></div>
+								<div class="left-img-left right"><img src="/images/cards-accept.png"></div>
+							</div>
+
+							<div id="card_section"  th:if="${#lists.isEmpty(sourceList)}" class="cell example example2">
+
+								<div data-locale-reversible>
+									<div class="row">
+										<div class="field half-width">
+											<input id="example2-address" data-tid="elements_examples.form.address_placeholder" class="input empty" type="text" placeholder="185 Berry St" required="">
+											<label for="example2-address" data-tid="elements_examples.form.address_label">Address</label>
+											<div class="baseline"></div>
+										</div>
+
+										<div class="field half-width">
+											<input id="example2-email" data-tid="elements_examples.form.address_placeholder" class="input empty" type="text" placeholder="janedoe@gmail.com" required="">
+											<label for="example2-email" data-tid="elements_examples.form.address_label">Email</label>
+											<div class="baseline"></div>
+										</div>
+
+									</div>
+									<div class="row" data-locale-reversible>
+										<div class="field half-width">
+											<input id="example2-city" data-tid="elements_examples.form.city_placeholder" class="input empty" type="text" placeholder="San Francisco" required="">
+											<label for="example2-city" data-tid="elements_examples.form.city_label">City</label>
+											<div class="baseline"></div>
+										</div>
+										<div class="field quarter-width">
+											<input id="example2-state" data-tid="elements_examples.form.state_placeholder" class="input empty" type="text" placeholder="CA" required="">
+											<label for="example2-state" data-tid="elements_examples.form.state_label">State</label>
+											<div class="baseline"></div>
+										</div>
+										<div class="field quarter-width">
+											<input id="example2-zip" data-tid="elements_examples.form.postal_code_placeholder" class="input empty" type="text" placeholder="94107" required="">
+											<label for="example2-zip" data-tid="elements_examples.form.postal_code_label">ZIP</label>
+											<div class="baseline"></div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="field">
+										<input id="example2-card-number" data-tid="elements_examples.form.postal_code_placeholder" class="input empty" type="text" placeholder="4242 4242 4242 4242" required="">
+										<label for="example2-card-number" data-tid="elements_examples.form.card_number_label">Card number</label>
+										<div class="baseline"></div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="field half-width">
+										<input id="example2-card-expiry" data-tid="elements_examples.form.postal_code_placeholder" class="input empty" type="text" placeholder="MM/YY" required="">
+										<label for="example2-card-expiry" data-tid="elements_examples.form.card_expiry_label">Expiration</label>
+										<div class="baseline"></div>
+									</div>
+									<div class="field half-width">
+										<input id="example2-card-cvc" data-tid="elements_examples.form.postal_code_placeholder" class="input empty" type="text" placeholder="CVC" required="">
+										<label for="example2-card-cvc" data-tid="elements_examples.form.card_cvc_label">CVC</label>
+										<div class="baseline"></div>
+									</div>
+								</div>
+
+								<div class="error" style="padding-left: 15px;" role="alert">
+									<span class="message"></span>
+								</div>
+
+
+							</div>
+
+							<div id="card_section" style="display: none;" th:if="${not #lists.isEmpty(sourceList)}" class="cell example example2">
+
+								<div data-locale-reversible>
+									<div class="row">
+										<div class="field half-width">
+											<input id="example2-address" data-tid="elements_examples.form.address_placeholder" class="input empty" type="text" placeholder="185 Berry St" required="">
+											<label for="example2-address" data-tid="elements_examples.form.address_label">Address</label>
+											<div class="baseline"></div>
+										</div>
+
+										<div class="field half-width">
+											<input id="example2-email" data-tid="elements_examples.form.address_placeholder" class="input empty" type="text" placeholder="janedoe@gmail.com" required="">
+											<label for="example2-email" data-tid="elements_examples.form.address_label">Email</label>
+											<div class="baseline"></div>
+										</div>
+
+									</div>
+									<div class="row" data-locale-reversible>
+										<div class="field half-width">
+											<input id="example2-city" data-tid="elements_examples.form.city_placeholder" class="input empty" type="text" placeholder="San Francisco" required="">
+											<label for="example2-city" data-tid="elements_examples.form.city_label">City</label>
+											<div class="baseline"></div>
+										</div>
+										<div class="field quarter-width">
+											<input id="example2-state" data-tid="elements_examples.form.state_placeholder" class="input empty" type="text" placeholder="CA" required="">
+											<label for="example2-state" data-tid="elements_examples.form.state_label">State</label>
+											<div class="baseline"></div>
+										</div>
+										<div class="field quarter-width">
+											<input id="example2-zip" data-tid="elements_examples.form.postal_code_placeholder" class="input empty" type="text" placeholder="94107" required="">
+											<label for="example2-zip" data-tid="elements_examples.form.postal_code_label">ZIP</label>
+											<div class="baseline"></div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="field">
+										<input id="example2-card-number" data-tid="elements_examples.form.postal_code_placeholder" class="input empty" type="text" placeholder="4242 4242 4242 4242" required="">
+										<label for="example2-card-number" data-tid="elements_examples.form.card_number_label">Card number</label>
+										<div class="baseline"></div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="field half-width">
+										<input id="example2-card-expiry" data-tid="elements_examples.form.postal_code_placeholder" class="input empty" type="text" placeholder="MM/YY" required="">
+										<label for="example2-card-expiry" data-tid="elements_examples.form.card_expiry_label">Expiration</label>
+										<div class="baseline"></div>
+									</div>
+									<div class="field half-width">
+										<input id="example2-card-cvc" data-tid="elements_examples.form.postal_code_placeholder" class="input empty" type="text" placeholder="CVC" required="">
+										<label for="example2-card-cvc" data-tid="elements_examples.form.card_cvc_label">CVC</label>
+										<div class="baseline"></div>
+									</div>
+								</div>
+
+								<div class="error" style="padding-left: 15px;" role="alert">
+									<span class="message"></span>
+								</div>
+
+
+							</div>
+
+						</ul>
+
+
+						<ul th:if="${mode == 'checkout'}">
+						<li>
+							<input type="radio" name="payment-option" value="2" id="opt_paypal">
+							<label for="opt_paypal">Paypal</label>
+						</li>
+						<li> <img src="/images/paypal.png">
+
+						</li>
+					</ul>
+				</div>
+
+					<div style="float: left;" class="col-lg-6">
+					<div class="payment-table">
+						<ul class="country-drop">
+							<li>Currency</li>
+							<li>
+								<select class="selectpicker" data-width="fit">
+									<option data-content='<span class="flag-icon flag-icon-us"></span> English'><img src="/images/flag.png"> USD - US Dollar</option>
+								</select>
+							</li>
+						</ul>
+						<ul class="ammount-head">
+							<li></li>
+							<li>Amount</li>
+							<li>Currency</li>
+						</ul>
+						<ul class="ammount-head list-head">
+							<li>Basic Price</li>
+							<li class="round-up"><span class="dollar">$</span><span class="amounts first">[[${amount}]]</span></li>
+							<li>USD</li>
+						</ul>
+						<ul class="ammount-head list-head">
+							<li>Processing Fee</li>
+							<li><span class="amounts">0.00</span></li>
+							<li>USD</li>
+						</ul>
+						<ul class="ammount-head list-head">
+							<li>Discount</li>
+							<li><span class="amounts" id="discount-amount">[[${discount_amount}]]</span></li>
+							<li>USD</li>
+						</ul>
+						<ul class="ammount-head totle-amount">
+							<li>Total</li>
+							<li><span class="amounts" id="final-amount">[[${final_amount}]]</span></li>
+							<li>USD</li>
+						</ul>
+						<div id="btnDoPaypal" ></div>
+						<button id="submitBtn" class="submit-btn" data-tid="elements_examples.form.pay_button" type="submit"><i style="color: white;margin-right:10px;display:none;" id="btWaiting" class="fa fa-circle-o-notch fa-spin"></i>Confirm $[[${final_amount}]]</button>
+					</div>
+				</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+	<footer th:replace="_partials/footer :: footer"></footer>
+</div>
+
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+
+<script src="/js/main/payment.js"></script>
+
+<script src="/js/main/stripe.js" data-rel-js></script>
+</body>
+
+</html>

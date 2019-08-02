@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head th:replace="vendor/_partials/head :: head"></head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div id="wrapper">
+    <header class="main-header" id="header" th:replace="vendor/_partials/header :: header">
+    </header>
+    <aside class="main-sidebar"  th:insert="~{vendor/_partials/sidebar :: sidebar}">
+    </aside>
+
+    <div class="content-wrapper" style="padding:15px;">
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>Review Management</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="/vendor/dashboard">Home</a>
+                        </li>
+                        <li>
+                            <a>Review</a>
+                        </li>
+                        <li>
+                            <strong>Edit</strong>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+            <div class="wrapper wrapper-content animated fadeInRight" style="padding-bottom:37px;">
+                <div class="col-md-7">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Review Edit</h3>
+                        </div>
+
+                        <div class="callout callout-danger" style="display:none;">
+                            <p></p>
+                        </div>
+
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        <form role="form">
+                            <div class="box-body">
+
+                                <div class="form-group">
+                                    <label for="data-id">ID</label>
+                                    <input type="text" class="form-control" th:value="${data.id}" readonly id="data-id" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <input type="text" class="form-control" id="title" readonly th:value="${data.title}" placeholder="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="content">Content</label>
+                                    <textarea  style="min-height: 200px;" class="form-control" readonly id="content" placeholder="">[[${data.content}]]</textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="stars">Stars</label>
+                                    <input type="number" class="form-control" readonly id="stars" th:value="${data.stars}" placeholder="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="helpful_num">Helpful</label>
+                                    <input type="number" class="form-control" readonly id="helpful_num" th:value="${data.helpful_num}" placeholder="">
+                                </div>
+
+
+                                <div class="form-group ">
+                                    <label for="customer_id">Customer Id</label>
+                                    <input type="number" class="form-control" id="customer_id" readonly th:value="${data.customer_id}" placeholder="">
+                                    <input type="text" class="form-control" th:value="${data.customer_name}" readonly>
+
+                                </div>
+<!--
+                                <div class="col-md-4" style="margin-top: 7px;">
+                                    <div style="margin-top: 10px;" for="data-name">&nbsp;</div>
+                                    <a class="btn btn-primary" th:href="'javascript: btnOpenUser('+${data.customer_id}+')'" >Open</a>
+                                </div>-->
+
+                                <div class="form-group ">
+                                    <label for="dataset_id">Dataset Id</label>
+                                    <input type="number" class="form-control" id="dataset_id" readonly th:value="${data.dataset_id}" placeholder="">
+                                    <input type="text" class="form-control" th:value="${data.dataset_name}" readonly>
+
+                                </div>
+
+                             <!--   <div class="col-md-4" style="margin-top: 7px;">
+                                    <div style="margin-top: 10px;" for="data-name">&nbsp;</div>
+                                    <a class="btn btn-primary" th:href="'javascript: btnOpenDataset('+${data.dataset_id}+')'" >Open</a>
+                                </div>-->
+                                <input type="hidden" id="updated_date" th:value="${data.updated_date}" />
+                                <input type="hidden" id="deleted_date" th:value="${data.deleted_date}" />
+                                <input type="hidden" id="additional_imgs" th:value="${data.additional_imgs}" />
+
+                            </div>
+                            <!-- /.box-body -->
+
+                            <div class="box-footer">
+                                <a href="/vendor/reviews/list" class="btn btn-primary">Go Back</a>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--添加footer-->
+    <footer class="main-footer" th:replace="vendor/_partials/footer :: footer">
+
+    </footer>
+</div>
+
+</div>
+
+<!-- Mainly scripts -->
+<script src="/js/jquery.min.js"></script>
+
+
+<script>
+    function btnOpenDataset(id){
+        window.open("/vendor/dataset_management/edit/" + id,'_blank');
+    }
+    function btnOpenUser(id){
+        window.open("/vendor/user/edit/"+id,'_blank');
+    }
+</script>
+</body>
+
+</html>

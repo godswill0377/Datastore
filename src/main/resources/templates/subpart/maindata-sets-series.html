@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+
+<li th:each="data_sets_series : ${data_sets_seriesList}">
+    <div th:switch="${data_sets_series.is_sample_available}">
+        <input class="preview_diagram" type="hidden" th:value="${data_sets_series.chat_diagram}"/>
+        <input type="hidden" th:id="${data_sets_series.id}" th:value="${data_sets_series.diagram_update_time}" class="update_datas" />
+
+        <a th:case="1" th:href="'/data_sets/cateid/'+${cateid}+'/ddetails/'+ ${data_sets_series.id}" >
+            <div class="codeText">
+                <div class="zipCode col-md-10" style="  word-wrap: break-word;">
+
+                    <span class="ZCTD">[[${#strings.substring(data_sets_series.code,0,3)}]]</span>
+                    <h2>[[${data_sets_series.name}]]
+                        <span>[[${data_sets_series.description}]]</span>
+                        <div>
+
+                            <span style="float: left;">CODE:&nbsp;&nbsp;</span>
+                            <span style="float: left;color: red;">[[${data_sets_series.code}]]</span>
+                        </div>
+                    </h2>
+                </div>
+                <div class="dtCode" style="position: absolute;right: 0;top: 0px;"> <span class="dtText">Latest: [[${data_sets_series.latest_update_date}]]</span>
+                    <span class="dlText">[[${data_sets_series.data_update_frequency_text}]]</span> </div>
+            </div>
+        </a>
+        <a th:case="2" th:href="'/data_sets/cateid/'+${cateid}+'/ddetails/'+ ${data_sets_series.id}" >
+            <div class="codeText">
+                <div class="zipCode col-md-10" style="  word-wrap: break-word;">
+                    <span class="ZCTD">[[${#strings.substring(data_sets_series.code,0,3)}]]</span>
+
+                    <div class="f-relative-size--small u-margin-bottom-5">
+                        <div class="f-color-red u-uppercase f-relative-size__mini f-weight-bold">You must be a subscriber to view this Dataset</div>
+                    </div>
+
+                    <h2>[[${data_sets_series.name}]]
+                        <span>[[${data_sets_series.description}]]</span>
+                        <div>
+                            <span style="float: left;">CODE:&nbsp;&nbsp;</span>
+                            <span style="float: left;color: red;">[[${data_sets_series.code}]]</span>
+                        </div>
+                    </h2>
+                </div>
+                <div class="dtCode" style="position: absolute;right: 0;top: 0px;"> <span class="dtText">Latest: [[${data_sets_series.latest_update_date}]]</span>
+                    <span class="dlText">[[${data_sets_series.data_update_frequency_text}]]</span> </div>
+            </div>
+        </a>
+    </div>
+</li>
+
+</html>
+

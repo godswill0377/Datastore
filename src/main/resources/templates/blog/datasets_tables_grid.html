@@ -1,0 +1,457 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="_partials/head :: head">
+
+</head>
+<link rel="stylesheet" href="/js/lib/jqwidgets/styles/jqx.base.css" type="text/css" />
+<script type="text/javascript" src="/js/lib/jqwidgets/jqxcore.js"></script>
+<script type="text/javascript" src="/js/lib/jqwidgets/jqxdata.js"></script>
+<script type="text/javascript" src="/js/lib/jqwidgets/jqxbuttons.js"></script>
+<script type="text/javascript" src="/js/lib/jqwidgets/jqxscrollbar.js"></script>
+
+<script type="text/javascript" src="/js/lib/jqwidgets/jqxlistbox.js"></script>
+<script type="text/javascript" src="/js/lib/jqwidgets/jqxdropdownlist.js"></script>
+
+<script type="text/javascript" src="/js/lib/jqwidgets/jqxdatatable.js"></script>
+<script type="text/javascript" src="/js/lib/jqwidgets/jqxpanel.js"></script>
+<script type="text/javascript" src="/js/lib/jqwidgets/jqxradiobutton.js"></script>
+<script type="text/javascript" src="/js/lib/jqwidgets/jqxinput.js"></script>
+
+<script type="text/javascript" src="/js/lib/demos.js"></script>
+<link href="/css/lib/bootstrap-glyphicons.css" rel="stylesheet">
+
+<body>
+
+<div class="wrapper">
+
+    <header id="header" th:replace="_partials/header :: header">
+    </header>
+
+    <div class="breadcomb">
+        <div class="container">
+            <ul>
+                <li class="menu-item-series active"><a th:href="'/data_sets/cateid/' + ${cateid} +'/details/' + ${data_sets.id}">DATA</a></li>
+
+                <li class="menu-item-series"><a th:href="'/data_sets/cateid/' + ${cateid} +'/details/' + ${parent_code} + '/documentation'">DOCUMENTATION</a></li>
+
+                <li class=""><a href="#">Dataset Table</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <section>
+        <input type="hidden" th:value="${dataset_id}" id="dataset_id"/>
+        <input type="hidden" th:value="${parent_code}" id="parent_code"/>
+        <input type="hidden" th:value="${cateid}" id="cateid"/>
+        <input type="hidden" id="is_free" th:value="${is_free}"/>
+        <input type="hidden" id="base_url" th:value="${base_url}"/>
+        <input type="hidden" id="chart_days" th:value="${chart_days}"/>
+        <input type="hidden" id="data_sets_id" th:value="${data_sets.id}"/>
+        <!--<input type="hidden" id="iframe_url" th:value="${data_sets.embed_url_datagrid}"/>-->
+        <input type="hidden" id="notename" th:value="${data_sets.name}"/>
+        <input type="hidden" id="filter_query" th:value="${filter_query}"/>
+       <!-- <input type="hidden" id="data_set_series_id" th:value="${data_sets_series.id}"/>-->
+
+
+        <div class="data-company">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="data-detail">
+                            <div class="data-title">
+                                <h3>DATASET SERIES</h3>
+                                <button  th:if="${data_sets.embed_url_datagrid != ''} " style="float: right" class="btn btn-primary" id="li-details" type="button">Show Details</button>
+                            </div>
+
+                            <div  class="data-code" th:if="${data_sets.embed_url_datagrid == ''} " >
+                                <div  id="dataTable"></div>
+
+                            </div>
+
+                            <div  class="data-code"  th:if="${data_sets.embed_url_datagrid != ''} "  style="height: 350px;">
+                                <iframe th:src="${data_sets.embed_url_datagrid}" style="width: 100%; height: 100%;" ></iframe>
+                                <button type="button" id="btn-iframe" class="btn btn-primary col-md-4" data-toggle="modal" data-target="#iframeModal">Full Window</button>
+                                <div class="modal fade" id="iframeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-full" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">[[${data_sets.name}]]</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <iframe th:src="${data_sets.embed_url_datagrid}" style="width: 100%; height: 391px;" ></iframe>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="databaseSec">
+                            <div class="database-title">
+                                <h2>ABOUT THIS DATABASE</h2>
+                            </div>
+                            <div class="testingData">
+                                <div class="database-title">
+                                    <h2> [[${data_sets.description}]]</h2>
+                                </div>
+                                <table class="table tableData">
+                                    <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Dataset</th>
+                                        <th>API</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td><a href="javascript:void(0);">[[${data_sets.code}]]</a></td>
+                                        <td><a href="javascript:void(0);">[[${datasets_count}]]</a></td>
+                                        <td><a href="javascript:void(0);">[[${data_sets.api}]]</a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="subscribeData">
+                                <div class="database-title">
+                                    <h2> Vendor Name: [[${vendorName}]]</h2>
+                                </div>
+                                <table class="table subscriptionData">
+                                    <thead>
+                                    <tr>
+                                        <th>Single Monthly</th>
+                                        <th>Single Yearly</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td><a href="javascript:void(0);">[[${single_monthly}]]</a></td>
+                                        <td><a href="javascript:void(0);">[[${single_yearly}]]</a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table subscriptionData">
+                                    <thead>
+                                    <tr>
+                                        <th>Enterprise Monthly</th>
+                                        <th>Enterprise Yearly</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td><a href="javascript:void(0);">[[${enterprise_monthly}]]</a></td>
+                                        <td><a href="javascript:void(0);">[[${enterprise_yearly}]]</a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div th:if="${is_free == '0'} AND ${flagMembership == '0'}" class="purchaseBtn">
+                                <button type="button"  class="btn btn-danger disabled col-md-5">SUBSCRIBE TO</button>
+                                <button type="button"  class="btn btn-danger col-md-5"><a style="color: white;" th:href="'/data_sets/cateid/' + ${cateid} +'/details/' + ${parent_code} + '/purchase'">PURCHASE</a></button>
+                            </div>
+                            <div th:if="${is_free == '0'} AND ${flagMembership == '1'}" class="purchaseBtn">
+                                <button type="button"  class="btn btn-danger col-md-5"><a style="color: white;" th:href="'javascript: subscribeTo(' + ${data_sets.vendor_id} +')'" >SUBSCRIBE TO</a></button>
+                                <button type="button"  class="btn btn-danger col-md-5"><a style="color: white;" th:href="'/data_sets/cateid/' + ${cateid} +'/details/' + ${parent_code} + '/purchase'">PURCHASE</a></button>
+                            </div>
+                            <div th:if="${is_free != '0'}" style="margin-top: 15px;">
+                               <!-- <button type="button"  class="btn btn-danger col-md-5"><a style="color: white;" th:href="'/data_sets/cateid/' + ${cateid} +'/details/' + ${parent_code} + '/purchase'">PURCHASE</a></button>-->
+                                <button type="button"  class="btn btn-danger col-md-5"><a style="color: white;" th:href="'javascript:free_download('+${data_sets.id}+')'">DOWNLOAD</a></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="question-section">
+        <div class="container">
+            <hr>
+            <div class="data-title" style="margin-top: 20px;">
+                <h3>Customer questions & answers</h3>
+            </div>
+            <div  style="float: right;">
+                <div th:include="subpart/question-ask :: question-ask"></div>
+            </div>
+            <div class="data-search col-md-6">
+                <div class="input-group">
+                    <input type="text"  id="searchQuestion" th:value="${searchQuestion}" class="form-control InputSearch" placeholder="Search this database">
+                    <span id="searchQuestionIcon" class="addonIcon"><img  src="/images/searchIcon.png"></span>
+                </div>
+            </div>
+
+            <div id="questionListContent">
+                <div  class="question-list" th:replace="subpart/question-list :: question-list">
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="review-section">
+        <div th:include="subpart/review-edit :: review-edit"></div>
+        <div class="container">
+            <hr>
+            <div class="data-title" style="margin-top: 20px;">
+                <h3>Customer Reviews</h3>
+            </div>
+
+            <div >
+                <input style="float: left;" id="total_rating_stars" name="input-1" class="rating rating-loading" data-min="0" data-max="5" data-step="0.1" th:value="${totalstars}">
+
+                <span class="a-button">
+				  <span class="a-button-inner">
+					<a  class="a-button-text"  data-toggle="modal" data-target="#reviewModal">Write a customer review</a>
+				  </span>
+
+				</span>
+                <br/> <br/>
+                <div style="margin-left: 15px;">[[${totalstars}]] out of 5 Stars</div>
+            </div>
+
+            <br/>  <br/>
+            <div class="review-main-content">
+                <h3 style="margin-left: 10px; font-weight: bold;">Top customer reviews</h3>
+
+                <input type="hidden" id="totalReviewNums" th:value="${#lists.size(reviewList)}" />
+                <div id="reviewListContent">
+                    <div class="review-list" th:replace="subpart/review-list :: review-list">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer th:replace="_partials/footer :: footer"></footer>
+</div>
+
+</body>
+
+<script>
+
+    var cnt = $("#totalReviewNums").val();
+    cnt = Math.floor(cnt);
+    for(var i = 0 ; i < cnt ; i ++) {
+        $("#users_rating_stars"+i).rating({
+            min: 1, max: 5, step: 0.1, size: 'xs'
+            , displayOnly: true
+            , starCaptions: {
+                0.5: '0.5 out of 5 stars',
+                1: '1 out of 5 stars',
+                1.5: '1.5 out of 5 stars',
+                2: '2 out of 5 stars',
+                2.5: '2.5 out of 5 stars',
+                3: '3 out of 5 stars',
+                3.5: '3.5 out of 5 stars',
+                4: '4 out of 5 stars',
+                4.5: '4.5 out of 5 stars',
+                5: '5 out of 5 stars'
+            }
+            , clearButton: '<i class="glyphicon "></i>'
+        });
+    }
+
+
+    $("#total_rating_stars").rating({min:1, max:5, step:0.1, size:'xs'
+        ,displayOnly: true
+        , starCaptions: {
+            0.5: '0.5 out of 5 stars',
+            1: '1 out of 5 stars',
+            1.5: '1.5 out of 5 stars',
+            2: '2 out of 5 stars',
+            2.5: '2.5 out of 5 stars',
+            3: '3 out of 5 stars',
+            3.5: '3.5 out of 5 stars',
+            4: '4 out of 5 stars',
+            4.5: '4.5 out of 5 stars',
+            5: '5 out of 5 stars'
+        }
+        ,clearButton: '<i class="glyphicon "></i>'
+    });
+
+    $('#askQuestionModal').on('show.bs.modal', function(event) {
+        if($("#userid").val() == "0" || $("#userid").val() == ""){
+            event.preventDefault();
+            $("#btSignin").click();
+        }
+    });
+    $('#reviewModal').on('show.bs.modal', function(event) {
+        if($("#userid").val() == "0" || $("#userid").val() == ""){
+            event.preventDefault();
+            $("#btSignin").click();
+        }
+    });
+</script>
+<script>
+    function toggleBtn(id , flag){
+        if(flag == '0'){
+            $("#btnMoreView"+id).css('display','none');
+        }
+        else{
+            $("#btnMoreView"+id).css('display','block');
+        }
+    }
+</script>
+
+<script>
+    function free_download(id){
+        $.ajax({
+            url: '/user/checklogin',
+            type: 'POST',
+            data: {},
+            success: function(response){
+                if(response.resultCode == "success"){
+                    window.location.href = "/api/v3/free_dataset_download/" + id;
+                }
+                else{
+                    $('#btSignin').click();
+                }
+            }
+        });
+    }
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // prepare the data
+        if($("#dataTable").length) {
+            $.ajax({
+                url: '/data_sets/get_columns',
+                type: 'POST',
+                data: 'id=' + $('#data_sets_id').val(),
+                success: function (response) {
+                    // prepare the data table header
+                    var columns = [], data_columns = [];
+                    for (var i = 0; i < response.length; i++) {
+                        var col = {
+                            id: response[i],
+                            name: response[i],
+                            type: 'string'
+                        };
+
+                        columns[i] = col;
+                        var data_col = {
+                            text: response[i],
+                            dataField: response[i],
+                            width: 140
+                        };
+                        data_columns[i] = data_col;
+                    }
+
+                    var source =
+                        {
+                            dataType: "json",
+                            dataFields: columns,
+                            root: 'value',
+                            url: '/data_sets/get_alldata/' + $('#data_sets_id').val()
+                        };
+
+                    var dataAdapter = new $.jqx.dataAdapter(source,
+                        {
+                            formatData: function (data) {
+                                // update the $skip and $top params of the OData service.
+                                // data.pagenum - page number starting from 0.
+                                // data.pagesize - page size
+                                data.skip = data.pagenum * data.pagesize;
+                                data.top = data.pagesize;
+                                data.inlinecount = "allpages";
+
+                                return data;
+                            },
+                            downloadComplete: function (data, status, xhr) {
+                                if (!source.totalRecords) {
+                                    source.totalRecords = parseInt(data["odata.count"]);
+                                }
+                            },
+                            loadError: function (xhr, status, error) {
+                                throw new Error("http://services.odata.org: " + error.toString());
+                            }
+                        }
+                    );
+
+
+                    $("#dataTable").jqxDataTable(
+                        {
+                            width: '100%',
+                            pageable: true,
+                            pagerButtonsCount: 10,
+                            pageSize: 20,
+                            serverProcessing: true,
+                            source: dataAdapter,
+                            pageSizeOptions: ['10', '20', '50', '100'],
+                            altRows: true,
+                            columnsResize: true,
+                            pagerMode: 'advanced',
+                            columns: data_columns
+                        });
+
+                }
+            });
+        }
+    });
+
+    // $("#btn-iframe").on('click',function(){
+    //
+    //     var iframe_url = $('#iframe_url').val();
+    //     window.open(iframe_url, "iframe Window", "toolbar=no,scrollbars=yes,resizable=yes,top=0,left=0,width="+screen.availWidth+",height="+screen.availHeight);
+    // });
+
+    $('#li-details').on('click',function(){
+
+        if($('#userid').val() == "0"){
+            $("#btSignin").click();
+            $("#btLogin").click();
+            return;
+        }
+
+        var user_apikey = $("#user_apikey").val();
+        var zeppelin_url = $("#zeppelin_url").val();
+        var key_data = $("#key_data").val();
+        var enc_data = $("#enc_data").val();
+        //var series_id = $("#data_set_series_id").val();
+        var filter_query = $("#filter_query").val();
+        var notename = $("#notename").val();
+
+        var params =  "apikey=" +user_apikey + "&dec_key=" + key_data + "&enc_key=" + enc_data
+            + "&data_id=" + "1111"+"&filter_query="+filter_query +"&notename="+notename + "&login=1";
+
+
+        window.open( zeppelin_url + "?" + encodeURI(params), '_blank');
+
+    });
+
+
+    function subscribeTo(vendor_id){
+
+        var userid = $("#userid").val();
+        if(userid == '0'){
+            $('#btSignin').click();
+            return;
+        }
+        window.location.href = "/account/membership/manage/" + vendor_id;
+    }
+</script>
+<style>
+    .modal-full {
+        min-width: 100%;
+        margin: 0;
+    }
+
+    .modal-full .modal-content {
+        min-height: 100vh;
+    }
+</style>
+<script src="/js/documentation.js"></script>
+<script src="/js/dataset/question_review.js"></script>
+</html>

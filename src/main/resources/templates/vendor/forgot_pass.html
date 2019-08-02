@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <title>DataExo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="/favicon.ico"/>
+
+    <link rel="stylesheet" type="text/css" href="/css/lib/sweetalert.css">
+
+    <link rel="stylesheet" type="text/css" href="/vendor/css/util.css">
+    <link rel="stylesheet" type="text/css" href="/vendor/css/main.css">
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap/font-awesome.min.css">
+
+    <script src="/js/lib/jquery-3.2.1.min.js"></script>
+    <script src="/js/main/popper.min.js"></script>
+
+    <script src="/js/lib/jquery-ui.js"></script>
+    <script src="/js/lib/password-checker.js"></script>
+    <script src="/js/lib/sweetalert-dev.js" ></script>
+
+</head>
+<body>
+
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
+            <form action="/vendor/login/forgot_pass" id="resetForm" name="resetForm" class="login100-form validate-form">
+					<span class="login100-form-title p-b-33">
+						Forget Password
+					</span>
+                <div id="text-logined" style="display: none;" class="col-md-12"></div>
+
+                <label>Email</label>
+                <div style="margin-bottom: 20px;" class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                    <input class="input100" style="height: 45px;border: 1px solid #e6e6e6;" type="text" id="email" name="email" placeholder="Please input email">
+                    <span class="focus-input100-1"></span>
+                    <span class="focus-input100-2"></span>
+                </div>
+
+                <div class="container-login100-form-btn m-t-20">
+                    <button class="login100-form-btn">
+                        <i style="margin-right:10px;display:none;" id="rg_btWaiting" class="fa fa-circle-o-notch fa-spin"></i>Reset
+                    </button>
+                </div>
+
+                <div class="text-center">
+						<span class="txt1">
+							Already have an Account?
+						</span>
+
+                    <a href="/vendor/login" class="txt2 hov1">
+                        Login
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+
+<script src="/vendor/js/forgot_pass.js"></script>
+
+</html>

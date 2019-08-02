@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head th:replace="~{admin/partial/head :: head}"></head>
+
+
+<body>
+<div id="wrapper">
+    <header id="header" th:replace="admin/partial/header :: header">
+
+    </header>
+    <aside class="main-sidebar" style="height: 124vh;background-color: #222d32;" th:insert="~{admin/partial/sidebar :: sidebar}">
+    </aside>
+    <div class="content-wrapper" style="padding:15px;">
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>Vendor Management</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="/admin/home">Home</a>
+                        </li>
+                        <li>
+                            <a>Vendor</a>
+                        </li>
+                        <li>
+                            <strong>Edit</strong>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+            <div class="wrapper wrapper-content animated fadeInRight" style="padding-bottom:37px;">
+                <div class="col-md-7">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Vendor Edit</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        <form role="form">
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label for="data-id">ID</label>
+                                    <input type="text" class="form-control" th:value="${userinfo.id}" readonly id="data-id" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="data-id">Vendor ID</label>
+                                    <input type="text" class="form-control" th:value="${userinfo.vendor_id}" readonly id="vendor_id" placeholder="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="userName">UserName</label>
+                                    <input type="email" class="form-control" th:value="${userinfo.username}"  id="userName" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="userEmail">Email address</label>
+                                    <input type="email" class="form-control" id="userEmail"  th:value="${userinfo.email}" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="userPass">Password</label>
+                                    <input type="password" class="form-control" id="userPass"  placeholder="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="userConfirmPass">Confirm Password</label>
+                                    <input type="password" class="form-control" id="userConfirmPass"  placeholder="">
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="legal_name">Legal Name</label>
+                                    <input type="text" class="form-control" id="legal_name" th:value="${vendor.legal_name}" placeholder="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="address">Street address</label>
+                                    <input type="text" class="form-control" id="address" th:value="${vendor.address}" placeholder="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="city">City / Town</label>
+                                    <input type="text" class="form-control" id="city" th:value="${vendor.city}" placeholder="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="state_province">State / Region / Province</label>
+                                    <input type="text" class="form-control" id="state_province" th:value="${vendor.state_province}" placeholder="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="country">Country</label>
+                                    <input type="text" class="form-control" id="country" th:value="${vendor.country}" placeholder="">
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="zip_postal">ZIP / Postal Code</label>
+                                    <input type="text" class="form-control" id="zip_postal" th:value="${vendor.zip_postal}"  placeholder="">
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="business_name">Business Name</label>
+                                    <input type="text" class="form-control" id="business_name" th:value="${vendor.business_name}"  placeholder="">
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="website_url">Website Url</label>
+                                    <input type="text" class="form-control" id="website_url" th:value="${vendor.website_url}"  placeholder="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="mobile_num">Mobile Number</label>
+                                    <input type="text" class="form-control" id="mobile_num"  th:value="${vendor.mobile_num}" placeholder="">
+                                </div>
+
+
+                            </div>
+
+                            <div class="box-footer">
+                                <a href="/admin/vendor/list" class="btn btn-primary">Go Back</a>
+                                <a class="btn btn-primary" id="btnUpdate">Update</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--添加footer-->
+    <div class="main-footer"  th:insert="~{admin/partial/footer :: copyright}" style="padding: 0;width: 100%;position: absolute;border: none;">
+
+    </div>
+</div>
+
+</div>
+<link href="/admin/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+
+<!-- Mainly scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/admin/js/bootstrap.min.js"></script>
+<script src="/admin/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/admin/js/hplus.js"></script>
+<script src="/admin/js/validation.js"></script>
+
+<script src="/admin/js/bootstrap-datetimepicker.js"></script>
+<script src="/admin/js/bootstrap-datetimepicker.fr.js"></script>
+
+<script src="/admin/js/vendor/userEdit.js"></script>
+
+<script type="text/javascript" src="/admin/js/flavr/flavr/js/flavr.min.js"></script>
+<script type="text/javascript" src="/admin/js/flavr/base.js"></script>
+
+</body>
+
+</html>

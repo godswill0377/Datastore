@@ -1,0 +1,89 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/dataexo
+    username: root
+    password:
+    driver-class-name: com.mysql.jdbc.Driver
+  thymeleaf:
+    mode: HTML5
+
+  http:
+    encoding:
+      charset: utf-8
+    converters:
+      preferred-json-mapper: jackson
+  application:
+    name: dataexo
+
+mybatis:
+  type-aliases-package: com.dataexo.zblog.vo
+  mapper-locations: classpath:mapper/*Mapper.xml
+  config-location: classpath:mybatis-conf.xml
+
+server:
+  session-timeout : 3600
+  port: 8085
+  mode: http
+
+address:
+  email: info@dataexo.com
+  domain: http://localhost:8085
+  appname: DataExo
+  admin_email: main@dataexo.com
+
+aws:
+  domain: email-smtp.us-east-1.amazonaws.com
+  user: AKIAJ6JVER5VHN7I7BHA
+  pass: AvUPMN9jYVTAmBh6pcMLFLDQ5RucqtagV59jmZjBMmLd
+  port: 587
+  access_key_id: AKIAJDNCENTKVRJUUWLQ
+  secret_access_key: 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
+
+github:
+  clientid: 92671ea34f4cc44c2797
+  client_secret: 737328a0968775bbcb214f59dafaabb2461b8884
+  redirect_url: http://localhost:8085/user/github/callback
+
+linkedin:
+  clientid: 77ykxyeczo8ebb
+  client_secret: 9hRoq8l6bRMaXXSi
+  redirect_url: http://localhost:8085/user/linkedin/callback
+
+google:
+  clientid: 563224129907-ppn49pad760d1nja2lo9kf1uugc2hc51.apps.googleusercontent.com
+  client_secret: u8c3eMulEUO7HSa0HNCx9Zbu
+  redirect_url: http://localhost:8085/user/google/callback
+
+facebook:
+    appid: 470353956654303
+    app_secret: 29e688e8ef230d83e227e3ab298513a5
+    redirect_url: http://localhost:8085/user/facebook/callback
+
+mailgun:
+  domain: mg.dataexo.com
+  apikey: key-27fbab85fc7f4e084596c93ba6a5311d
+
+strip:
+  apikey: sk_test_0i90knoyXFUWHH9HlomsmLVY
+  pubkey: pk_test_OCv6gFYYvqivyUsJDshdLbLi
+
+captcha:
+  sitekey: 6Ldi-T0UAAAAAH2x1jZFv_YEhwOT1_0_T4GhMCTF
+  secretkey: 6Ldi-T0UAAAAAIOH5xXc5m5xHoyS7JWg6Gb_w-5T
+
+ssoauth:
+  logout: http://192.168.5.207:8087/ssoauth/sso/logout
+  auth_url: http://192.168.5.207:8087/ssoauth/sso/athenticate
+  login_url: http://192.168.5.207:8087/ssoauth/dataexo/sso/login
+  permit_url: http://192.168.5.207:8087/ssoauth/sso/permit/auth
+  jforum_url: http://192.168.5.207:8087/forum
+  zeppelin_url: http://localhost:9000
+
+paypal:
+  mode: sandbox
+  client.app: AUHQfDclHwlOJ9od8ThjCOfsBJRSCKtfbZsDobBd6u5pIJI3ePtIj0EEk933Jvocbr6ckvm0ZJ_98lqm
+  client.secret: EEwgfMJq8_rNKwHspEGZl26LZp_pr7Q7s_eL9cUnMZaMt48Ldhc5Hl2lqYaYjHE8gTWIuIIUU_rD8snR
+
+token:
+  auth.timeout: 5
+  mail.timeout: 15

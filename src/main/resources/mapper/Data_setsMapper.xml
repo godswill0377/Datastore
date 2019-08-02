@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.Data_setsMapper">
+    <!--通过username获取user对象-->
+   <select id="findAll" resultType="data_sets">
+       select * from data_sets
+   </select>
+
+   <select id="getData_setsById" resultType="data_sets">
+       SELECT
+            B. NAME AS price_model_name,
+            C. NAME AS asset_class_name,
+            D. NAME AS data_type_name,
+            E. NAME AS region_name,
+             G. NAME AS data_category_name,
+            A.id,
+            A. NAME,
+            A.price_model_id,
+            A.asset_class_id,
+            A.data_type_id,
+            A.region_id,
+            A.data_category_id,
+            A.source_url,
+            A.icon,
+            A.description,
+            A. CODE,
+            A.api,
+            A.description_data,
+
+          A.onetime_price,
+          A.download_price,
+          A.onetime_expires,
+          A.download_expires,
+          A.download_url,
+          A.has_series,
+          A.table_name,
+          A.schema_name,
+          A.embed_url_chart,
+          A.embed_url_datagrid,
+          A.limitation,
+          A.download_url_update_at,
+          A.vendor_id,
+            A.bucket_name,
+            A.s3_file_key
+
+        FROM
+            data_sets A,
+            price_model B,
+            asset_class C,
+            data_type D,
+            region E,
+            data_category G
+
+        WHERE
+            A.price_model_id = B.id
+            AND A.asset_class_id = C.id
+            AND A.data_type_id = D.id
+            AND A.region_id = E.id
+             AND A.data_category_id = G.id
+            AND  A.id = #{id}
+   </select>
+
+    <select id="getData_setsByCode" parameterType="String" resultType="data_sets">
+        SELECT
+            B. NAME AS price_model_name,
+            C. NAME AS asset_class_name,
+            D. NAME AS data_type_name,
+            E. NAME AS region_name,
+             G. NAME AS data_category_name,
+            A.id,
+            A. NAME,
+            A.price_model_id,
+            A.asset_class_id,
+            A.data_type_id,
+            A.region_id,
+            A.data_category_id,
+            A.source_url,
+            A.icon,
+            A.description,
+            A. CODE,
+            A.api,
+            A.description_data,
+            A.vendor_id,
+
+          A.onetime_price,
+          A.download_price,
+          A.onetime_expires,
+          A.download_expires,
+          A.download_url,
+          A.has_series,
+          A.table_name,
+          A.schema_name,
+          A.embed_url_chart,
+          A.embed_url_datagrid,
+          A.limitation,
+          A.download_url_update_at,
+            A.bucket_name,
+            A.s3_file_key
+
+        FROM
+            data_sets A,
+            price_model B,
+            asset_class C,
+            data_type D,
+            region E,
+            data_category G
+
+        WHERE
+            A.price_model_id = B.id
+            AND A.asset_class_id = C.id
+            AND A.data_type_id = D.id
+            AND A.region_id = E.id
+             AND A.data_category_id = G.id
+             AND A.code = #{codeid}
+    </select>
+
+    <select id="loadAavailableDataset"  resultType="java.lang.String">
+      SELECT A.table_name from data_sets A, purchase B where A.id=B.dataset_id and B.userid=#{item}
+    </select>
+
+    <select id="loadData_sets"  resultType="data_sets">
+        SELECT
+            B. NAME AS price_model_name,
+            C. NAME AS asset_class_name,
+            D. NAME AS data_type_name,
+            E. NAME AS region_name,
+            G. NAME AS data_category_name,
+            A.id,
+            A. NAME,
+            A.price_model_id,
+            A.asset_class_id,
+            A.data_type_id,
+            A.region_id,
+           A.data_category_id,
+            A.source_url,
+            A.icon,
+            A.description,
+            A. CODE,
+            A.api,
+            A.description_data,
+
+            A.onetime_price,
+            A.download_price,
+            A.onetime_expires,
+            A.download_expires,
+            A.download_url,
+            A.has_series,
+            A.table_name,
+            A.schema_name,
+            A.embed_url_chart,
+            A.embed_url_datagrid,
+            A.limitation,
+            A.download_url_update_at,
+            A.bucket_name,
+            A.s3_file_key
+
+        FROM
+            data_sets A,
+            price_model B,
+            asset_class C,
+            data_type D,
+            region E,
+        data_category G
+        WHERE
+            A.price_model_id = B.id
+            AND A.asset_class_id = C.id
+            AND A.data_type_id = D.id
+            AND A.region_id = E.id
+            AND A.data_category_id = G.id
+            AND (A.name like concat('%',#{pager.search_str},'%') or A.description like concat('%',#{pager.search_str},'%'))
+        <if test="pager.cateid != null">
+            AND A.data_category_id = #{pager.cateid}
+        </if>
+
+        <if test="pager.price_model_ids != null and pager.price_model_ids != ''">
+                and A.price_model_id in
+               <foreach collection="pager.price_model_itr" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        <if test="pager.asset_class_ids != null and pager.asset_class_ids != ''">
+            and A.asset_class_id in
+            <foreach collection="pager.asset_class_itr" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="pager.data_type_ids != null and pager.data_type_ids != ''">
+            and A.data_type_id in
+            <foreach collection="pager.data_type_itr" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="pager.region_ids != null and pager.region_ids != ''">
+            and A.region_id in
+            <foreach collection="pager.region_itr" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="pager.publisher_ids != null and pager.publisher_ids != ''">
+            and A.vendor_id in
+            <foreach collection="pager.publisher_itr" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        order by price_model_id desc
+        limit #{pager.start},#{pager.limit}
+    </select>
+
+    <select id="loadData_setsByCateid"  resultType="data_sets">
+        SELECT * FROM data_sets WHERE data_category_id = #{cateid} and price_model_id = 1
+    </select>
+
+    <!--保存一条-->
+    <insert id="saveData_sets">
+        insert into data_sets(name,price_model_id,asset_class_id,data_type_id
+        ,region_id,data_category_id,source_url,icon,description,code,api,
+         onetime_price , description_data , download_price , onetime_expires  , download_expires , download_url ,
+          has_series , table_name , schema_name , embed_url_datagrid , embed_url_chart, limitation
+        ,download_url_update_at, bucket_name, s3_file_key,vendor_id)
+        VALUES (#{name},#{price_model_id},#{asset_class_id},#{data_type_id}
+        ,#{region_id},#{data_category_id},#{source_url},#{icon},#{description},#{code},#{api},
+          #{onetime_price},
+          #{description_data},
+          #{download_price},
+          #{onetime_expires},
+          #{download_expires},
+          #{download_url},
+          #{has_series},
+          #{table_name},
+          #{schema_name}
+          , #{embed_url_datagrid}
+          , #{embed_url_chart}
+          , #{limitation}
+          , #{download_url_update_at}
+          , #{bucket_name}
+          , #{s3_file_key}
+          , #{vendor_id}
+        )
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+    <!--删除一条-->
+    <delete id="deleteData_sets">
+        delete from data_sets where id = #{id}
+    </delete>
+
+
+
+    <update id="increaseVisitingNum">
+        update data_sets
+        set visiting_nums = visiting_nums + 1
+        where id = #{id}
+    </update>
+
+
+    <update id="increaseDownloadNum">
+        update data_sets
+        set download_nums = download_nums + 1
+        where id = #{id}
+    </update>
+
+
+    <update id="updateData_sets">
+        update data_sets set name = #{name},price_model_id=#{price_model_id},asset_class_id=#{asset_class_id}
+         , data_type_id=#{data_type_id}, region_id=#{region_id},data_category_id=#{data_category_id}, source_url=#{source_url}
+         , icon=#{icon}, description=#{description} , code=#{code} , api=#{api}, onetime_price=#{onetime_price}
+            ,description_data=#{description_data},download_price=#{download_price},onetime_expires=#{onetime_expires},download_expires=#{download_expires},
+          download_url=#{download_url},has_series=#{has_series}, table_name=#{table_name}, schema_name=#{schema_name}
+          , embed_url_datagrid=#{embed_url_datagrid} , embed_url_chart = #{embed_url_chart} ,limitation=#{limitation}
+          ,download_url_update_at = #{download_url_update_at}, bucket_name = #{bucket_name}, s3_file_key = #{s3_file_key}
+         where id =#{id}
+    </update>
+
+    <select id="initPage" resultType="int">
+        SELECT count(A.id) from data_sets A
+        WHERE
+           (A.name like concat('%',#{pager.search_str},'%') or A.description like concat('%',#{pager.search_str},'%'))
+        <if test="pager.cateid != null">
+            AND A.data_category_id = #{pager.cateid}
+        </if>
+
+        <if test="pager.price_model_ids != null and pager.price_model_ids != ''">
+            and A.price_model_id in
+            <foreach collection="pager.price_model_itr" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="pager.asset_class_ids != null and pager.asset_class_ids != ''">
+            and A.asset_class_id in
+            <foreach collection="pager.asset_class_itr" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="pager.data_type_ids != null and pager.data_type_ids != ''">
+            and A.data_type_id in
+            <foreach collection="pager.data_type_itr" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="pager.region_ids != null and pager.region_ids != ''">
+            and A.region_id in
+            <foreach collection="pager.region_itr" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="pager.publisher_ids != null and pager.publisher_ids != ''">
+            and A.vendor_id in
+            <foreach collection="pager.publisher_itr" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+
+
+    <select id="initPageByVendorId" resultType="int">
+        SELECT count(A.id) from data_sets A
+        WHERE
+        (A.name like concat('%',#{pager.search_str},'%') or A.description like concat('%',#{pager.search_str},'%'))
+        AND vendor_id= #{pager.vendor_flag}
+        <if test="pager.cateid != null">
+            AND A.data_category_id = #{pager.cateid}
+        </if>
+
+        <if test="pager.price_model_ids != null and pager.price_model_ids != ''">
+            and A.price_model_id in
+            <foreach collection="pager.price_model_itr" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="pager.asset_class_ids != null and pager.asset_class_ids != ''">
+            and A.asset_class_id in
+            <foreach collection="pager.asset_class_itr" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="pager.data_type_ids != null and pager.data_type_ids != ''">
+            and A.data_type_id in
+            <foreach collection="pager.data_type_itr" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="pager.region_ids != null and pager.region_ids != ''">
+            and A.region_id in
+            <foreach collection="pager.region_itr" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="pager.publisher_ids != null and pager.publisher_ids != ''">
+            and A.vendor_id in
+            <foreach collection="pager.publisher_itr" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+
+    <select id="checkExist" resultType="data_sets">
+        select *
+          from data_sets
+        where
+          (name=#{name} or code=#{code} or (schema_name = #{schema_name} and table_name = #{table_name}))
+
+        <if test="id != null">
+            and id!=#{id}
+        </if>
+
+    </select>
+
+    <select id="getData_setsBySchema" resultType="data_sets">
+        select * from
+          data_sets
+        where
+          schema_name = #{schema_name} AND
+          table_name = #{table_name}
+
+    </select>
+
+    <select id="loadData_getsByvendor_id"  resultType="data_sets">
+         SELECT
+            B. NAME AS price_model_name,
+            C. NAME AS asset_class_name,
+            D. NAME AS data_type_name,
+            E. NAME AS region_name,
+             G. NAME AS data_category_name,
+            A.id,
+            A. NAME,
+            A.price_model_id,
+            A.asset_class_id,
+            A.data_type_id,
+            A.region_id,
+            A.data_category_id,
+            A.source_url,
+            A.icon,
+            A.description,
+            A. CODE,
+            A.api,
+            A.description_data,
+
+          A.onetime_price,
+          A.download_price,
+          A.onetime_expires,
+          A.download_expires,
+          A.download_url,
+          A.has_series,
+          A.table_name,
+          A.schema_name,
+          A.embed_url_chart,
+          A.embed_url_datagrid,
+          A.limitation,
+          A.download_url_update_at,
+          A.bucket_name,
+          A.s3_file_key,
+        A.visiting_nums,
+        A.download_nums
+
+        FROM
+            data_sets A,
+            price_model B,
+            asset_class C,
+            data_type D,
+            region E,
+            data_category G
+
+        WHERE
+            A.price_model_id = B.id
+            AND A.asset_class_id = C.id
+            AND A.data_type_id = D.id
+            AND A.region_id = E.id
+             AND A.data_category_id = G.id
+            AND  A.vendor_id = #{vendor_id}
+
+       <if test="order_by == 'visiting_nums'">
+            order by visiting_nums desc
+        </if>
+        <if test="order_by == 'download_nums'">
+            order by download_nums desc
+        </if>
+        limit #{start},#{limit}
+    </select>
+
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        SELECT count(id) from data_sets
+        <if test="vendor_id != null and vendor_id != ''">
+            where vendor_id = #{vendor_id}
+        </if>
+    </select>
+
+</mapper>
+

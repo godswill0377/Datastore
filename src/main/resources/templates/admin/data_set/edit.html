@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head th:replace="~{admin/partial/head :: head}"></head>
+
+
+<body>
+<div id="wrapper">
+    <header id="header" th:replace="admin/partial/header :: header">
+
+    </header>
+    <aside class="main-sidebar" style="background-color: #222d32;" th:insert="~{admin/partial/sidebar :: sidebar}">
+
+    </aside>
+    <div class="content-wrapper" style="padding:15px;">
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>Data Sets Management</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="/admin/home">Home</a>
+                        </li>
+                        <li>
+                            <a>Data Set</a>
+                        </li>
+                        <li>
+                            <strong>Edit</strong>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+            <div class="wrapper wrapper-content animated fadeInRight" style="padding-bottom:37px;">
+                <div class="col-md-9">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Data Set Edit</h3>
+                        </div>
+
+                        <div class="callout callout-danger" style="display:none;">
+                            <p></p>
+                        </div>
+                        <input type="hidden" th:value="${domain}" id="domain"/>
+
+
+                        <input type="hidden" id="download_url_update_at" th:value="${data.download_url_update_at}" />
+                        <input type="hidden" value="0" id="generateFlag" />
+
+                        <form role="form">
+                            <div class="box-body">
+
+                                <div class="form-group">
+                                    <label for="data-id">ID</label>
+                                    <input type="text" class="form-control" th:value="${data.id}" readonly id="data-id" placeholder="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="data-id">Publisher</label>
+                                    <input type="text" class="form-control"  readonly th:value="${data.vendor_name}" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="data-name">Data  Name</label>
+                                    <input type="text" class="form-control" id="data-name" th:value="${data.name}" placeholder="">
+                                </div>
+                                <div class="input-group" id="upload-text" style="display:none;">
+                                    <label style="color:red;" class="control-label" id="upload-text-label" for="">
+                                        <i class="fa fa-times-circle-o"></i>
+                                    Uploading failed</label>
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <input type="file" id="file" onchange="fileupload(this);" name="file" style="position: absolute; width: 69px;height: 33px;opacity: 0; z-index: 999;" />
+
+                                        <button type="button" class="btn btn-danger">
+                                            <i style="margin-right: 5px;position: relative;top: 0px;display:none;" id="btWaiting" class="fa fa-circle-o-notch fa-spin"></i>Upload
+                                        </button>
+                                    </div>
+
+                                    <div class="col-xs-8">
+                                        <input th:value="${data.icon}" id="file-path" readonly type="text" style="margin-top: 24px;" class="form-control">
+                                    </div>
+
+                                    <div class="col-xs-4">
+                                        <img id="icon" class="form-control" style="border: 1px solid black;height: 80px;width: 90px;" th:src="${domain}+'/'+${data.icon}" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="code">Code</label>
+                                    <input type="text" class="form-control" id="code" th:value="${data.code}" placeholder="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="code">SchemaName</label>
+                                    <input type="text" class="form-control" id="schema_name" th:value="${data.schema_name}" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="code">TableName</label>
+                                    <input type="text" class="form-control" id="table_name" th:value="${data.table_name}" placeholder="">
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control"  style=" resize: none;" id="description" placeholder="">[[${data.description}]]</textarea>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="box box-info">
+                                        <div class="box-header">
+                                            <h3 class="box-title">Documentation
+                                            </h3>
+                                        </div>
+                                        <div class="box-body pad">
+                                            <form>
+                                                <textarea id="editor1" name="editor1" rows="10" cols="80">
+                                               [[${data.description_data}]]
+                                                </textarea>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <label id="category-val">Data Category</label>
+                                    <select id="category"  th:value="${data.data_category_id}" class="form-control">
+                                        <option th:each="data : ${data_categoryList}"  th:value="${data.id}">[[${data.name}]]</option>
+                                    </select>
+                                </div>
+
+                                <div id="asset_classes" class="col-xs-6">
+                                    <label>Asset Class</label>
+                                    <select id="asset_class" th:value="${data.asset_class_id}"  class="form-control">
+                                        <option th:each="data : ${asset_classList}" th:value="${data.id}">[[${data.name}]]</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <label>Price Model</label>
+                                        <select id="price_model" onchange="price_change();" th:value="${data.price_model_id}" class="form-control">
+                                            <option th:each="data : ${price_modelsList}" th:value="${data.id}">[[${data.name}]]</option>
+                                        </select>
+                                </div>
+
+
+                                <div class="col-xs-6">
+                                    <label>Data Type</label>
+                                    <select id="data_type" th:value="${data.data_type_id}" class="form-control">
+                                        <option th:each="data : ${data_typeList}" th:value="${data.id}">[[${data.name}]]</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <label>Region</label>
+                                    <select id="region" th:value="${data.region_id}" class="form-control">
+                                        <option th:each="data : ${regionList}" th:value="${data.id}">[[${data.name}]]</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="col-xs-6">
+                                    <label>API</label>
+                                    <select id="api" th:value="${data.api}" onchange="api_change();" class="form-control">
+                                        <option value="TIME-SERIES">TIME-SERIES</option>
+                                        <option value="TABLES">TABLES</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <label style="    margin-top: 10px;" for="data-name">Onetime Price </label>
+                                    <input type="text" class="form-control" onkeypress="check_number(event);" id="onetime_price" th:value="${data.onetime_price}" placeholder="">
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <label style="    margin-top: 10px;" for="data-name">Onetime Expire Day </label>
+                                    <input type="text" class="form-control" onkeypress="check_number(event);" id="onetime_expires" th:value="${data.onetime_expires}" placeholder="">
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <label style="    margin-top: 10px;" for="data-name">Download Price </label>
+                                    <input type="text" class="form-control" onkeypress="check_number(event);" id="download_price" th:value="${data.download_price}" placeholder="">
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <label style="    margin-top: 10px;" for="data-name">Download Expire Day </label>
+                                    <input type="text" class="form-control" onkeypress="check_number(event);" id="download_expires" th:value="${data.download_expires}" placeholder="">
+                                </div>
+
+                                <div class="col-sm-12">
+                                </div>
+                                <div class="col-xs-4" style="margin-top: 18px;">
+                                    <label style="margin-top: 10px;" for="data-name">Bucket Name</label>
+                                    <input type="text" class="form-control" id="bucket_name" th:value="${data.bucket_name}" placeholder="">
+                                </div>
+                                <div class="col-xs-5" style="margin-top: 18px;">
+                                    <label style="margin-top: 10px;" for="data-name">S3 File Key</label>
+                                    <input type="text" class="form-control" id="s3_file_key" th:value="${data.s3_file_key}" placeholder="">
+                                </div>
+
+                                <div class="col-xs-3" style="margin-top: 18px;">
+                                    <div style="margin-top: 10px;" for="data-name">&nbsp;</div>
+                                    <a class="btn btn-primary" id="btnDownUrlGen">Generate</a>
+                                </div>
+
+
+                                <div class="col-xs-10" style="margin-bottom: 40px;">
+                                    <label style="margin-top: 10px;" for="data-name">Download Url</label>
+                                    <input type="text" class="form-control" id="download_url" th:value="${data.download_url}"  placeholder="">
+                                </div>
+                                <div class="col-xs-1" style="margin-top: 7px;">
+                                    <div style="margin-top: 10px;" for="data-name">&nbsp;</div>
+                                    <a class="btn btn-primary" id="btnUrlCopy" >Copy</a>
+                                </div>
+                                <div class="col-xs-1" style="margin-top: 7px;">
+                                    <div style="margin-top: 10px;" for="data-name">&nbsp;</div>
+                                    <a class="btn btn-primary" id="btnUrlOpen" >Open</a>
+                                </div>
+                                <div class="col-xs-12">
+                                    <label>Has Series</label>
+                                    <select id="has_series" onchange="hasSeries_change();"  th:value="${data.has_series}" class="form-control">
+                                        <option value="1">TRUE</option>
+                                        <option value="0">FALSE</option>
+                                    </select>
+                                </div>
+
+                                <div id="sourceUrl_field">
+                                    <div class="col-xs-12" >
+                                        <div class="col-md-12">
+                                        <label style="margin-top: 10px;" for="data-name">Source Url</label>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <input type="radio"  id="source_type" class="radiobox" checked name="source_type" value="source">
+                                        </div>
+                                        <div class="col-md-11">
+                                            <input type="text" th:value="${data.source_url}" class="form-control" id="source_url" placeholder="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12" >
+                                        <div class="col-md-12">
+                                            <label style="margin-top: 10px;" for="data-name">Emebed Url </label>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <input type="radio" id="embed_type"   class="radiobox"  name="source_type" value="embed">
+                                        </div>
+                                        <div class="col-md-11">
+                                            <span>Chart: </span>  <input style="width: 90%;" type="text" disabled th:value="${data.embed_url_chart}" class="form-control" id="embed_url_chart" placeholder="">
+                                        </div>
+                                        <div class="col-md-1">
+                                            <input type="radio" style="visibility: hidden"  class="radiobox" >
+                                        </div>
+                                        <div class="col-md-11">
+                                            <span>Table: </span>  <input style="width: 90%;" type="text" disabled th:value="${data.embed_url_datagrid}" class="form-control" id="embed_url_datagrid" placeholder="">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-xs-12">
+                                    <label>Free Limitation</label>
+                                    <input type="text" class="form-control" onkeypress="check_number(event);" id="limitation" th:value="${data.limitation}" placeholder="">
+                                </div>
+
+
+                            </div>
+                            <!-- /.box-body -->
+
+                            <div class="box-footer">
+                                <a href="/admin/data_set/list" class="btn btn-primary">Go Back</a>
+                                <a class="btn btn-primary" id="btnUpdate">Update</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--添加footer-->
+    <div class="main-footer"  th:insert="~{admin/partial/footer :: copyright}" style="padding: 0;width: 100%;position: absolute;border: none;">
+
+    </div>
+</div>
+
+</div>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/admin/js/bootstrap.min.js"></script>
+
+<script src="https://cdn.ckeditor.com/4.5.7/standard/ckeditor.js"></script>
+<script src="/admin/js/bootstrap3-wysihtml5.all.min.js"></script>
+
+<script src="/admin/js/data_set/edit.js"></script>
+
+</body>
+
+</html>

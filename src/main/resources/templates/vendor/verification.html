@@ -1,0 +1,566 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="vendor/_partials/head :: head">
+
+</head>
+
+<link rel="stylesheet" href="/js/lib/jqwidgets/styles/jqx.base.css" type="text/css" />
+<script type="text/javascript" src="/js/lib/demos.js"></script>
+<script type="text/javascript" src="/js/lib/jqwidgets/jqxcore.js"></script>
+<script type="text/javascript" src="/js/lib/jqwidgets/jqxdatetimeinput.js"></script>
+<script type="text/javascript" src="/js/lib/jqwidgets/jqxcalendar.js"></script>
+<script type="text/javascript" src="/js/lib/jqwidgets/jqxtooltip.js"></script>
+<script type="text/javascript" src="/js/lib/jqwidgets/globalization/globalize.js"></script>
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <header class="main-header" id="header" th:replace="vendor/_partials/header :: header">
+    </header>
+
+    <aside class="main-sidebar">
+        <section class="sidebar" th:replace="vendor/_partials/sidebar :: sidebar">
+        </section>
+    </aside>
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>
+                User Verification
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li class="active">User Verification</li>
+            </ol>
+        </section>
+
+        <section class="content" th:if="${vendor.stripe_verify == 1}">
+            <div class="callout callout-info">
+                <h4>Success</h4>
+                <p>Your information successfully verified. You can withdraw your money. </p>
+                <a href="/vendor/account_source">Change your source</a>
+            </div>
+
+        </section>
+
+        <section class="content" th:if="${vendor.stripe_verify == -1}">
+            <div class="callout callout-danger">
+                <h4>Pending</h4>
+                <p>You have submitted your information. Please wait until verification.</p>
+            </div>
+            <script>
+
+                setTimeout(function(){
+                    location.reload();
+                },60000);
+
+            </script>
+        </section>
+
+        <section class="content" th:if="${vendor.stripe_verify == 0 and vendor.reject_reason != ''}">
+            <div class="callout callout-danger">
+                <h4>Reject!</h4>
+                <p>Your verification rejected. Try again! Reject Reason: [[${vendor.reject_reason}]].</p>
+            </div>
+        </section>
+
+        <section class="content" th:if="${vendor.stripe_verify == 0}">
+            <div id="message" style="display: none;" class="callout callout-danger">
+                <h4>Tip!</h4>
+                <p id="message_content"></p>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-9">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#settings" data-toggle="tab">Information</a></li>
+                        </ul>
+                        <div class="tab-content">
+
+                            <div class="tab-pane active" id="settings">
+                                <div class="form-horizontal" >
+                                    <input type="hidden" class="form-control" name="vendor_id" id="vendor_id" th:value="${vendor.id}" >
+
+                                    <div class="form-group">
+                                        <label for="first_name" class="col-sm-2 control-label">First Name</label>
+
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" id="first_name" name="first_name" th:value="${vendor.first_name}" placeholder="First Name">
+                                        </div>
+
+
+                                        <label for="last_name" class="col-sm-2 control-label">Last Name</label>
+
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" id="last_name" name="last_name" th:value="${vendor.last_name}" placeholder="Last Name">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="address" class="col-sm-2 control-label">Address</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="address" name="address" th:value="${vendor.address}" placeholder="address">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="city" class="col-sm-2 control-label">City</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="city" name="city" th:value="${vendor.city}" placeholder="city">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="state_province" class="col-sm-2 control-label">State Provience</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="state_province" name="state_province" th:value="${vendor.state_province}" placeholder="State Provience">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="zip_postal" class="col-sm-2 control-label">Zip/Postal Code</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control Numbers" id="zip_postal" name="zip_postal" th:value="${vendor.zip_postal}" placeholder="Zip or Postal">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="birthday" class="col-sm-2 control-label">Birthday</label>
+
+                                        <div class="col-sm-10">
+                                         <!--   <div id="birthday" name="birthday">
+                                            </div>-->
+                                           <input type="date" class="form-control " id="birthday" name="birthday" placeholder="Birthday">
+                                        </div>
+                                      <!--  <div class="col-sm-2">
+                                            <input type="number" class="form-control" id="dob_day" name="dob_day" th:value="${vendor.dob_day}" placeholder="DD">
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <input type="number" class="form-control" id="dob_month" name="dob_month" th:value="${vendor.dob_month}" placeholder="MM">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="number" class="form-control" id="dob_year" name="dob_year" th:value="${vendor.dob_year}" placeholder="YYYY">
+                                        </div>-->
+
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="ssn_last_4" class="col-sm-2 control-label">Last 4 digits of Social Security number</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control " id="ssn_last_4" name="ssn_last_4" th:value="${vendor.ssn_last_4}" placeholder="8888">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="personal_id_number" class="col-sm-2 control-label">Personal ID Number</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control " id="personal_id_number" name="personal_id_number" th:value="${vendor.personal_id_number}" placeholder="Passport, government-issued ID, or driver's license*">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="personal_id_number" class="col-md-12">Document Image(Image of Passport, government-issued ID, or driver's license*)</label>
+
+
+                                        <div class="col-md-12">
+                                            <input  id="file_path" readonly type="text"  style="margin-top: 24px;" class="col-md-9">
+
+                                            <div class="input-group-btn" style="left: 50px;top: 13px;">
+                                                <input type="file" id="file" onchange="fileupload(this);" name="file" style="position: absolute; width: 69px;height: 33px;opacity: 0; z-index: 999;" />
+
+                                                <button type="button" class="btn btn-danger">
+                                                    <i style="margin-right: 5px;position: relative;top: 0px;display:none;" id="file_btWaiting" class="fa fa-circle-o-notch fa-spin"></i>Upload
+                                                </button>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+
+
+
+                                    <div class="form-group col-md-12">
+                                        <label for="source">Account Source</label>
+                                        <select class="form-control" id="source" required>
+                                            <option value="bank">Bank</option>
+                                          <!--  <option value="card">Credit Card</option>-->
+                                        </select>
+                                    </div>
+
+                                    <div id="for-bank">
+                                        <div class="form-group col-md-12">
+                                            <label for="routing_number">Routing Number</label>
+                                            <input type="text" class="form-control" id="routing_number" required placeholder="110000000">
+                                        </div>
+
+                                        <div class="form-group col-md-12">
+                                            <label for="account_number">Account Number</label>
+                                            <input type="password" class="form-control" id="account_number" required placeholder="">
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label for="confirm_account_number">Confirm Account Number</label>
+                                            <input type="password" class="form-control" id="confirm_account_number" required placeholder="">
+                                        </div>
+                                    </div>
+
+                                    <div id="for-card" class="box-body">
+
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label for="card_number" >Card number</label>
+                                                <input id="card_number"  class="form-control" type="text" placeholder="4242 4242 4242 4242" required="">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-6">
+                                                <label for="card_expiry" >Expiration</label>
+                                                <input id="card_expiry" class="form-control" type="text" placeholder="MM/YY" required="">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="card_cvc" >CVC</label>
+                                                <input id="card_cvc" class="form-control" type="text" placeholder="CVC" required="">
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="submit" id="btnSubmit" class="btn btn-danger"><i style="margin-right:10px;display:none;" id="btWaiting" class="fa fa-circle-o-notch fa-spin"></i>Submit</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="main-footer" th:replace="vendor/_partials/footer :: footer">
+
+    </footer>
+
+</div>
+
+<script src="/js/main/jquery.mask.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        // Create a jqxDateTimeInput
+/*
+        $("#birthday").jqxDateTimeInput({ width: '300px', height: '25px', format: 'YYYY-MM-DD' });
+*/
+    });
+/*
+
+    setTimeout(function(){
+        location.reload();
+    },60000);
+*/
+
+    var uploadedPath = "";
+    $("#btnSubmit").on('click' , function(){
+        var id = $("#vendor_id").val();
+        var first_name = $("#first_name").val();
+        var last_name = $("#last_name").val();
+        var address = $("#address").val();
+        var city = $("#city").val();
+        var state_province = $("#state_province").val();
+        var zip_postal = $("#zip_postal").val();
+
+
+       /* var dob_day = $("#dob_day").val();
+        var dob_month = $("#dob_month").val();
+        var dob_year = $("#dob_year").val();*/
+
+        var value = $('#birthday').val();
+
+        var res = value.split("-");
+        var dob_year = res[0];
+        var dob_month = res[1];
+        var dob_day = res[2];
+
+        var personal_id_number = $("#personal_id_number").val();
+        var document = $("#file_path").val();
+        var ssn_last_4 = $("#ssn_last_4").val();
+
+
+        var source = $('#source').val();
+        var routing_number = $('#routing_number').val();
+        var account_number = $('#account_number').val();
+        var confirm_account_number = $('#confirm_account_number').val();
+
+        var card_number = $('#card_number').val();
+        var card_expiry = $('#card_expiry').val();
+        var card_cvc = $('#card_cvc').val();
+
+        if(first_name == ""){
+            $("#message").css("display","block");
+            $("#message_content").text("Please input first name");
+            window.location.href="#";
+
+            return;
+        }
+        if(last_name == ""){
+            $("#message").css("display","block");
+            $("#message_content").text("Please input last name");
+            window.location.href="#";
+            return;
+        }
+        if(address == ""){
+            $("#message").css("display","block");
+            $("#message_content").text("Please input address");
+            window.location.href="#";
+            return;
+        }
+        if(city == ""){
+            $("#message").css("display","block");
+            $("#message_content").text("Please input city");
+
+            window.location.href="#";
+            return;
+        }
+        if(state_province == ""){
+            $("#message").css("display","block");
+            $("#message_content").text("Please input state province");
+            window.location.href="#";
+            return;
+        }
+        if(zip_postal == ""){
+            $("#message").css("display","block");
+            $("#message_content").text("Please input zip code");
+
+            window.location.href="#";
+            return;
+        }
+
+        if(dob_day == "" || dob_month == "" || dob_year == ""){
+            $("#message").css("display","block");
+            $("#message_content").text("Please input birthday");
+            window.location.href="#";
+            return;
+        }
+        if(personal_id_number == ""){
+            $("#message").css("display","block");
+            $("#message_content").text("Please input personal ID number");
+
+            window.location.href="#";
+            return;
+        }
+        if(document == ""){
+            $("#message").css("display","block");
+            $("#message_content").text("Please upload your ID image");
+            window.location.href="#";
+            return;
+        }
+        if(ssn_last_4 == "" || ssn_last_4.length != 4){
+            $("#message").css("display","block");
+            $("#message_content").text("Please input correct Last 4 digits of Social Security number");
+            window.location.href="#";
+            return;
+        }
+        if(personal_id_number.length != 9){
+            $("#message").css("display","block");
+            $("#message_content").text("US ID Number must be 9 length");
+            window.location.href="#";
+            return;
+        }
+
+        if(source == "bank"){
+            if(routing_number == ""){
+                $("#message").css("display" ,"block");
+                $("#message-content").text("Please input Routing number!");
+                window.location.href = "#";
+            }
+            if(routing_number.length != 9){
+                $("#message").css("display" ,"block");
+                $("#message-content").text("Routing number should be 9 digits!");
+                window.location.href = "#";
+            }
+
+            if(account_number == ""){
+                $("#message").css("display" ,"block");
+                $("#message-content").text("Please input Account Number!");
+                window.location.href = "#";
+            }
+            if(account_number != confirm_account_number){
+                $("#message").css("display" ,"block");
+                $("#message-content").text("Please input Correct Account Number!");
+                window.location.href = "#";
+            }
+
+        }
+        if(source == "card"){
+            if(card_number == ""){
+                $("#message").css("display" ,"block");
+                $("#message-content").text("Please input Card Number!");
+                window.location.href = "#";
+            }
+            if(card_expiry == ""){
+                $("#message").css("display" ,"block");
+                $("#message-content").text("Please input Card Expiry!");
+                window.location.href = "#";
+            }
+            if(card_cvc == ""){
+                $("#message").css("display" ,"block");
+                $("#message-content").text("Please input Card CVC!");
+                window.location.href = "#";
+            }
+        }
+
+        swal({
+                title: "Are you sure to submit verification information?",
+                type: "info",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+            },
+            function () {
+                $.ajax({
+                    url:'/vendor/profile/verification',
+                    type:'POST',
+                    data:{
+                        id:id,
+                        first_name: first_name,
+                        last_name:  last_name,
+                        address: address,
+                        city: city,
+                        state_province: state_province,
+                        zip_postal: zip_postal,
+                        dob_day: dob_day,
+                        dob_month: dob_month,
+                        dob_year: dob_year,
+                        personal_id_number: personal_id_number,
+                        document: document,
+                        ssn_last_4: ssn_last_4
+                        ,source: source
+                        , routing_number: routing_number
+                        , account_number: account_number
+                        , card_number: card_number
+                        , card_expiry: card_expiry
+                        , card_cvc : card_cvc
+
+                    },
+                    success: function(data){
+                        $("#btWaiting").css("display","none");
+
+                        if(data.resultCode == "success") {
+                            window.location.href = "/vendor/verification";
+
+                        }
+                        else{
+                            swal(data.errorInfo);
+                            $("#message_content").text(data.errorInfo);
+                            $("#message").css('display' ,'block');
+
+                        }
+                    },
+                    error: function(){
+                       swal("Network Error!");
+                    }
+
+                });
+            });
+
+
+
+
+
+    });
+
+
+    function fileupload () {
+
+
+
+        var x = document.getElementById("file");
+        var file = x.files[0];
+
+        var formData = new FormData();
+        formData.append('file', file);
+        if(file.size > 1048576){
+            alert("The file size should be less than 1M");
+            return;
+        }
+
+        $("#file_btWaiting").css('display','inline-block');
+
+        $.ajax({
+            type: 'post',
+            url: '/vendor/data_set/upload',
+            data: formData,
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function(response) {
+                $("#file_btWaiting").css('display','none');
+                if(response.resultCode == "success"){
+
+                    uploadedPath = response.errorInfo;
+                  //  $("#icon").attr('src',"http://localhost:8080/" + uploadedPath);
+                    $("#file_path").val(uploadedPath);
+
+                }
+                else{
+                   alert("Image upload failed. Try again!");
+                }
+            }
+        });
+
+    }
+
+
+    $('#source').on('change', function () {
+        var source = $('#source').val();
+
+        if(source == 'bank'){
+            $("#for-bank").css('display' ,"block");
+            $("#for-card").css('display' ,"none");
+            $("#for-stripe").css('display' ,"none");
+
+        }
+        if(source == 'card'){
+            $("#for-bank").css('display' ,"none");
+            $("#for-card").css('display' ,"block");
+            $("#for-stripe").css('display' ,"none");
+
+        }
+
+    }).trigger('change');
+
+
+    $(document).ready(function() {
+
+        $("#card_expiry").mask('00/00');
+        $("#card_number").mask('0000 0000 0000 0000');
+        $("#card_cvc").mask('0000');
+
+        $("#card-manage-li").addClass("active");
+        $("#card-add-li").attr("class","active");
+
+    });
+
+</script>
+
+</body>
+</html>

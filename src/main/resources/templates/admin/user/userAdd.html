@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head th:replace="~{admin/partial/head :: head}"></head>
+
+
+<body>
+<div id="wrapper">
+    <header id="header" th:replace="admin/partial/header :: header">
+
+    </header>
+    <aside class="main-sidebar" style="background-color: #222d32;" th:insert="~{admin/partial/sidebar :: sidebar}">
+    </aside>
+    <div class="content-wrapper" style="padding:15px;">
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>User Management</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="/admin/home">Home</a>
+                        </li>
+                        <li>
+                            <a>User</a>
+                        </li>
+                        <li>
+                            <strong>Add</strong>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+
+
+
+            <div class="wrapper wrapper-content animated fadeInRight" style="padding-bottom:37px;">
+                <div class="col-md-7">
+
+                    <div class="callout callout-danger" style="display:none;">
+                        <p></p>
+                    </div>
+
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">User Add</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        <form role="form">
+                            <div class="box-body">
+
+                                <div class="form-group">
+                                    <label for="userName">UserName</label>
+                                    <input type="email" class="form-control" id="userName" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="userEmail">Email address</label>
+                                    <input type="email" class="form-control" id="userEmail"  placeholder="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="userPass">Password</label>
+                                    <input type="password" class="form-control" id="userPass"  placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="userConfirmPass">Confirm Password</label>
+                                    <input type="password" class="form-control" id="userConfirmPass"  placeholder="">
+                                </div>
+
+                                <div class="col-xs-12">
+                                    <label>Membership</label>
+                                    <select id="membership"  class="form-control">
+                                        <option value="0">Free</option>
+                                        <option value="1">Monthly Single</option>
+                                        <option value="2">Monthly Enterprise</option>
+                                        <option value="3">Yearly Single</option>
+                                        <option value="4">Yearly Enterprise</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-12">
+                                    <label>Balance</label>
+                                    <input type="text" onkeypress="check_number(event);" class="form-control" id="balance" placeholder="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label >Expire Date</label>
+                                    <div class="input-group date form_datetime col-md-9" data-date="2017-07-04 12:34:23" data-date-format="yyyy-mm-dd HH:ii:ss" data-link-field="dtp_input1">
+                                        <input class="form-control" size="16" type="text" id="expires_date" readonly>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                    </div>
+                                    <input type="hidden" id="dtp_input1" value="" /><br/>
+                                </div>
+
+                                <div class="form-group" style="margin-left: 45px;">
+
+                                    <div class="radio">
+                                        <input type="radio" name="optionsRadios" id="activate" value="1" checked="">
+                                        Activate
+                                    </div>
+
+                                    <div class="radio">
+                                        <input type="radio" name="optionsRadios" id="not_activate" value="0">
+                                        Not Activate
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+
+                            <div class="box-footer">
+                                <a href="/admin/user/list" class="btn btn-primary">Go Back</a>
+                                <a id="btnAdd" class="btn btn-primary">Add</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--添加footer-->
+    <div th:insert="~{admin/partial/footer :: copyright}" >
+
+    </div>
+</div>
+
+</div>
+<link href="/admin/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+
+<!-- Mainly scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/admin/js/bootstrap.min.js"></script>
+<script src="/admin/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/admin/js/hplus.js"></script>
+<script src="/admin/js/validation.js"></script>
+
+<script src="/admin/js/bootstrap-datetimepicker.js"></script>
+<script src="/admin/js/bootstrap-datetimepicker.fr.js"></script>
+
+<script src="/admin/js/user/userAdd.js"></script>
+
+<script type="text/javascript" src="/admin/js/flavr/flavr/js/flavr.min.js"></script>
+<script type="text/javascript" src="/admin/js/flavr/base.js"></script>
+
+</body>
+
+</html>

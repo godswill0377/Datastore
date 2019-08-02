@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head th:replace="vendor/_partials/head :: head">
+</head>
+
+
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div id="wrapper">
+    <header id="header" th:replace="vendor/_partials/header :: header">
+
+    </header>
+    <aside class="main-sidebar"  th:insert="~{vendor/_partials/sidebar :: sidebar}">
+    </aside>
+    <div class="content-wrapper" style="padding:15px;">
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>My Account Management</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="/vendor/dashboard">Home</a>
+                        </li>
+
+                        <li>
+                            <a>Account</a>
+                        </li>
+                        <li>
+                            <strong>Request</strong>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+            <div class="wrapper wrapper-content animated fadeInRight" style="padding-bottom:37px;">
+                <div class="col-md-7">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Account Request</h3>
+                        </div>
+
+                        <div id="message" class="callout callout-danger" style="display:none;">
+                            <p id="message-content"></p>
+                        </div>
+
+
+                        <form role="form" id="withdraw_form">
+                            <div class="box-body">
+
+                                <div class="form-group">
+                                    <label for="source">Current Source</label>
+                                    <div th:if="${vendor.routing_last_4 == null or vendor.routing_last_4 == ''}">
+                                        Card: xxx xxx xxx [[${vendor.card_last_4}]]
+                                    </div>
+                                    <div th:if="${vendor.card_last_4 == null or vendor.card_last_4 == ''}">
+                                        Bank: xxxxx[[${vendor.routing_last_4}]]
+                                    </div>
+                                </div>
+
+                               <div class="form-group">
+                                    <label for="source">Account Source</label>
+                                    <select class="form-control" id="source" required>
+                                        <option value="bank">Bank</option>
+                                     <!--   <option value="card">Credit Card</option>-->
+                                    </select>
+                                </div>
+
+                                <div id="for-bank">
+                                    <div class="form-group">
+                                        <label for="routing_number">Routing Number</label>
+                                        <input type="text" class="form-control" id="routing_number" required placeholder="110000000">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="account_number">Account Number</label>
+                                        <input type="password" class="form-control" id="account_number" required placeholder="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="confirm_account_number">Confirm Account Number</label>
+                                        <input type="password" class="form-control" id="confirm_account_number" required placeholder="">
+                                    </div>
+                                </div>
+
+                                <div id="for-card" class="box-body">
+
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <label for="card_number" >Card number</label>
+                                            <input id="card_number"  class="form-control" type="text" placeholder="4242 4242 4242 4242" required="">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <label for="card_expiry" >Expiration</label>
+                                            <input id="card_expiry" class="form-control" type="text" placeholder="MM/YY" required="">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="card_cvc" >CVC</label>
+                                            <input id="card_cvc" class="form-control" type="text" placeholder="CVC" required="">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div id="for-stripe" class="box-body">
+                                    <a href="https://connect.stripe.com/oauth/authorize?response_type=code&amp;client_id=ca_CEkmYRMd0LfvtvATSo1m0aozj1d52cIq&amp;scope=read_write" class="connect-button"><span>Connect with Stripe</span></a>
+                                </div>
+
+                            </div>
+
+                            <div class="box-footer">
+
+                                <a class="btn btn-primary" id="btnAdd"><i style="margin-right:10px;display:none;" id="btWaiting" class="fa fa-circle-o-notch fa-spin"></i></i>Add</a>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="main-footer" th:replace="vendor/_partials/footer :: footer">
+    </footer>
+</div>
+
+</div>
+
+<!-- Mainly scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/vendor/js/bootstrap.min.js"></script>
+
+<script src="/js/main/jquery.mask.js"></script>
+
+<script>
+
+
+    $('#source').on('change', function () {
+        var source = $('#source').val();
+
+        if(source == 'bank'){
+            $("#for-bank").css('display' ,"block");
+            $("#for-card").css('display' ,"none");
+            $("#for-stripe").css('display' ,"none");
+
+        }
+        if(source == 'card'){
+            $("#for-bank").css('display' ,"none");
+            $("#for-card").css('display' ,"block");
+            $("#for-stripe").css('display' ,"none");
+
+        }if(source == 'stripe'){
+            $("#for-bank").css('display' ,"none");
+            $("#for-card").css('display' ,"none");
+            $("#for-stripe").css('display' ,"block");
+        }
+
+    }).trigger('change');
+
+
+    $(document).ready(function() {
+
+        $("#card_expiry").mask('00/00');
+        $("#card_number").mask('0000 0000 0000 0000');
+        $("#card_cvc").mask('0000');
+
+        $("#card-manage-li").addClass("active");
+        $("#card-add-li").attr("class","active");
+
+    });
+    $('#btnAdd').on('click', function () {
+        var source = $('#source').val();
+        var routing_number = $('#routing_number').val();
+        var account_number = $('#account_number').val();
+        var confirm_account_number = $('#confirm_account_number').val();
+
+        var card_number = $('#card_number').val();
+        var card_expiry = $('#card_expiry').val();
+        var card_cvc = $('#card_cvc').val();
+
+        if(source == "bank"){
+            if(routing_number == ""){
+                $("#message").css("display" ,"block");
+                $("#message-content").text("Please input Routing number!");
+                window.location.href = "#";
+            }
+            if(routing_number.length != 9){
+                $("#message").css("display" ,"block");
+                $("#message-content").text("Routing number should be 9 digits!");
+                window.location.href = "#";
+            }
+
+            if(account_number == ""){
+                $("#message").css("display" ,"block");
+                $("#message-content").text("Please input Account Number!");
+                window.location.href = "#";
+            }
+            if(account_number != confirm_account_number){
+                $("#message").css("display" ,"block");
+                $("#message-content").text("Please input Correct Account Number!");
+                window.location.href = "#";
+            }
+
+        }
+        if(source == "card"){
+            if(card_number == ""){
+                $("#message").css("display" ,"block");
+                $("#message-content").text("Please input Card Number!");
+                window.location.href = "#";
+            }
+            if(card_expiry == ""){
+                $("#message").css("display" ,"block");
+                $("#message-content").text("Please input Card Expiry!");
+                window.location.href = "#";
+            }
+            if(card_cvc == ""){
+                $("#message").css("display" ,"block");
+                $("#message-content").text("Please input Card CVC!");
+                window.location.href = "#";
+            }
+        }
+
+
+        swal({
+                title: "Are you sure to submit account source?",
+                type: "info",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+            },
+            function () {
+                $.ajax({
+                    url: '/vendor/profile/attach_source',
+                    type: 'POST',
+                    data: {
+                        source: source
+                        , routing_number: routing_number
+                        , account_number: account_number
+                        , card_number: card_number
+                        , card_expiry: card_expiry
+                        , card_cvc : card_cvc
+                    },
+                    success: function(data){
+                        if(data.resultCode == "success"){
+                            window.location.href = "/vendor/account_source"
+                        }
+                        else{
+                            swal(data.errorInfo);
+
+                        }
+                    },
+                    error: function(){
+                        swal("Has some problem. Please try again later!");
+                    }
+                });
+
+            });
+
+    });
+</script>
+</body>
+
+</html>

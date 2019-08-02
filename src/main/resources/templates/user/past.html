@@ -1,0 +1,77 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="_partials/head :: head">
+
+</head>
+
+
+<body>
+
+<div class="wrapper">
+
+    <header id="header" th:replace="_partials/header :: header">
+    </header>
+
+    <div class="breadcomb">
+        <div class="container">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                <li><a href="#">Subscriptions</a></li>
+                <li><a href="#">Past Subscription</a></li>
+            </ul>
+        </div>
+    </div>
+    <section>
+        <div class="settingSec">
+            <div class="container">
+                <div class="d-flex flex-row">
+                    <div class="nav-tabs-left nav-tabs">
+                        <h2>Status</h2>
+                        <ul id="status_leftmenu" th:replace="subpart/status_leftmenu :: status_leftmenu">
+
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-innerSec">
+                            <h2>Past Subscriptions</h2>
+                            <div  class="data-code">
+                                <ul id="main-article">
+
+                                </ul>
+                            </div>
+
+                            <div class="paginationLink">
+
+                                <div style="float: left;display: none" class="pagination">共
+                                    <span id="total-num"></span>
+                                    条记录
+                                    <span id="current-page"></span>
+                                    /
+                                    <span id="total-page"></span>
+                                </div>
+
+                                <ul id="pagination"  class="pagination">
+
+                                    <li class="page-item active"><a href="javascript:void(0);">1</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<footer th:replace="_partials/footer :: footer"></footer>
+
+</body>
+<script src="/js/jqPaginator.min.js"></script>
+<script src="/admin/js/plugins/chosen/chosen.jquery.js"></script>
+
+<script src="/js/user/past.js"> </script>
+
+</html>

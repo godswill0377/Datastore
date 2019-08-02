@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+
+
+<table class="col-md-12">
+    <thead>
+    <tr>
+        <th style="padding: 7px;border: 1px solid #dfdfdf;text-align: center;">Vendor Name</th>
+        <th style="padding: 7px;border: 1px solid #dfdfdf;text-align: center;">Plan</th>
+        <th style="padding: 7px;border: 1px solid #dfdfdf;text-align: center;">Balance</th>
+        <th style="padding: 7px;border: 1px solid #dfdfdf;text-align: center;">Frequency</th>
+        <th style="padding: 7px;border: 1px solid #dfdfdf;text-align: center;">Operation</th>
+    </tr>
+    </thead>
+    <tbody style="text-align: center">
+    <tr style="height: 60px;" th:each="data:${subscriptionList}">
+        <td>[[${data.vendor_name}]]</td>
+        <td>[[${data.plan_name}]]</td>
+        <td>$[[${data.balance}]]</td>
+        <td>[[${data.frequency}]]</td>
+        <td th:data-id="${data.plan_id}">
+            <button class="btn btn-primary btn-xs subscribe-continue" type="button" title="cantinue">
+                Continue
+            </button>
+        </td>
+
+    </tr>
+    </tbody>
+
+</table>
+
+
+</html>
+

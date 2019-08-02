@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+
+<table class="table table-striped table-bordered table-hover dataTables-example">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Code</th>
+            <th>Latest Update Date</th>
+            <th>Update Frequency</th>
+            <th>Operation</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    <tr class="gradeX" th:each="data : ${dataList}">
+        <td th:text="${data.id}"></td>
+        <td th:text="${data.name}"></td>
+        <td th:text="${data.code}"></td>
+        <td th:text="${data.latest_update_date}"></td>
+        <td th:text="${data.data_update_frequency_text}"></td>
+
+        <td th:data-id="${data.id}">
+            <button class="btn btn-primary btn-xs user-edit" type="button" title="edit">
+                edit
+            </button>
+            <button  type="button" class="btn btn-danger btn-xs user-delete" title="delete">
+                delete
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+</html>

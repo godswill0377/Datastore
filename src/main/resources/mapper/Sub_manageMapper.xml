@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.Sub_manageMapper">
+    <select id="findAll" resultType="sub_manage">
+        SELECT s.*, p.plan_name as plan_name, p.frequency as frequency, p.vendor_id as vendor_id
+        FROM sub_manage s, plans p
+        WHERE s.plan_id = p.id
+    </select>
+
+    <select id="loadSubscriptions" resultType="sub_manage">
+        select s.*,
+         sub.plan_name as plan_name,
+         sub.frequency as frequency,
+         sub.vendor_id as vendor_id,
+         sub.vendor_name as vendor_name
+         from sub_manage s,
+         (select p.id as id,
+         p.plan_name as plan_name,
+         p.frequency as frequency,
+         p.vendor_id as vendor_id,
+         v.legal_name as vendor_name from plans p, vendors v
+         where p.vendor_id = v.id) sub
+         where s.plan_id = sub.id
+         AND s.user_id = #{user_id}
+         AND status = 1
+         ORDER BY s.id ASC
+         limit #{start},#{limit}
+    </select>
+    <select id="initPage" resultType="int">
+        SELECT count(id) FROM sub_manage
+        WHERE user_id = #{user_id}
+        AND status = 1
+    </select>
+
+    <insert id="saveSubscription" parameterType="sub_manage" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+        INSERT INTO sub_manage (user_id, plan_id, balance , expiry_date, status, subscription_id)
+        VALUES (#{user_id}, #{plan_id}, #{balance}, #{expiry_date}, #{status}, #{subscription_id})
+        <selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
+    <select id="getSubscriptionByUserId" parameterType="java.lang.Long" resultType="sub_manage">
+        SELECT s.*, p.plan_name as plan_name, p.frequency as frequency, p.vendor_id as vendor_id
+        FROM sub_manage s, plans p
+        WHERE s.plan_id = p.id
+        AND user_id = #{id}
+</select>
+
+    <select id="getSubscriptionByUserIdAndPlanId" parameterType="Map" resultType="sub_manage">
+        SELECT s.*, p.plan_name as plan_name, p.frequency as frequency, p.vendor_id as vendor_id
+        FROM sub_manage s, plans p
+        WHERE s.plan_id = p.id
+        AND s.user_id = #{user_id}
+        AND s.plan_id = #{plan_id}
+    </select>
+
+    <update id="updateSubscription" >
+        UPDATE sub_manage SET
+        user_id = #{user_id},
+        plan_id = #{plan_id},
+        balance = #{balance},
+        status = #{status},
+        expiry_date = #{expiry_date},
+        subscription_id = #{subscription_id}
+        WHERE id = #{id}
+    </update>
+
+    <update id="cancelSubscription">
+        UPDATE sub_manage SET
+        status = 0
+        WHERE id = #{id}
+    </update>
+
+    <select id="getSubscriptionById" resultType="sub_manage" parameterType="int">
+        SELECT s.*, p.plan_name as plan_name, p.frequency as frequency, p.vendor_id as vendor_id
+        FROM sub_manage s, plans p
+        WHERE s.plan_id = p.id
+        AND s.id = #{id}
+    </select>
+    
+    <select id="initCancelPage" resultType="int">
+        SELECT count(id) FROM sub_manage
+        WHERE user_id = #{user_id}
+        AND status = 0
+    </select>
+
+    <select id="loadCancelSubscription" resultType="sub_manage">
+        select s.*,
+         sub.plan_name as plan_name,
+         sub.frequency as frequency,
+         sub.vendor_id as vendor_id,
+         sub.vendor_name as vendor_name
+         from sub_manage s,
+         (select p.id as id,
+         p.plan_name as plan_name,
+         p.frequency as frequency,
+         p.vendor_id as vendor_id,
+         v.legal_name as vendor_name from plans p, vendors v
+         where p.vendor_id = v.id) sub
+         where s.plan_id = sub.id
+         AND s.user_id = #{user_id}
+         AND status = 0
+         ORDER BY s.id ASC
+         limit #{start},#{limit}
+    </select>
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.Pay_orderMapper">
+
+    <select id="getPayOrder"   resultType="pay_order">
+        SELECT * FROM
+          pay_order
+        WHERE
+          id = #{id}
+    </select>
+
+    <insert id="insertPayOrder" parameterType="pay_order"  useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+        INSERT INTO
+           pay_order (amount, dataset_ids, membership_id, token)
+        VALUES
+           (
+              #{amount}, #{dataset_ids}, #{membership_id}, #{token}
+           )
+        <selectKey keyProperty="id" resultType="long" order="AFTER">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+
+
+
+    <delete id="deletePayOrder">
+        DELETE FROM
+           pay_order
+        WHERE
+           id = #{id}
+    </delete>
+
+</mapper>
+

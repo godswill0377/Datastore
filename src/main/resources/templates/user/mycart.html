@@ -1,0 +1,167 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="_partials/head :: head">
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+	<header id="header" th:replace="_partials/header :: header">
+	</header>
+
+	<div class="breadcomb">
+		<div class="container">
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+				<li><a href="#">Your Cart</a></li>
+				<li><a href="#">Your Cart</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<input type="hidden" id="checkout_items" th:value="${items}" />
+	<input type="hidden" id="checkout_sum" th:value="${sum}" />
+	<input type="hidden" th:value="${pubkey}" id="strip_pubkey"/>
+
+	<input type="hidden" id="sub_balance" th:value="${balance}" />
+	<input type="hidden" id="sub_download_sum" th:value="${download_sum}" />
+
+	<section>
+		<div class="data-company">
+			<div class="container">
+				<div th:if="${items == 0}" class="row">
+					<div class="a-row sc-cart-header">
+						<h2>
+							Your Shopping Cart is empty.
+						</h2>
+					</div>
+				</div>
+				<div th:if="${items != 0}" class="row">
+					<div class="col-md-8">
+						<div class="data-detail your-cart-deatils">
+							<div class="shoping-header">
+								<ul>
+									<li>Shoping Cart</li>
+									<li>Action</li>
+								</ul>
+							</div>
+							<div class="data-code">
+								<ul>
+									<li th:each="data_set : ${itemsList}" th:id="'/data_sets/details/'+${data_set.code}">
+										<div class="codeText">
+											<div class="zipCode"> <span class="ZCTD">[[${#strings.substring(data_set.code,0,3)}]]</span>
+
+												<h2>
+													<a th:href="'/data_sets/cateid/'+${data_set.data_category_id}+'/details/'+${data_set.id}">
+														[[${data_set.name}]]</a>
+													<span class="stock-data">CODE: [[${data_set.code}]]</span></h2>
+
+												<span class="price-tag-label">
+													<label>Price:</label>
+													<a href="javascript:void(0);">$ [[${data_set.onetime_price}]]</a>
+												</span>
+
+												<span style="margin-left: 30px;" class="price-tag-label">
+													<label>Subscription Price:</label>
+													<a href="javascript:void(0);">$ [[${data_set.download_price}]]</a>
+												</span>
+
+												<span th:if="${data_set.sub_available == 1}" style="margin-left: 15px;" class="price-tag-label">
+													<label style="color: red;">Subscription Available</label>
+												</span>
+											</div>
+											<div class="dtCode">
+												<a class="item-delete"  href="javascript:void(0)">
+													<img src="/images/delete.png">
+												</a>
+												<input th:value="${data_set.purchase_id}" type="hidden" />
+											</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+							<div class="coupon-code">
+								<div class="row">
+									<div class="col-lg-4">
+										<div class="coupon-form">
+											<label>TOTAL: $[[${total}]]</label>
+										</div>
+									</div>
+									<div class="col-lg-4">
+										<div class="coupon-form">
+											<label>DISCOUNT: $[[${discount}]]</label>
+										</div>
+									</div>
+									<div class="col-lg-4">
+										<div class="coupon-form">
+											<label>FINAL: $[[${sum}]]</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 cart-page-btn">
+						<div class="shoping-header right-bar">
+							<ul>
+								<li>Subtotal ([[${items}]] items )</li>
+							</ul>
+						</div>
+						<div class="totle-ammount">
+							<ul>
+								<li>TOTAL</li>
+								<li>$[[${sum}]]</li>
+							</ul>
+						</div>
+
+						<ul id="proceed_pay_section" class="payment-select-btns">
+							<li>
+								<label><img src="/images/paypal.png"></label>
+							</li>
+							<li>
+								<label><img src="/images/stripe.png"></label>
+							</li>
+							<div class="divide"></div>
+							<div class="cards-accept"><a href="#"><img src="/images/cards-accept.png"></a></div>
+							<a  id="btnProceed" href="javascript: void(0);" class="procees-pay" type="submit">Proceed to pay</a>
+
+						</ul>
+
+
+						<div id="sub_des_section"  th:if="${userid != '0'}" class="totle-ammount">
+						<!--	<ul style="margin-top: 10px;">
+								<li>Subscription balance: </li>
+								<li>$[[${balance}]]</li>
+							</ul>
+							<div class="divide"></div>-->
+							<ul style="margin-top: 10px;">
+								<li>Subscription total: </li>
+								<li>$[[${download_sum}]]</li>
+							</ul>
+						</div>
+
+						<ul id="sub_btn_section" th:if="${userid != '0'}" class="payment-select-btns">
+							<a id="btnSubProceed" href="javascript: void(0);" class="procees-pay" type="submit">Subscription pay</a>
+						</ul>
+						<ul id="freebtn_section" style="display: none;" class="payment-select-btns">
+							<a id="btnFreeProceed" href="javascript: void(0);" class="procees-pay" type="submit">Purchase</a>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+</div>
+
+<footer th:replace="_partials/footer :: footer"></footer>
+
+</body>
+
+<script src="/js/user/mycart.js" ></script>
+
+</html>

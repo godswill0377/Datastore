@@ -1,0 +1,73 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="_partials/head :: head">
+
+</head>
+
+
+<body>
+
+<div class="wrapper">
+
+	<header id="header" th:replace="_partials/header :: header">
+	</header>
+
+	<div class="breadcomb">
+		<div class="container">
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+				<li><a href="#">Profile</a></li>
+				<li><a href="#">My Profile</a></li>
+			</ul>
+		</div>
+	</div>
+
+
+	<section>
+		<div class="settingSec">
+			<div class="container">
+				<div class="d-flex flex-row">
+					<div class="nav-tabs-left nav-tabs">
+						<h2>Settings</h2>
+						<ul id="user_leftmenu" th:replace="subpart/user_leftmenu :: user_leftmenu">
+
+						</ul>
+					</div>
+					<div class="tab-content">
+						<div class="tab-pane fade show active" id="Profile" role="tabpanel">
+							<div class="tab-innerSec">
+								<h2>Profile</h2>
+								<div>
+									<div class="form-group">
+										<label for="apiKey">Api Key:</label>
+										<input type="text" class="form-control tab-form" id="apiKey" th:value="${userinfo.apiKey}" readonly>
+									</div>
+									<div class="form-group">
+										<label  id="email_error"  for="email">Email:</label>
+										<input type="email" class="form-control tab-form" id="email" th:value="${userinfo.email}" aria-describedby="emailHelp">
+									</div>
+									<div class="form-group">
+										<label id="username_error" for="reset_username">User name:</label>
+										<input type="name" class="form-control tab-form"  th:value="${userinfo.username}"  id="reset_username">
+									</div>
+									<button type="submit" id="btnUpdate_info" class="btn btn-primary">
+										<i style="margin-right:10px;display:none;" id="btWaiting" class="fa fa-circle-o-notch fa-spin"></i>Update</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+<footer th:replace="_partials/footer :: footer"></footer>
+
+</body>
+
+
+<script src="/js/user/profile.js"></script>
+</html>

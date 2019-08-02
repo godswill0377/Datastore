@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.Coupon_userMapper">
+    <select id="findAll" resultType="coupon_user">
+        SELECT * FROM coupon_user
+    </select>
+
+    <select id="getById" resultType="coupon_user" parameterType="java.lang.Integer">
+        SELECT * FROM coupon_user WHERE id= #{id}
+    </select>
+
+    <select id="getByCouponAndUserId" resultType="coupon_user" parameterType="Map">
+        SELECT cu.*, cm.discount FROM coupon_user cu, coupon_manage cm WHERE cu.user_id = #{user_id} and cu.coupon_id = cm.id
+        <if test="coupon_id != null and coupon_id != ''">
+            and cu.coupon_id = #{coupon_id}
+        </if>
+    </select>
+
+    <select id="getByOrderId" resultType="coupon_user" parameterType="java.lang.Long">
+        SELECT cu.*, cm.discount as discount FROM coupon_user cu, coupon_manage cm WHERE cu.order_id = #{order_id} and cu.coupon_id = cm.id
+    </select>
+
+    <insert id="saveCoupon_user">
+        INSERT INTO coupon_user
+        (coupon_id, user_id, order_id, used_flag)
+        VALUES (#{coupon_id}, #{user_id}, #{order_id}, #{used_flag})
+    </insert>
+
+    <update id="updateCoupon_user">
+        UPDATE coupon_user SET
+        coupon_id = #{coupon_id},
+        user_id = #{user_id},
+        order_id = #{order_id},
+        used_flag = #{used_flag}
+        WHERE id = #{id}
+    </update>
+</mapper>

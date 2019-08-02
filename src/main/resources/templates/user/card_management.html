@@ -1,0 +1,219 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="_partials/head :: head">
+
+</head>
+
+<style>
+	td {
+		border: 1px solid #755f5f !important;
+	}
+</style>
+<body>
+
+<div class="wrapper">
+
+	<header id="header" th:replace="_partials/header :: header">
+	</header>
+
+	<div class="breadcomb">
+		<div class="container">
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+				<li><a href="#">Card Management</a></li>
+				<li><a href="#">Card</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<section>
+		<div class="settingSec">
+			<div class="container">
+				<div class="d-flex flex-row">
+					<div class="nav-tabs-left nav-tabs">
+						<h2>Settings</h2>
+						<ul id="user_leftmenu" th:replace="subpart/user_leftmenu :: user_leftmenu">
+
+						</ul>
+					</div>
+					<div class="tab-content">
+						<div class="tab-innerSec">
+							<h2>Card Management</h2>
+							<div  class="data-code">
+								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cardModal">
+									Add Card
+								</button>
+								<ul id="main-article">
+									<table class="col-md-12">
+
+										<thead>
+											<tr>
+												<th style="padding: 7px;border: 1px solid #dfdfdf;text-align: center;">CREATED TIME</th>
+												<th style="padding: 7px;border: 1px solid #dfdfdf;text-align: center;">CARD TYPE</th>
+												<th style="padding: 7px;border: 1px solid #dfdfdf;text-align: center;">LAST 4 DIGITS</th>
+												<th style="padding: 7px;border: 1px solid #dfdfdf;text-align: center;">IS DEFAULT</th>
+											</tr>
+										</thead>
+
+										<tbody style="text-align: center">
+											<tr style="height: 45px;" th:each="data: ${dataList}" >
+												<td>[[${data.update_at}]]</td>
+												<td>[[${data.card_type}]]</td>
+												<td>XXXXXXXXXXXX[[${data.last_4_digits}]]</td>
+												<td th:if="${data.is_default == 1}">DEFAULT</td>
+												<td style="top: 15px;position: relative;" th:if="${data.is_default == 0}">
+													<button type="button" class="btn btn-primary"  th:onclick="'javascript: setCardDefault('+${data.id}+');'">
+														<i style="margin-right:10px;display:none;" th:id="'btWaiting' + ${data.id}" class="fa fa-circle-o-notch fa-spin"></i>
+														Set Default
+													</button>
+												</td>
+											</tr>
+										</tbody>
+
+									</table>
+								</ul>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+	</section>
+</div>
+
+
+<div class="modal fade" id="cardModal" tabindex="-1" role="dialog" aria-labelledby="cardModal" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Add Card</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+
+				<div class="row">
+					<div class="col-md-6">
+						<img src="/images/stripe.jpg"/>
+					</div>
+					<div class="col-md-6">
+						<img src="/images/secure-pay.jpg" style="max-height: 70px;"/>
+					</div>
+
+					<div class="col-md-6">
+
+					</div>
+
+					<div class="col-md-12">
+						<label for="card_number" >Card number</label>
+						<input id="card_number"  class="form-control" type="text" placeholder="4242 4242 4242 4242" required="">
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<label for="card_expiry" >Expiration</label>
+						<input id="card_expiry" class="form-control" type="text" placeholder="MM/YY" required="">
+					</div>
+					<div class="col-md-6">
+						<label for="card_cvc" >CVC</label>
+						<input id="card_cvc" class="form-control" type="text" placeholder="CVC" required="">
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				<button type="button" id="btnAddCard" class="btn btn-primary"><i style="margin-right:10px;display:none;" id="btWaiting" class="fa fa-circle-o-notch fa-spin"></i>Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer th:replace="_partials/footer :: footer"></footer>
+
+</body>
+
+<script src="/js/jqPaginator.min.js"></script>
+<script src="/admin/js/plugins/chosen/chosen.jquery.js"></script>
+<script src="/js/main/jquery.mask.js"></script>
+<script src="/js/user/card_management.js"> </script>
+<script>
+
+	$("#btnAddCard").on('click', function(){
+		var card_number = $("#card_number").val();
+		var card_expiry = $("#card_expiry").val();
+        var card_cvc = $("#card_cvc").val();
+		$("#btWaiting").css("display",'inline-block');
+		$("#btnAddCard").attr("disabled","true");
+
+        $.ajax({
+            url:'/user/account/addcard',
+            type:'POST',
+            data:{
+                card_number: card_number
+				, card_expiry: card_expiry
+				, card_cvc: card_cvc
+            },
+            success: function(data){
+                $("#btWaiting").css("display",'none');
+                $("#btnAddCard").removeAttr("disabled");
+
+                if(data.resultCode == "success"){
+                    window.location.href = "/account/card_management"
+                }
+                else{
+                    swal({
+                        type: 'error',
+                        title: 'Error',
+                        text: data.errorInfo
+                    });
+//                    sweetAlert(data.errorInfo);
+                    return;
+                }
+            }
+        });
+
+    });
+
+	function setCardDefault(id){
+
+	    $("#btWaiting" + id).css("display","inline-block");
+        $.ajax({
+            url:'/user/account/setCardDefault',
+            type:'POST',
+            data:{
+                id: id
+            },
+            success: function(data){
+                $("#btWaiting" + id).css("display","none");
+                if(data.resultCode == "success"){
+
+                    window.location.href = "/account/card_management";
+                }
+                else{
+                    swal({
+                        type: 'error',
+                        title: 'Error',
+                        text: data.errorInfo
+                    });
+//                    sweetAlert(data.errorInfo);
+                    return;
+                }
+            }
+        });
+	}
+    $(document).ready(function() {
+
+        $("#card_expiry").mask('00/00');
+        $("#card_number").mask('0000 0000 0000 0000');
+        $("#card_cvc").mask('0000');
+    });
+</script>
+
+
+</html>

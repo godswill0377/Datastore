@@ -1,0 +1,316 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="_partials/head :: head">
+
+</head>
+
+<link rel="stylesheet" type="text/css" href="/css/lib/sweetalert.css">
+<link rel="stylesheet" href="/js/lib/jqwidgets/styles/jqx.base.css" type="text/css" />
+
+<script type="text/javascript" src="/js/lib/demos.js"></script>
+<script type="text/javascript" src="/js/lib/jqwidgets/jqxcore.js"></script>
+<script type="text/javascript" src="/js/lib/jqwidgets/jqxdatetimeinput.js"></script>
+<script type="text/javascript" src="/js/lib/jqwidgets/jqxcalendar.js"></script>
+
+<script type="text/javascript" src="/js/lib/jqwidgets/jqxtooltip.js"></script>
+<script type="text/javascript" src="/js/lib/jqwidgets/jqxbuttons.js"></script>
+<script type="text/javascript" src="/js/lib/jqwidgets/jqxscrollbar.js"></script>
+<script type="text/javascript" src="/js/lib/jqwidgets/jqxlistbox.js"></script>
+<script type="text/javascript" src="/js/lib/jqwidgets/jqxdropdownlist.js"></script>
+
+<script type="text/javascript" src="/js/lib/jqwidgets/globalization/globalize.js"></script>
+<script src="/js/lib/sweetalert-dev.js"></script>
+<style>
+	.latest-value-item{display:block;list-style:none;line-height:14px;margin-bottom:16px;width:30%;float:left;border-bottom:1px solid #d0d8df;padding-bottom:3px;margin-right:3.33333333%}
+	.latest-values-title{padding-top:20px;margin-top:10px;border-top:1px solid #d0d8df;font-size:14px;text-transform:uppercase;color:#eb5210}
+	.latest-values-list, .latest-values-title{padding-left:20px;padding-right:20px}
+	.latest-value-label{display:inline-block;font-size:12px;text-transform:uppercase;font-weight:400;color:#515b66}
+	.latest-value{font-weight:600;font-size:14px}
+</style>
+<body>
+<div class="wrapper">
+
+	<header id="header" th:replace="_partials/header :: header">
+	</header>
+
+	<div class="breadcomb">
+		<div class="container">
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+				<li><a href="#">Dataset Series Detail</a></li>
+				<li><a href="#">Dataset Series Detail</a></li>
+			</ul>
+		</div>
+	</div>
+
+
+	<input type="hidden" id="is_free" th:value="${is_free}"/>
+	<input type="hidden" id="data_set_series_id" th:value="${data_sets_series.id}"/>
+	<input type="hidden" id="base_url" th:value="${base_url}"/>
+	<input type="hidden" id="is_sample_available" th:value="${data_sets_series.is_sample_available}"/>
+	<input type="hidden" th:value="${membership}" id="user_membership"/>
+
+	<input type="hidden" th:value="${parent_code}" id="parent_code"/>
+	<input type="hidden" th:value="${cateid}" id="cateid"/>
+	<input type="hidden" th:value="${expired}" id="expired"/>
+	<input type="hidden" th:value="${source_type}" id="source_type" />
+	<input type="hidden" th:value="${filter_query}" id="filter_query" />
+	<input type="hidden" th:value="${data_sets.name}" id="notename" />
+
+	<section>
+
+		<div class="dataSec">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="data-leftSec ">
+							<div class="veiwData">
+								<h2>FROM THE DATABASE:</h2>
+								<div class="data-test">
+									<h3>
+										<img style="max-width: 56px !important;" class="codeImg" th:if="${data_sets.icon != '' && data_sets.icon != null}" th:src="${domain}+'/'+ ${data_sets.icon}" alt="DATASET" />
+										<span th:if="${data_sets.icon == '' || data_sets.icon == null}" class="ztd">[[${#strings.substring(data_sets.code,0,3)}]]</span>
+										<a th:href="'/data_sets/cateid/'+${cateid}+'/details/'+${data_sets.id}">[[${data_sets_series.name}]]</a>
+										<span>([[${datasets_count}]] datasets)</span>
+                                    </h3>
+
+                                    <a th:if="${is_free == '0'}" id="btview_pricing" href="javascript:void(0);" class="btn btn-outline-primary">VIEW DATABASE PRICING</a>
+								</div>
+							</div>
+							<ul>
+								<li>REFRESHED<br>
+									<span>[[${update_date}]]</span></li>
+								<li class="bg1">FREQUENCY<br>
+									<span class="bg-style">[[${data_sets_series.data_update_frequency_text}]]</span></li>
+								<li class="bg2">DESCRIPTION<br>
+									<span>[[${data_sets_series.description}]]</span></li>
+								<li class="bg2">Price Model<br>
+									<span>[[${data_sets.price_model_name}]]</span>
+								</li>
+							</ul>
+
+							<div class="purchaseBtn">
+								<button type="button"  class="btn btn-danger col-md-9"><a style="padding: 12px 70px;;color: white;" th:href="'/data_sets/cateid/' + ${cateid} +'/details/' + ${parent_code} + '/purchase'">PURCHASE</a></button>
+							</div>
+
+						</div>
+					</div>
+					<div class="col-md-8">
+						<div class="accountSec">
+							<div class="account-topSec">
+								<div class="row">
+									<div class="col">
+										<a id="li-favourite"  href="javascript:void(0);" class="account-title">
+											<i id="i_heart_favour" th:class="${favourite}" aria-hidden="true"></i>
+											Favorite
+										</a>
+
+									</div>
+									<div class="col-auto">
+
+										<a th:if="${source_type} == 2" id="li-details" href="javascript:void(0);" class="account-title">
+											<i class="fa fa-plus-square-o" aria-hidden="true"></i> More Details
+										</a>
+
+										<button th:if="${source_type} == 2" style="background: none;outline: none;border: none;" type="button" id="btn-iframe" class="account-title" data-toggle="modal" data-target="#iframeModal"><i class="fa fa-arrows-alt" aria-hidden="true"></i> Full Window</button>
+										<div class="modal fade" id="iframeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+											<div class="modal-dialog modal-full" role="document">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title" id="exampleModalLabel">[[${data_sets.name}]]</h5>
+														<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															<span aria-hidden="true">&times;</span>
+														</button>
+													</div>
+													<div class="modal-body">
+
+														<div class="dataview_tabs">
+															<span class="tabs__tab tabs__tab--active" style="width: 15%;" id="modal-tab-chart-header" >Chart</span>
+															<span class="tabs__tab tabs__tab--active " style="position: absolute;left: 15%;width: 15%;" id="modal-tab-table-header" >Table</span>
+														</div>
+
+														<section class="tab-content" id="modal-chart-tab">
+															<iframe onload="iframeLoad();" th:src="${data_sets_series.embed_url_chart}" style="width: 100%; height: 391px;" ></iframe>
+														</section>
+
+														<section class="tab-content" style="display:none;" id="modal-table-tab" >
+															<iframe onload="iframeLoad();" th:src="${data_sets_series.embed_url_datagrid}" style="width: 100%; height: 391px;" ></iframe>
+														</section>
+
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<a th:if="${source_type} == 1" id="btdownlist" href="javascript:void(0);" class="account-title">
+											<i class="fa fa-download" aria-hidden="true"></i> Downloads </a>
+
+										<div style="width: 99px" id="download_list" class="b-select-content js-dropdown-content ember-view">
+											<a th:href="${base_url} + '/api/v3/datasets_series/csv/' + ${data_sets_series.id}" target="#" class="b-select-content__link qa-dataset-download-item-csv">CSV</a>
+											<a th:href="${base_url} + '/api/v3/datasets_series/json/' + ${data_sets_series.id}" target="_blank" rel="nofollow" class="b-select-content__link qa-dataset-download-item-json">JSON</a>
+											<a th:href="${base_url} + '/api/v3/datasets_series/xml/' + ${data_sets_series.id}" target="_blank" rel="nofollow" class="b-select-content__link qa-dataset-download-item-xml">XML</a>
+										</div>
+
+									</div>
+								</div>
+							</div>
+							<div th:if="${userid} == 0"  class="create-account">
+								<div class="create-accountInner"> <img src="/images/log-in-img.png" alt="log-In"/>
+									<h2>YOU MUST BE A REGISTERED DATAEXO USER TO VIEW THIS SAMPLE DATASET</h2>
+									<p>This dataset is available for testing for DataExo account holders.</p>
+									<a id="btnCreateFreeAccount" href="javascript: void(0);" class="btn btn-primary">CREATE FREE ACCOUNT</a>
+									<a th:href="'/data_sets/cateid/'+${cateid}+'/details/'+${data_sets.code}" class="btn btn-outline-primary">VIEW DATABASE</a>
+									<div class="subscribe-sec"> ALREADY A SUBSCRIBER? <a id="btnLoginIn" href="javascript: void(0); ">LOG IN!</a> </div>
+								</div>
+							</div>
+
+							<div  th:if="${userid} != 0" >
+								<div th:if="${source_type} == 1"  class="dataset-index-view">
+									<div style="height: 100%;" th:if="${same_available} == 1" >
+										<div class="dataview_tabs">
+											<span class="tabs__tab tabs__tab--active" id="tab-chart-header" >Chart</span>
+											<span class="tabs__tab tabs__tab--active " id="tab-table-header" >Table</span>
+										</div>
+										<section class="tab-content" id="chart-tab">
+											<div id="chart_container" style="height: 400px; min-width: 310px"></div>
+											<!--  <div class="chart-line-split"></div>-->
+											<div id="chart_selection" style="display: none;position: relative;    top: -320px;">
+												<input type="button" onclick="searchChartDate();" value="Filter" class="tab-search-button"/>
+												<Label style="float: right;    font-size: 16px;">  <div id='chart_jqxToDate'></div> <!--<input  id="toDate" onKeyPress="onToDateChange(event, this);"/>--></Label>
+												<Label style="float: right;    font-size: 16px;">  <div id='chart_jqxFromDate'></div><!--<input id="fromDate" onKeyPress="onFromDateChange(event, this)"/>--></Label>
+											</div>
+											<div style="position: relative;left: 63px;">
+
+												<select onchange="onTransformSelected(this.selectedIndex);" id="transform_chart" style="float:left;visibility: hidden" class="select_transform">
+													<option value="0">No Transform</option>
+													<option value="1">Change</option>
+													<option value="2">% Change</option>
+													<option value="3">Cumulative</option>
+												</select>
+												<select onchange="onDataGroupingChange(this.selectedIndex)" id="date_chart" style="float:left;visibility: hidden" class="select_days">
+													<option>Default</option>
+													<option>Daily</option>
+													<option>Weekly</option>
+													<option>Monthly</option>
+													<option>Quaterly</option>
+													<option>Annual</option>
+												</select>
+												<img id="first_waitingIcon" width="45" height="45" style="position: absolute;top: -168px;" src="/image/loading.gif">
+												<img id="waitingIcon" style="visibility:hidden;" width="18" height="18" src="/image/loading.gif">
+
+											</div>
+											<div id="error_alert" style="display: none;position: relative;left: 29%;top: -201px;font-size: 27px;text-align: center;width: 536px;">
+												<span style="color: red"> Sorry! The web service has some error. Please <a href="/aboutus">contact</a> to adminstrator to solve this problem. <a style="font-size: 18px;color: #c52ab2;" href="javascript: openEror();">Look Error-></a></span>
+											</div>
+											<div id="latest_view" style="visibility: hidden;" class="ember-view">
+												<h3 class="latest-values-title">Latest Values</h3>
+												<ul class="latest-values-list" id="latest-values">
+
+												</ul>
+											</div>
+										</section>
+
+										<section class="tab-content" style="display:none;" id="table-tab">
+											<div style="padding: 20px 41px;">
+												<input type="button" onclick="searchDate();" value="Filter" style="margin-top:0px !important;" class="tab-search-button"/>
+												<Label style="float: right;    font-size: 16px;"><div id='jqxToDate'></div> <!--<input  id="toDate" onKeyPress="onToDateChange(event, this);"/>--></Label>
+												<Label style="float: right;    font-size: 16px;"><div id='jqxFromDate'></div><!--<input id="fromDate" onKeyPress="onFromDateChange(event, this)"/>--></Label>
+												<select style="" onchange="onDataGroupingChange(this.selectedIndex)" id="date_chart1"  class="select_days">
+													<option>Default</option>
+													<option>Daily</option>
+													<option>Weekly</option>
+													<option>Monthly</option>
+													<option>Quaterly</option>
+													<option>Annual</option>
+												</select>
+
+												<select style="" onchange="onTransformSelected(this.selectedIndex);" id="transform_chart1"  class="select_transform">
+													<option value="0">No Transform</option>
+													<option value="1">Change</option>
+													<option value="2">% Change</option>
+													<option value="3">Cumulative</option>
+												</select>
+											</div>
+											<div id="tableContainer" style="    width: 100%;    height: 90%;overflow:scroll; ">
+											</div>
+										</section>
+									</div>
+									<div style="height: 100%;" th:if="${same_available} == 0" >
+										<div class="premium-wrapper">
+											<preview-message id="ember4983" class="ember-view">
+												<i aria-hidden="" id="ember4984" class="u-margin-bottom-10 fa fa-lock ember-view">
+												</i>
+												<div class="preview-title f-h3 u-margin-bottom-10 u-uppercase" style="color:black;">Data only available to subscribers
+												</div>
+												<p class="preview-description f-relative-size__p f-weight-light u-margin-bottom-20">You must have a subscription to this database to view this dataset. You may preview other sample datasets before subscribing.
+												</p>
+												<a href="/account/membership/manage" class="subscribe-button b-button b-button--green b-button--small u-uppercase ember-view">Subscribe
+												</a>
+												<a th:href="'/data_sets/cateid/'+${cateid}+'/details/'+${data_sets.code}" id="ember4986" class="view-database-samples-button b-button b-button--none b-button--small u-uppercase ember-view">View Sample Data
+												</a>
+											</preview-message>
+										</div>
+									</div>
+								</div>
+
+								<div th:if="${source_type} == 2"  class="dataset-index-view">
+									<div style="height: 100%;" th:if="${same_available} == 1" >
+										<div class="dataview_tabs">
+											<span class="tabs__tab tabs__tab--active" id="tab-chart-header" >Chart</span>
+											<span class="tabs__tab tabs__tab--active " id="tab-table-header" >Table</span>
+										</div>
+
+										<section class="tab-content" id="chart-tab">
+											<iframe onload="iframeLoad();" th:src="${data_sets_series.embed_url_chart}" style="width: 100%; height: 100%;" ></iframe>
+										</section>
+
+										<section class="tab-content" style="display:none;" id="table-tab" >
+											<iframe onload="iframeLoad();" th:src="${data_sets_series.embed_url_datagrid}" style="width: 100%; height: 100%;" ></iframe>
+										</section>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<footer th:replace="_partials/footer :: footer"></footer>
+</div>
+
+</body>
+<style>
+	.modal-full {
+		min-width: 100%;
+		margin: 0;
+	}
+
+	.modal-full .modal-content {
+		min-height: 100vh;
+	}
+</style>
+<script src="/js/highstock.js"></script>
+<script src="/js/exporting.js"></script>
+<script src="/js/export-csv.js"></script>
+<script src="/js/dataset/dataview_timeseries.js"></script>
+<script>
+
+$("#modal-tab-chart-header").on("click" , function(){
+	$("#modal-chart-tab").css("display","block");
+    $("#modal-table-tab").css("display","none");
+
+});
+
+$("#modal-tab-table-header").on("click" , function(){
+    $("#modal-chart-tab").css("display","none");
+    $("#modal-table-tab").css("display","block");
+});
+
+</script>
+
+</html>

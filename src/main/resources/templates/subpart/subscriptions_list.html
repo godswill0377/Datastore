@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+
+
+<table class="col-md-12">
+    <thead>
+    <tr>
+        <th style="padding: 7px;border: 1px solid #dfdfdf;text-align: center;">Vendor Name</th>
+        <th style="padding: 7px;border: 1px solid #dfdfdf;text-align: center;">Plan</th>
+        <th style="padding: 7px;border: 1px solid #dfdfdf;text-align: center;">Payment Amount</th>
+        <th style="padding: 7px;border: 1px solid #dfdfdf;text-align: center;">Available Balance</th>
+        <th style="padding: 7px;border: 1px solid #dfdfdf;text-align: center;">Frequency</th>
+        <th style="padding: 7px;border: 1px solid #dfdfdf;text-align: center;">Operation</th>
+    </tr>
+    </thead>
+    <tbody style="text-align: center">
+    <tr style="height: 60px;" th:each="plans : ${planList}">
+        <td>[[${plans.vendor_name}]]</td>
+        <td style="width: 150px">[[${plans.plan_name}]]</td>
+        <td>$[[${plans.real_price}]]</td>
+        <td>$[[${plans.vr_price}]]</td>
+        <td>[[${plans.frequency}]]</td>
+        <td th:data-id="${plans.vendor_id}">
+            <button class="btn btn-primary btn-xs user-subscribe" type="button" title="subscribe">
+                Subscribe
+            </button>
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+
+
+</html>
+

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+
+<div th:fragment="review-list" class="review-list" id="review-list">
+    <div th:each="reviewItem,itr : ${reviewList}" class="review-item col-md-12">
+
+        <a class="a-profile" >
+            <div class="a-profile-avatar-wrapper">
+                <div class="a-profile-avatar">
+                    <img src="/images/blank_profile.png"> </img>
+                </div>
+            </div>
+            <div class="a-profile-content"><span class="a-profile-name">[[${reviewItem.customer_name}]]</span></div>
+        </a>
+        <div style="margin:9px 0px;">
+            <input style="float: left;" th:id="'users_rating_stars' + ${itr.index}" class="rating rating-loading" data-min="0" data-max="5" data-step="0.1" th:value="${reviewItem.stars}">
+            <a style="margin-left: 5px;">[[${reviewItem.title}]]</a>
+            <br><br>
+            <span class="question-publisher">
+                [[${reviewItem.updated_date}]]
+              </span>
+        </div>
+        <div class="col-md-9">
+            <span>[[${reviewItem.content}]]</span>
+            <hr>
+        </div>
+        <br/>
+        <div th:id="'helpfulDiv-'+${reviewItem.id}" class="col-md-12" style="margin: 0px 10px;">
+            <input name="reviewItemId" type="hidden" th:value="${reviewItem.id}">
+            <input name="helpfulNum" type="hidden" th:value="${reviewItem.helpful_num}">
+            <span> [[${reviewItem.helpful_num}]] </span>
+            <span>people found this helpful. Was this review helpful to you?</span>
+
+            <span class="a-button">
+                <span class="a-button-inner">
+                  <a  class="helpful-yes-button a-button-text"  >Yes</a>>
+                </span>
+              </span>
+            <span class="a-button">
+                <span class="a-button-inner">
+                  <a  class="helpful-no-button a-button-text"  >No</a>>
+                </span>
+              </span>
+        </div>
+    </div>
+</div>
+
+</html>
+

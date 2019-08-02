@@ -1,0 +1,293 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="vendor/_partials/head :: head">
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div id="wrapper">
+    <header class="main-header" id="header" th:replace="vendor/_partials/header :: header">
+    </header>
+    <aside id="main-sidebar" class="main-sidebar">
+        <section class="sidebar" th:replace="vendor/_partials/sidebar :: sidebar">
+        </section>
+    </aside>
+    <div class="content-wrapper" style="padding:15px;">
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>Data Sets Management</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="/vendor/dashboard">Home</a>
+                        </li>
+                        <li>
+                            <a>Data Set</a>
+                        </li>
+                        <li>
+                            <strong>Add</strong>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+            <div class="wrapper wrapper-content animated fadeInRight" style="padding-bottom:37px;">
+                <div class="col-md-9">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Data Set Edit</h3>
+                        </div>
+
+                        <div class="callout callout-danger" style="display:none;">
+                            <p></p>
+                        </div>
+                        <input type="hidden" th:value="${domain}" id="domain"/>
+                        <input type="hidden" value="0" id="generateFlag" />
+                        <form role="form">
+                            <div class="box-body">
+
+                                <div class="form-group">
+                                    <label for="data-name">Data  Name</label>
+                                    <input type="text" class="form-control" id="data-name"  placeholder="">
+                                </div>
+                                <div class="input-group" id="upload-text" style="display:none;">
+                                    <label style="color:red;" class="control-label" id="upload-text-label" for="inputError">
+                                        <i class="fa fa-times-circle-o"></i>
+                                        Uploading failed</label>
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <input type="file" id="file" onchange="fileupload(this);" name="file" style="position: absolute; width: 69px;height: 33px;opacity: 0; z-index: 999;" />
+
+                                        <button type="button" class="btn btn-danger">
+                                            <i style="margin-right: 5px;position: relative;top: 0px;display:none;" id="btWaiting" class="fa fa-circle-o-notch fa-spin"></i>Upload
+                                        </button>
+                                    </div>
+
+                                    <div class="col-xs-8">
+                                        <input  id="file-path" readonly type="text" style="margin-top: 24px;" class="form-control">
+                                    </div>
+
+                                    <div class="col-xs-4">
+                                        <img id="icon" class="form-control" style="border: 1px solid black;height: 80px;width: 90px;"  />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="code">Code</label>
+                                    <input type="text" class="form-control" id="code"  placeholder="">
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="code">SchemaName</label>
+                                    <input type="text" class="form-control" id="schema_name"  placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="code">TableName</label>
+                                    <input type="text" class="form-control" id="table_name" placeholder="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control"  style=" resize: none;" id="description" placeholder=""></textarea>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="box box-info">
+                                        <div class="box-header">
+                                            <h3 class="box-title">Documentation
+                                            </h3>
+                                        </div>
+                                        <div class="box-body pad">
+                                            <form>
+                                                <textarea id="editor1" name="editor1" rows="10" cols="80">
+
+                                                </textarea>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <label id="category-val">Data Category</label>
+                                    <select id="category"  class="form-control">
+                                        <option th:each="data : ${data_categoryList}"  th:value="${data.id}">[[${data.name}]]</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <label for="asset_class">Asset Class</label>
+                                    <select id="asset_class" class="form-control">
+                                        <option th:each="data : ${asset_classList}" th:value="${data.id}">[[${data.name}]]</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <label>Price Model</label>
+                                    <select id="price_model" onchange="price_change();"  class="form-control">
+                                        <option th:each="data : ${price_modelsList}" th:value="${data.id}">[[${data.name}]]</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="col-xs-6">
+                                    <label>Data Type</label>
+                                    <select id="data_type" class="form-control">
+                                        <option th:each="data : ${data_typeList}" th:value="${data.id}">[[${data.name}]]</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <label>Region</label>
+                                    <select id="region"  class="form-control">
+                                        <option th:each="data : ${regionList}" th:value="${data.id}">[[${data.name}]]</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="col-xs-6">
+                                    <label>API</label>
+                                    <select id="api" onchange="api_change();" class="form-control">
+                                        <option value="TIME-SERIES">TIME-SERIES</option>
+                                        <option value="TABLES">TABLES</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-6">
+                                    <label style="    margin-top: 10px;" for="data-name">Onetime Price </label>
+                                    <input type="text" class="form-control" onkeypress="check_number(event);" id="onetime_price" value="10" placeholder="">
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <label style="    margin-top: 10px;" for="data-name">Onetime Expire Day </label>
+                                    <input type="text" class="form-control" onkeypress="check_number(event);" id="onetime_expires" value="100" placeholder="">
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <label style="    margin-top: 10px;" for="data-name">Download Price </label>
+                                    <input type="text" class="form-control" onkeypress="check_number(event);" id="download_price" value="10" placeholder="">
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <label style="    margin-top: 10px;" for="data-name">Download Expire Day </label>
+                                    <input type="text" class="form-control" onkeypress="check_number(event);" id="download_expires" value="100" placeholder="">
+                                </div>
+
+                                <div class="col-sm-12">
+                                </div>
+
+                                <div class="col-xs-4" style="margin-top: 18px;">
+                                    <label style="margin-top: 10px;" for="data-name">Bucket Name</label>
+                                    <input type="text" class="form-control" id="bucket_name" placeholder="">
+                                </div>
+                                <div class="col-xs-6" style="margin-top: 18px;">
+                                    <label style="margin-top: 10px;" for="data-name">S3 File Key</label>
+                                    <input type="text" class="form-control" id="s3_file_key" placeholder="">
+                                </div>
+
+
+                                <div class="col-xs-2" style="margin-top: 18px;">
+                                    <div style="margin-top: 10px;" for="data-name">&nbsp;</div>
+                                    <a class="btn btn-primary" id="btnDownUrlGen">Generate</a>
+                                </div>
+
+
+                                <div class="col-xs-10" style="margin-bottom: 40px;">
+                                    <label style="margin-top: 10px;" for="data-name">Download Url</label>
+                                    <input type="text" class="form-control" id="download_url" placeholder="">
+                                </div>
+                                <div class="col-xs-1" style="margin-top: 7px;">
+                                    <div style="margin-top: 10px;" for="data-name">&nbsp;</div>
+                                    <a class="btn btn-primary" id="btnUrlCopy" >Copy</a>
+                                </div>
+                                <div class="col-xs-1" style="margin-top: 7px;">
+                                    <div style="margin-top: 10px;" for="data-name">&nbsp;</div>
+                                    <a class="btn btn-primary" id="btnUrlOpen" >Open</a>
+                                </div>
+
+                                <div class="col-xs-12">
+                                    <label>Has Series</label>
+                                    <select id="has_series"  onchange="hasSeries_change();"  class="form-control">
+                                        <option  value="1">TRUE</option>
+                                        <option selected value="0">FALSE</option>
+                                    </select>
+                                </div>
+
+                                <div id="sourceUrl_field">
+
+                                    <div class="col-xs-12" >
+                                        <div class="col-md-12">
+                                            <label style="margin-top: 10px;" for="data-name">Source Url</label>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <input type="radio" id="source_type" class="radiobox" checked name="source_type" value="source">
+                                        </div>
+                                        <div class="col-md-11">
+                                            <input type="text"   class="form-control" id="source_url" placeholder="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12" >
+                                        <div class="col-md-12">
+                                            <label style="margin-top: 10px;" for="data-name">Emebed Url </label>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <input type="radio"  class="radiobox"  name="source_type" value="embed">
+                                        </div>
+                                        <div class="col-md-11">
+                                            <span>Chart: </span>  <input style="width: 90%;" type="text" disabled class="form-control" id="embed_url_chart" placeholder="">
+                                        </div>
+                                        <div class="col-md-1">
+                                            <input type="radio" style="visibility: hidden"  class="radiobox" >
+                                        </div>
+                                        <div class="col-md-11">
+                                            <span>Table: </span>  <input style="width: 90%;" type="text" disabled class="form-control" id="embed_url_datagrid" placeholder="">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-xs-12">
+                                    <label>Free Limitation</label>
+                                    <input type="text" class="form-control" onkeypress="check_number(event);" id="limitation" value="10" placeholder="">
+                                </div>
+
+                            </div>
+                            <!-- /.box-body -->
+
+                            <div class="box-footer">
+                                <a href="/vendor/dataset_management/list" class="btn btn-primary">Go Back</a>
+                                <a class="btn btn-primary" id="btnAdd">Add</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--添加footer-->
+    <!--添加footer-->
+
+    <footer class="main-footer" th:replace="vendor/_partials/footer :: footer">
+
+    </footer>
+</div>
+
+
+
+<!-- Mainly scripts -->
+
+<script src="/js/jquery.min.js"></script>
+<script src="/vendor/js/bootstrap.min.js"></script>
+
+<script src="https://cdn.ckeditor.com/4.5.7/standard/ckeditor.js"></script>
+<script src="/vendor/js/bootstrap3-wysihtml5.all.min.js"></script>
+
+<script src="/vendor/js/data_set/add.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head th:replace="vendor/_partials/head :: head">
+</head>
+
+<style>
+    .bootstrap-tagsinput{
+        width: 100%;
+    }
+</style>
+
+<link rel="stylesheet" href="/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="/css/bootstrap-tagsinput.css">
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div id="wrapper">
+    <header id="header" th:replace="vendor/_partials/header :: header">
+
+    </header>
+    <aside class="main-sidebar"  th:insert="~{vendor/_partials/sidebar :: sidebar}">
+    </aside>
+    <div class="content-wrapper" style="padding:15px;">
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>Coupon Management</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="/vendor/dashboard">Home</a>
+                        </li>
+
+                        <li>
+                            <a>Coupon Management</a>
+                        </li>
+                        <li>
+                            <strong>Add</strong>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+            <div class="wrapper wrapper-content animated fadeInRight" style="padding-bottom:37px;">
+                <div class="col-md-7">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Coupon Add</h3>
+                        </div>
+
+                        <div class="callout callout-danger" style="display:none;">
+                            <p></p>
+                        </div>
+
+                        <form role="form">
+                            <div class="box-body">
+
+                                <div class="form-group">
+                                    <label for="coupon">Coupon</label>
+                                    <input type="text" class="form-control" id="coupon" th:value="${coupon}" placeholder="" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="discount">Discount /100%</label>
+                                    <input type="number" class="form-control" id="discount" max="99" min="1">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="date-expiry">Expiry Date</label>
+                                    <input type="date" class="form-control" id="date-expiry" required="required">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="coupon-for">Coupon For</label>
+                                    <select class="form-control" id="coupon-for" required>
+                                        <option value="0">Purchase Datasets</option>
+                                      <!--  <option value="1">Subscribe</option>-->
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="dataset_ids">Datasets</label>
+                                    <input  type="text" class="form-control" id="dataset_ids"  data-role="tagsinput"  >
+                                </div>
+
+
+                            </div>
+                            <!-- /.box-body -->
+
+                            <div class="box-footer">
+                                <a href="/vendor/coupon/list" class="btn btn-primary">Go Back</a>
+                                <a class="btn btn-primary" id="btnAdd"><i style="margin-right:10px;display:none;" id="btWaiting" class="fa fa-circle-o-notch fa-spin"></i>Add</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="col-md-12">
+                        <a class="btn btn-primary" style="z-index: 100;position: relative;float: right;margin-top: 18px;" id="btnSelDatasets">Select Datasets</a>
+                    </div>
+                    <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Dataset Table</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="datasetList" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Code</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="data : ${dataList}">
+                                    <td><input th:id="${data.id}"  type="checkbox" /></td>
+                                    <td>[[${data.id}]]</td>
+                                    <td>[[${data.name}]]</td>
+                                    <td>[[${data.code}]]</td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="main-footer" th:replace="vendor/_partials/footer :: footer">
+
+    </footer>
+</div>
+
+</div>
+
+<!-- Mainly scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/vendor/js/bootstrap.min.js"></script>
+<script src="/vendor/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/vendor/js/hplus.js"></script>
+<script src="/vendor/js/validation.js"></script>
+<script src="/vendor/js/coupon/add.js"></script>
+
+<script type="text/javascript" src="/vendor/js/flavr/flavr/js/flavr.min.js"></script>
+<script type="text/javascript" src="/vendor/js/flavr/base.js"></script>
+
+<script src="/js/jquery.dataTables.min.js"></script>
+<script src="/js/dataTables.bootstrap.min.js"></script>
+<script src="/js/bootstrap-tagsinput.min.js"></script>
+
+<script>
+
+
+    $(function(){
+        $('#datasetList').DataTable({
+            'paging'      : true,
+            'lengthChange': false,
+            'searching'   : false,
+            'ordering'    : true,
+            'info'        : true,
+            'autoWidth'   : false
+        });
+
+        $('#dataset_ids').tagsinput({
+            allowDuplicates: false
+        });
+    });
+
+    $("#btnSelDatasets").on('click', function(){
+
+        $('#dataset_ids').tagsinput('removeAll');
+
+        $('#datasetList input[type=checkbox]').each(function () {
+            if(this.checked ){
+                var text = $(this).parent().next().html() + "";
+                $('#dataset_ids').tagsinput('add', text );
+            }
+        });
+
+    });
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+
+<li th:each="data_set : ${data_setsList}" th:id="'/data_sets/details/'+${data_set.code}">
+
+    <a th:href="'/data_sets/cateid/'+${cateid}+'/details/'+${data_set.id}">
+        <h6 th:class="${data_set.price_model_name}">[[${data_set.price_model_name}]]</h6>
+        <div class="codeText">
+            <div class="zipCode col-md-12" style="word-wrap: break-word">
+                <img class="codeImg" th:if="${data_set.icon != '' && data_set.icon != null}" th:src="${domain}+'/'+ ${data_set.icon}" alt="DATASET">
+
+                <span th:if="${data_set.icon == '' || data_set.icon == null}" class="ZCTD">[[${#strings.substring(data_set.code,0,3)}]]</span>
+                <h2>[[${data_set.name}]]<span>[[${data_set.description}]]</span></h2>
+            </div>
+        </div>
+    </a>
+
+    <div>
+        <div style="float: left;">
+            <span style="font-weight: bold; font-size: 14px;">Price:</span>
+            <span style="font-size: 14px;margin-left:5px;">$[[${data_set.onetime_price}]]</span>
+        </div>
+        <div style="float: right;">
+            <span style="font-weight: bold;font-size: 14px;">Expires on </span>
+            <span style="font-size: 14px;margin: 0px 61px 5px 17px; ">[[${data_set.expries_on_date}]]</span>
+
+        </div>
+        <div style="float: right;">
+            <span style="font-weight: bold;font-size: 14px;">Order Date:</span>
+            <span style="font-size: 14px;margin: 0px 61px 5px 17px; ">[[${data_set.order_date}]]</span>
+        </div>
+        <br/>
+
+        <div style="margin-top: 32px;margin-left: 12px;">
+            <a id="btnDownload" th:href="'javascript: downloadDataset(\'api/v3/dataset_download/' + ${data_set.purchase_id}+'/' + ${data_set.token} + '\');'" class="btn-download-dataset">Download</a>
+        </div>
+
+    </div>
+</li>
+
+</html>
+

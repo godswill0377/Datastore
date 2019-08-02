@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+
+<div th:fragment="question-list" class="question-list" id="question-list">
+    <div th:each="questionItem : ${questionList}" class="question-item col-md-12">
+        <div th:id="'makeVoteDiv-'+${questionItem.id}" class="vote-section col-md-1">
+            <input name="questionItemId" type="hidden" th:value="${questionItem.id}">
+            <input name="votes" type="hidden" th:value="${questionItem.votes}">
+            <input type="button" class="btnVoteUp" value="Vote Up">
+            <br>
+            <span name="votesValue">[[${questionItem.votes}]]</span>
+            <br>
+            <span>votes</span>
+            <br>
+            <input type="button" class="btnVoteDown" value="Vote Down">
+        </div>
+        <div class="question-spliter"  ></div>
+        <div class="question-header-title" >
+            <span style="font-weight: bold;">Question:</span>
+            <br/><br/>
+            <span style="font-weight: bold;">Answer:</span>
+        </div>
+        <div class="question-main-content col-md-8" >
+            <a class="question-text" >[[${questionItem.content}]]</a>
+
+            <br/><br/>
+            <div  >[[${questionItem.anwsers_list[0].content}]]</div>
+            <span th:if="${questionItem.answers_num != 0}" class="question-publisher">By [[${questionItem.anwsers_list[0].answer_by}]] on [[${questionItem.anwsers_list[0].updated_date}]]</span>
+            <br th:if="${questionItem.answers_num != 0}"/>
+
+            <a th:if="${questionItem.answers_num != 0}" th:id="'btnMoreView' + ${questionItem.id}" th:onclick="'javascript:toggleBtn(' + ${questionItem.id} + ',0);'" style="position: relative;top: 5px;" data-toggle="collapse" th:attr="data-target='#collapse' + ${questionItem.id}"> See more answers ([[${questionItem.answers_num}]])</a>
+            <br />
+
+            <div th:if="${questionItem.answers_num != 0}" th:id="'collapse' + ${questionItem.id}" class="collapse">
+                <div  th:each="answerItem,itr : ${questionItem.anwsers_list}" th:if="${itr.index != 0}" >
+                    <div  >[[${answerItem.content}]]</div>
+                    <span class="question-publisher">By [[${answerItem.answer_by}]] on [[${answerItem.updated_date}]]</span>
+                    <br/> <br/>
+                </div>
+                <span class="a-button">
+                    <span class="a-button-inner">
+                      <a  data-toggle="collapse" th:onclick="'javascript:toggleBtn(' + ${questionItem.id} + ',1);'" th:attr="data-target='#collapse' + ${questionItem.id}" style="color:black !important;" class="a-button-text"  >Collapse all answers</a>
+                    </span>
+                </span>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</html>

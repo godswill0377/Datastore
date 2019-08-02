@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.VendorMapper">
+    <select id="allUser" resultType="vendors">
+        select * from vendor
+    </select>
+
+
+    <select id="findAll" resultType="vendors">
+        select * from vendors v, user u where u.vendor_id=v.id and u.activate=1;
+    </select>
+
+
+    <select id="getAvailableVendors" resultType="vendors">
+        select * from vendors v, user u where u.vendor_id=v.id and u.activate=1 and v.legal_name!='' and v.legal_name IS NOT NULL ;
+    </select>
+
+    <insert id="insertVendor" parameterType="vendors" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+        insert into  vendors (
+            legal_name
+            , address
+            , city
+            , state_province
+            , country
+            , zip_postal
+            , business_name
+            , website_url
+            , mobile_num
+            )
+        VALUES (
+            #{legal_name}
+            ,#{address}
+            ,#{city}
+            ,#{state_province}
+            ,#{country}
+            ,#{zip_postal}
+            ,#{business_name}
+            ,#{website_url}
+            ,#{mobile_num}
+            )
+            <selectKey keyProperty="id" resultType="java.lang.Long" order="AFTER">
+                    SELECT LAST_INSERT_ID() as id
+            </selectKey>
+     </insert>
+
+    <update id="updateVendor">
+       update user set password = #{password} where id =#{id}
+    </update>
+
+    <update id="updateVendorInfoById">
+        update vendors set
+         legal_name = #{legal_name}
+        ,address = #{address}
+        ,city = #{city}
+        ,state_province = #{state_province}
+        ,country = #{country}
+        ,zip_postal = #{zip_postal}
+        ,business_name = #{business_name}
+        ,mobile_num = #{mobile_num}
+        ,website_url = #{website_url}
+        ,stripe_acc_id = #{stripe_acc_id}
+        ,stripe_verify = #{stripe_verify}
+        ,first_name = #{first_name}
+        ,last_name = #{last_name}
+        ,ssn_last_4 = #{ssn_last_4}
+        ,personal_id_number = #{personal_id_number}
+        ,document = #{document}
+        ,dob_year = #{dob_year}
+        ,dob_month = #{dob_month}
+        ,dob_day = #{dob_day}
+        ,routing_last_4 = #{routing_last_4}
+        ,card_last_4 = #{card_last_4}
+       ,reject_reason = #{reject_reason}
+        where id =#{id}
+    </update>
+
+    <select id="getVendorIDById" parameterType="java.lang.Long" resultType="vendors">
+        SELECT * from vendors where id = #{id}
+    </select>
+
+    <select id="getVendorByAccountId" parameterType="java.lang.String" resultType="vendors">
+        SELECT * from vendors where stripe_acc_id = #{vendorId}
+    </select>
+
+    <delete id="deleteVendor">
+        delete from vendors where id =#{id}
+    </delete>
+
+</mapper>

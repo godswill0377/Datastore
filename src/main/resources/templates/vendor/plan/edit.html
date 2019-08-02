@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head th:replace="vendor/_partials/head :: head"></head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div id="wrapper">
+    <header class="main-header" id="header" th:replace="vendor/_partials/header :: header">
+    </header>
+    <aside class="main-sidebar" th:insert="~{vendor/_partials/sidebar :: sidebar}">
+    </aside>
+    <div class="content-wrapper" style="padding:15px;">
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>Plan Management</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="/admin/home">Home</a>
+                        </li>
+                        <li>
+                            <a>Plan</a>
+                        </li>
+                        <li>
+                            <strong>Edit</strong>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+            <div class="wrapper wrapper-content animated fadeInRight" style="padding-bottom:37px;">
+                <div class="col-md-7">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Plan Edit</h3>
+                        </div>
+
+                        <div class="callout callout-danger" style="display:none;">
+                            <p></p>
+                        </div>
+                        <input type="hidden" th:value="${data.id}" readonly id="data-id">
+
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        <form role="form">
+                            <div class="box-body">
+
+                                <div class="form-group">
+                                    <label for="data-id">Plan Id</label>
+                                    <input type="text" class="form-control" th:value="${data.plan_id}" readonly id="plan_id" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="plan_name">Plan Name</label>
+                                    <input type="text" class="form-control" id="plan_name" th:value="${data.plan_name}" placeholder="" readonly>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="plan_name">Frequency</label>
+                                    <input type="text" readonly class="form-control" id="frequency" th:value="${data.frequency}" placeholder="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="plan_name">Real Price</label>
+                                    <input type="text" class="form-control" id="real_price" th:value="${data.real_price}" placeholder="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="plan_name">Virtual Price</label>
+                                    <input type="text" class="form-control" id="vr_price" th:value="${data.vr_price}" placeholder="">
+                                </div>
+                                <input type="hidden" id="vendor_id" th:value="${data.vendor_id}"/>
+
+                            </div>
+                            <!-- /.box-body -->
+
+                            <div class="box-footer">
+                                <a href="/vendor/plan/list" class="btn btn-primary">Go Back</a>
+                                <a class="btn btn-primary" id="btnUpdate">Update</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--添加footer-->
+    <footer class="main-footer" th:replace="vendor/_partials/footer :: footer">
+
+    </div>
+</div>
+
+</div>
+
+<!-- Mainly scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/vendor/js/bootstrap.min.js"></script>
+<script src="/vendor/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/vendor/js/plugins/jquery.slimscroll.min.js"></script>
+<script src="/vendor/js/hplus.js"></script>
+<script src="/vendor/js/validation.js"></script>
+<script src="/vendor/js/plan/edit.js"></script>
+<script src="/js/jqPaginator.min.js"></script>
+<script type="text/javascript" src="/vendor/js/flavr/flavr/js/flavr.min.js"></script>
+<script type="text/javascript" src="/vendor/js/flavr/base.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+
+<div class="form-inline">
+    <label for="total-earning">Total Earning: </label>
+    <input type="text" style="width: 150px;" class="form-control" th:value="${earning}" readonly id="total-earning" placeholder="">
+    <label for="withdraw-request">Withdraw Request: </label>
+    <input type="text" style="width: 150px;" class="form-control" th:value="${withdraw_request}" readonly id="withdraw-request" placeholder="">
+    <label for="total-withdraw">Total Withdraw: </label>
+    <input type="text" style="width: 150px;" class="form-control" th:value="${withdraw}" readonly id="total-withdraw" placeholder="">
+    <label for="total-balance">Balance: </label>
+    <input type="text" style="width: 150px;" class="form-control" th:value="${total}" readonly id="total-balance" placeholder="">
+
+</div>
+
+<table class="table table-striped table-bordered table-hover dataTables-example">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Withdraw Amount</th>
+            <th>Source</th>
+           <!-- <th>Source Address</th>
+            <th>Bank Name</th>-->
+            <th>Order Date</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Operation</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    <tr class="gradeX" th:each="data : ${dataList}">
+        <td th:text="${data.id}"></td>
+        <td th:text="${data.withdraw_amount}"></td>
+        <td th:text="${data.source}"></td>
+      <!--  <td th:text="${data.source_account}"></td>
+        <td th:text="${data.source_name}"></td>-->
+        <td th:text="${data.order_date}"></td>
+        <td th:text="${data.description}"></td>
+        <td>
+            <span th:if="${data.status} == 1 OR ${data.status}=='1'" th:text="Pending"></span>
+            <span th:if="${data.status} == 2 OR ${data.status}=='2'" th:text="Cancelled"></span>
+            <span th:if="${data.status} == 3 OR ${data.status}=='3'" th:text="Complete"></span>
+            <span th:if="${data.status} == 4 OR ${data.status}=='4'" th:text="Failed"></span>
+        </td>
+        <td th:data-id="${data.id}">
+
+            <button class="btn btn-primary btn-xs user-edit" type="button" title="view">
+                View
+            </button>
+
+            <button th:if="${data.status == 1}" class="btn btn-primary btn-xs withdraw-cancel" type="button" title="cancel">
+                Cancel
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+</html>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dataexo.zblog.mapper.PlanMapper">
+    <!--通过username获取user对象-->
+   <select id="findAll" resultType="plan">
+       select * from plans
+   </select>
+    <!--获取一条-->
+   <select id="getPlanById" resultType="plan">
+       select * from plans where id = #{id}
+   </select>
+    <!--初始化加载 携带查询条件-->
+    <select id="loadPlan" resultType="plan" parameterType="Map">
+        select * from plans
+        WHERE plan_id=plan_id
+        <if test="pager.vendor_id != null and pager.vendor_id != ''">
+            AND vendor_id=#{pager.vendor_id}
+        </if>
+        <if test="pager.search_str != null and pager.search_str != ''">
+            AND plan_name like concat('%',#{pager.search_str},'%')
+        </if>
+        limit #{pager.start},#{pager.limit}
+    </select>
+    <!--保存一条-->
+    <insert id="savePlan">
+        insert into plans(plan_id, plan_name, frequency, real_price, vr_price, vendor_id)
+        VALUES (#{plan_id}, #{plan_name}, #{frequency}, #{real_price}, #{vr_price}, #{vendor_id})
+    </insert>
+    <!--删除一条-->
+    <delete id="deletePlan">
+        delete from plans where id = #{id}
+    </delete>
+
+    <update id="updatePlan">
+        update plans set
+          plan_id = #{plan_id}
+          , plan_name=#{plan_name}
+          , frequency=#{frequency}
+          , real_price=#{real_price}
+          , vr_price=#{vr_price}
+          , vendor_id = #{vendor_id}
+        where id =#{id}
+    </update>
+
+
+    <select id="initPage" resultType="int">
+        SELECT count(id) from plans
+        WHERE plan_id = plan_id
+        <if test="vendor_id != null and vendor_id != ''">
+            AND vendor_id=#{vendor_id}
+        </if>
+        <if test="search_str != null and search_str != ''">
+            AND plan_name like concat('%',#{search_str},'%')
+        </if>
+    </select>
+
+    <select id="checkExist" resultType="plan">
+        select * from plans where plan_id = #{plan_id} and id != #{id}
+    </select>
+
+
+    <select id="getPlanByPlanId" resultType="plan">
+        select * from plans where plan_id = #{plan_id}
+    </select>
+
+
+    <select id="initUnsubscribedPage" resultType="int">
+        SELECT count(p.id) from plans p
+        LEFT JOIN sub_manage s
+        on p.id = s.plan_id
+        where (s.user_id != #{user_id} or s.user_id is null) and p.real_price > 0.00
+    </select>
+
+    <select id="getUnsubscribedPlanByUserId" resultType="plan">
+        select plan.* from
+        (select p.*, v.legal_name as vendor_name from plans p, vendors v where p.vendor_id = v.id) plan
+        LEFT JOIN sub_manage s
+        on plan.id = s.plan_id
+        where (s.user_id != #{user_id} or s.user_id is null)
+        AND plan.real_price > 0.00
+        <if test="search_str != null and search_str != ''">
+            AND plan.vendor_name like concat('%',#{search_str},'%')
+        </if>
+        ORDER BY plan.id ASC;
+    </select>
+
+    <select id="getPlanByVendorId" resultType="plan" >
+        select * from plans where vendor_id = #{vendor_id}
+    </select>
+
+</mapper>
+

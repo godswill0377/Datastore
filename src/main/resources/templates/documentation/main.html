@@ -1,0 +1,101 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="_partials/head :: head">
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+	<header id="header" th:replace="_partials/header :: header">
+	</header>
+
+	<div class="breadcomb">
+		<div class="container">
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+				<li><a href="#">Docs & Help</a></li>
+				<li><a href="#">Docs & Help</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<style>
+		.helpSection{
+			width: 100%;
+			border: 1px solid #e7f2e2;
+			padding: 31px 10px;
+		}
+		.imgSection{
+			text-align: center;
+		}
+		.headerTitle{
+			text-align: center;
+			margin-top: 20px;
+		}
+		.headerDesc{
+			text-align: center;
+			margin: 20px 0px;
+			height: 70px;
+		}
+		.linkDoc{
+			text-align: center;
+		}
+		.linkDoc a{
+			color: #59a9ff !important;
+			text-transform: uppercase;
+		}
+		.helpContainer{
+			display: flex;
+		}
+	</style>
+	<section>
+		<div class="contact-section">
+			<div class="container">
+				<div class="helpContainer">
+					<div class="col-md-4" >
+						<div class="helpSection">
+							<div class="imgSection"><img src="/images/doc.svg"/></div>
+							<div class="headerTitle"><h4>Documentation</h4></div>
+							<div class="headerDesc">All you need to know about pulling DataExo data with our API and analysis tools.</div>
+							<div class="linkDoc"><a href="/documentation/dataexo" >GO TO DOCUMENTATION -></a></div>
+						</div>
+					</div>
+
+					<div class="col-md-4" >
+						<div class="helpSection">
+							<div class="imgSection"><img src="/images/help.svg"/></div>
+							<div class="headerTitle"><h4>Help Center</h4></div>
+							<div class="headerDesc">Our help center contains useful information and resources on all things DataEXO.</div>
+							<div class="linkDoc"><a  th:href="${jforum_url}" >GO TO HELP CENTER -></a></div>
+						</div>
+					</div>
+
+					<div class="col-md-4" >
+						<div class="helpSection">
+							<div class="imgSection"><img src="/images/support.svg">
+							<div class="headerTitle"><h4>Support</h4></div>
+							<div class="headerDesc">We'll respond within 24 hours.</div>
+							<div class="linkDoc"><a  th:href="'mailto:' + ${support_email}" >[[${support_email}]]</a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<footer th:replace="_partials/footer :: footer"></footer>
+</div>
+
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit">
+</script>
+
+<script src="/js/user/contactus.js"></script>
+
+</body>
+
+</html>

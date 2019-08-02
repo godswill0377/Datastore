@@ -1,0 +1,951 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i');
+
+html {
+
+	font-size: 14px;
+
+}
+
+body {
+
+	font-family: 'Open Sans', sans-serif;
+
+	background:#1e2538;
+
+	color:#fff;
+
+}
+
+a {
+
+	color:#aaa;	
+
+}
+
+a:hover, a:focus {
+
+	color:#fff;	
+
+}
+
+.login-link a {
+
+  color: #15adc4;
+
+  font-style: italic;
+
+  padding-left: 6px;
+
+  text-decoration: underline;
+
+}
+
+ 
+
+ul {
+
+	margin:0;
+
+	padding:0;
+
+	list-style-type: none;
+
+}
+
+.formStyle .form-group {
+
+	margin-bottom: 1.5rem;
+
+}
+
+.selectStyle {
+
+	 background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='grey' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+
+	 background-color: transparent;
+
+	 color:#aaa;
+
+}
+
+.form-control.outlineFld:focus, .form-control.selectStyle:focus {
+
+	color: #aaa;
+
+	background-color: transparent;
+
+	border-color: #0383EC;
+
+	box-shadow: 0 0 0 .2rem rgba(255,255,255, 0.10);
+
+}
+
+.checkboxStyle {
+
+	color:#aaa;
+
+}
+
+.checkboxStyle .custom-control-indicator {
+
+	background: none;
+
+	border: 1px solid #aaa;
+
+}
+
+ 
+
+.rightImgBg.loginPage.recover-pwd {
+
+  align-items: center;
+
+  display: flex;
+
+  justify-content: center;
+
+  min-height: 500px;
+
+  background:url("../images/sideImg.png") no-repeat scroll right 2px / 654px auto;
+
+}
+
+
+
+.login-link {
+
+  color: #fff;
+
+  display: inline-block;
+
+  font-size: 14px;
+
+  margin-top: 20px;
+
+}
+.social-login li {
+  display: inline-block;
+  margin-bottom: 20px;
+  margin-right: 15px;
+}
+.social-login li .fa {
+  font-size: 18px;
+}
+
+.social-login h6 {
+  border-top: 1px solid #606060;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 25px;
+  padding-bottom: 10px;
+  padding-top: 20px;
+  width: 100%;
+  max-width: 300px;
+}
+
+
+
+.login-link span {
+
+  color: #15adc4;
+
+  margin-left:10px;
+
+  font-style:italic;
+
+  text-decoration:underline;
+
+}
+
+
+
+.rightImgBg.loginPage .col-md-6 {
+
+    flex: 0 0 70%;
+
+	width:100%;
+
+	max-width:385px;
+
+}
+
+label.error {
+
+  background: red none repeat scroll 0 0;
+
+  left: 0;
+
+  margin-bottom: 0;
+
+  padding: 3px 15px;
+
+  position: relative;
+
+  right: 0;
+
+  transition: all 1s ease 0s;
+
+  width: 100%;
+
+}
+
+.robote-img img {
+
+    width: 100%;
+
+    max-width: 302px;
+
+    margin-top: 25px;
+
+}
+
+.custom-checkbox.checkboxStyle .custom-control-input:checked ~ .custom-control-indicator {
+
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='lightgreen' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3E%3C/svg%3E");
+
+	background-size: 10px auto;
+
+	background-repeat: no-repeat;
+
+	background-position: center;
+
+}
+
+.custom-checkbox.checkboxStyle .custom-control-input:checked ~ .custom-control-indicator, .checkboxStyle .custom-control-input:focus ~ .custom-control-indicator, .checkboxStyle .custom-control-input:active ~ .custom-control-indicator {
+
+	box-shadow: none;
+
+	background-color: transparent;	
+
+}
+
+.btn.primaryBtn {
+
+  background: #15adc4 none repeat scroll 0 0;
+
+  border: medium none;
+
+  border-radius: 200px;
+
+  color: #000;
+
+  cursor: pointer;
+
+  font-size: 16px;
+
+  height: 42px;
+
+  padding: 0 20px;
+
+  transition: all 300ms ease-in-out 0s;
+
+}
+
+.btn.primaryBtn:hover {
+
+	background: #15ADC4;
+
+}
+
+.btn.primaryBtn.focus, .btn.primaryBtn:focus {
+
+	box-shadow: 0 0 0 .2rem rgba(255,255,255, 0.10);
+
+}
+
+.outlineFld, .selectStyle {
+
+	min-height: 36px;
+
+}
+
+.headerSection {
+
+	padding:15px 0;
+
+}
+
+.logo img {
+
+	width: 224px;
+
+}
+
+.loginPage {
+
+	padding: 0px 0 30px;
+
+}
+
+.formSection {
+
+    width: 100%;
+
+    max-width: 565px;
+
+}
+
+.formTitle h3 {
+
+	font-size: 2.5rem;
+
+	font-weight: 600;
+
+}
+
+.formStyle {
+
+	padding:15px 0;
+
+}
+
+.outlineFld {
+
+	background: none;
+
+	border-color: #aaa;
+
+	-webkit-border-radius: 2px;
+
+	-moz-border-radius: 2px;
+
+	border-radius: 2px;
+
+	color:#6d6f72;
+
+}
+
+.outlineFld:focus {
+
+	background: none;
+
+}
+
+.formBtmLink {
+
+	padding:10px 0 0;
+
+}
+
+
+
+.container {
+
+	 max-width:1180px;
+
+	
+
+}
+
+.formBtmLink a {
+
+	font-size: 13px;
+
+	text-decoration: underline;
+
+	-webkit-transition: all 300ms ease-in-out 0s;
+
+	-moz-transition: all 300ms ease-in-out 0s;
+
+	transition: all 300ms ease-in-out 0s;
+
+	font-weight:500;
+
+}
+
+.formBtnSection {
+
+    padding: 0px 0 0px;
+
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+
+    margin-top: 0.40rem;
+
+}
+
+.rightImgBg {
+
+	position:relative;
+
+	background: url(../images/sideImg.png);
+
+	background-repeat: no-repeat;
+
+	background-size: 654px auto;
+
+	background-position: right 40px;
+
+}
+
+.pageBgCircle {
+
+	background: #fff;
+
+	display:inline-block;
+
+	width: 1600px;
+
+	height: 1600px;
+
+	opacity: 0.03;
+
+	-webkit-border-radius: 50%;
+
+	-moz-border-radius: 50%;
+
+	border-radius: 50%;
+
+}
+
+.pageBg {
+
+	position: fixed;
+
+	left: 0;
+
+	bottom: 0;
+
+	right: 0;
+
+	top: 0;
+
+	overflow: hidden;
+
+	z-index: -1;
+
+	pointer-events: none;	
+
+}
+
+ 
+
+.circleOne, .circleTwo, .circleThree {
+
+	position: absolute;
+
+	top: 80%;
+
+	left: -40%;
+
+}
+
+.circleOne {
+
+	margin-top: 60px;
+
+}
+
+.circleTwo {
+
+	left: -15%;
+
+	margin-top: 30px;
+
+}
+
+.circleThree {
+
+	left: 10%;
+
+}
+
+.signUpPage {
+
+	padding: 40px 0 30px;
+
+}
+
+.org-labl label {
+
+	color: #495057;
+
+}
+
+.org-labl {
+
+	margin-bottom: 1.5rem;
+
+}
+
+form.step-form fieldset {
+
+	display: none;
+
+}
+
+.formSteps {
+
+	padding: 30px 0 10px;
+
+}
+
+.formSteps > ul {
+
+	display: table;
+
+	width: 100%;
+
+	position: relative;
+
+}
+
+.formSteps > ul:before {
+
+	content:"";
+
+	position:absolute;
+
+	left:0;
+
+	right:0;
+
+	bottom:0;
+
+	background:#2c4739;
+
+	height: 2px;
+
+	-webkit-border-radius: 2px;
+
+	-moz-border-radius: 2px;
+
+	border-radius: 2px;
+
+	z-index: -1;
+
+}
+
+.formSteps > ul > li {
+
+	display: table-cell;
+
+	-webkit-border-radius: 2px;
+
+	-moz-border-radius: 2px;
+
+	border-radius: 2px;
+
+	padding: 5px 0;
+
+	position:relative;
+
+	color:#808182;
+
+}
+
+.formSteps > ul > li + li {
+
+	text-align: center;
+
+}
+
+.formSteps > ul > li.active {
+
+	color:#fff;
+
+}
+
+.formSteps > ul > li.active:after {
+
+	content:"";
+
+	position:absolute;
+
+	left:0;
+
+	right:0;
+
+	bottom:0;
+
+	background:#2ed573;
+
+	height: 2px;
+
+	-webkit-border-radius: 2px;
+
+	-moz-border-radius: 2px;
+
+	border-radius: 2px;
+
+}
+
+.fldBtmInfo, .formTopInfo {
+
+	font-size: 12px;
+
+	line-height: 22px;
+
+	color: #aaa;
+
+}
+
+.form-top > .fldBtmInfo, .form-top > .formTopInfo {
+
+	padding-bottom: 10px;
+
+}
+
+.formStyle .red {
+
+	color: #ff5361;
+
+}
+
+.cPTopSection {
+
+	padding: 0 0 20px;
+
+	border-bottom: 1px solid rgba(255,255,255,0.2);
+
+	margin-bottom: 25px;
+
+	color:#adaeae;
+
+}
+
+.radioStyle .custom-control-indicator {
+
+	background: none;
+
+	border: 1px solid #b6b6b6;
+
+}
+
+.custom-radio .custom-control-input:checked ~ .custom-control-indicator, .custom-radio .custom-control-input:active ~ .custom-control-indicator {
+
+	background: none;
+
+}
+
+.custom-radio .custom-control-input:checked ~ .custom-control-indicator::before {
+
+	content: "";
+
+	position: absolute;
+
+	width: 8px;
+
+	height: 8px;
+
+	border-radius: 50%;
+
+	background: #2ed573;
+
+	margin: 2px 0 0 2px;
+
+}
+
+.custom-radio .custom-control-input:focus ~ .custom-control-indicator {
+
+	box-shadow: none;
+
+}
+
+.paymentCC, .paymentACH, .paymentCM {
+
+	display:none;
+
+}
+
+.activeCC .paymentCC, .activeACH .paymentACH, .activeCM .paymentCM {
+
+	display:block;
+
+}
+
+
+
+
+
+/*************************
+
+//  media query start  //
+
+******************************************/
+
+@media screen and (max-width:1600px) {
+
+	.circleOne {
+
+		left: -60%;
+
+		margin-top: 50px;
+
+	}
+
+	.circleTwo {
+
+		left: -30%;
+
+	}
+
+	.circleThree {
+
+		left: 0%;
+
+	}
+
+}
+
+
+
+@media screen and (max-width:1310px) {
+
+.rightImgBg, .rightImgBg.loginPage.recover-pwd {
+
+  background: rgba(0, 0, 0, 0) url("../images/sideImg.png") no-repeat scroll right 40px / 500px auto;
+
+}	
+
+	
+
+
+
+
+
+
+
+}
+
+
+
+@media screen and (max-width:1199px) {
+
+ 
+
+	
+
+	.loginPage {
+
+		padding: 20px 0 30px;
+
+	}
+
+	.formTitle h3 {
+
+		font-size: 2.571rem;
+
+	}
+
+	.formStyle {
+
+		padding: 20px 0;
+
+	}
+
+	.signUpPage {
+
+		padding: 10px 0 30px;
+
+	}
+
+.container {
+
+  max-width: 960px;
+
+}
+
+.rightImgBg.loginPage.recover-pwd {
+
+  background:url("../images/sideImg.png") no-repeat scroll right 60px / 410px auto;
+
+  min-height: 430px;
+
+}
+
+
+
+.rightImgBg {
+
+  background: rgba(0, 0, 0, 0) url("../images/sideImg.png") no-repeat scroll right 130px / 410px auto;
+
+}
+
+}
+
+
+
+@media screen and (max-width:1100px) {
+
+.rightImgBg {
+
+  background: rgba(0, 0, 0, 0) url("../images/sideImg.png") no-repeat scroll right 130px / 390px auto;
+
+}
+
+	
+
+.rightImgBg.loginPage.recover-pwd {
+
+  background:url("../images/sideImg.png") no-repeat scroll right 60px / 380px auto;
+
+}	
+
+	
+
+	
+
+}
+
+
+
+@media screen and (max-width:991px) {
+
+	.rightImgBg, .rightImgBg.loginPage.recover-pwd  {
+
+		background: none;
+
+	}
+
+	.formSection {
+
+		max-width: 100%;
+
+	}
+
+	.pageBgCircle {
+
+		width: 1100px;
+
+		height: 1100px;
+
+		top: 80%;
+
+	}
+
+	.pageBg::before {
+
+		top: 20%;
+
+	}
+
+	.container {
+
+  max-width: 720px;
+
+}
+
+}
+
+@media screen and (max-width:767px) {
+
+	.pageBgCircle {
+
+		width: 800px;
+
+		height: 800px;
+
+	}
+
+	.formBtnSection {
+
+  margin-top: -10px; 
+
+}
+
+	.circleOne {
+
+		left: -50%;
+
+	}
+
+	.circleTwo {
+
+		left: -20%;
+
+	}
+
+	.circleThree {
+
+		left: 10%;
+
+	}
+
+	.formBtnSection {
+
+		padding: 20px 0;
+
+	}
+
+	.formSteps > ul > li {
+
+		text-align: center;
+
+		font-size: 12px;
+
+		padding: 5px 2px;
+
+	}
+
+	.btn.primaryBtn {
+
+		min-width: 120px;
+
+	}
+
+		.container {
+
+  max-width: 540px;
+
+}
+
+.rightImgBg.loginPage .col-md-6 {
+
+  flex: 0 0 100%;
+
+  max-width: 100%;
+
+}
+
+}
+
+@media screen and (max-width:575px) {
+
+	.pageBgCircle {
+
+		width: 600px;
+
+		height: 600px;
+
+	}
+
+	.circleOne {
+
+		left: -70%;
+
+	}
+
+	.circleTwo {
+
+		left: -30%;
+
+	}
+
+	.circleThree {
+
+		left: 0%;
+
+	}
+
+	.formTitle h3 {
+
+		font-size: 1.714rem;
+
+	}
+
+	.radioStyle .custom-control {
+
+		padding-left: 1.2rem;
+
+		margin-right: 0.5rem;
+
+	}
+
+}
+
+
+
+
+
+/*https://projects.invisionapp.com/share/KZDD2PFNF#/screens/257564939*/

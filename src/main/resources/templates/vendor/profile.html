@@ -1,0 +1,221 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="vendor/_partials/head :: head">
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <header class="main-header" id="header" th:replace="vendor/_partials/header :: header">
+    </header>
+
+    <aside class="main-sidebar">
+        <section class="sidebar" th:replace="vendor/_partials/sidebar :: sidebar">
+        </section>
+    </aside>
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>
+                User Profile
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li class="active">User profile</li>
+            </ol>
+        </section>
+
+        <section class="content">
+            <div id="message" style="display: none;" class="callout callout-info">
+                <h4>Tip!</h4>
+                <p id="message_content"></p>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-9">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#general_pan" data-toggle="tab">General</a></li>
+                            <li class=""><a href="#account_pan" data-toggle="tab">Account</a></li>
+                        </ul>
+                        <div class="tab-content">
+
+                            <div class="tab-pane active" id="general_pan">
+                                <form class="form-horizontal" type="POST" id="general_profileForm" action="/vendor/profile/update">
+                                    <input type="hidden" class="form-control" name="id" th:value="${vendor.id}" >
+
+                                    <div class="form-group">
+                                        <label for="legal_name" class="col-sm-2 control-label">Legal Name</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="legal_name" name="legal_name" th:value="${vendor.legal_name}" placeholder="Legal Name">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="business_name" class="col-sm-2 control-label">Buisness Name</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="business_name" name="business_name" th:value="${vendor.business_name}" placeholder="Buisness Name">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="country" class="col-sm-2 control-label">Country</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="country" name="country" th:value="${vendor.country}" placeholder="Country">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address" class="col-sm-2 control-label">Address</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="address" name="address" th:value="${vendor.address}" placeholder="address">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="city" class="col-sm-2 control-label">City</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="city" name="city" th:value="${vendor.city}" placeholder="city">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="state_province" class="col-sm-2 control-label">State Provience</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="state_province" name="state_province" th:value="${vendor.state_province}" placeholder="State Provience">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="zip_postal" class="col-sm-2 control-label">Zip/Postal Code</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control Numbers" id="zip_postal" name="zip_postal" th:value="${vendor.zip_postal}" placeholder="Zip or Postal">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="website_url" class="col-sm-2 control-label">Website</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="website_url" name="website_url" th:value="${vendor.website_url}" placeholder="Website">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="mobile_num" class="col-sm-2 control-label">Mobile</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control Numbers" id="mobile_num" name="mobile_num" th:value="${vendor.mobile_num}" placeholder="Mobile No.">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="submit" class="btn btn-danger"><i style="margin-right:10px;display:none;" id="rg_btWaiting" class="fa fa-circle-o-notch fa-spin"></i>Submit</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+
+                            <div class="tab-pane" id="account_pan">
+                                <form class="form-horizontal" type="POST" id="profileForm" action="/vendor/profile/pwchange">
+                                    <input type="hidden" class="form-control" name="id" th:value="${user.id}" >
+
+                                    <div class="form-group">
+                                        <label for="username" class="col-sm-2 control-label">ApiKey</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" name="api_key" th:value="${user.apiKey}" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="username" class="col-sm-2 control-label">UserName</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="username" name="username" th:value="${user.username}" placeholder="UserName">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email" class="col-sm-2 control-label">Email</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="email" class="form-control" id="email" name="email" th:value="${user.email}" placeholder="Email">
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin-top: 45px;">
+                                        <label for="cur_password" class="col-sm-2 control-label">Current Password</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="password" class="form-control" id="cur_password" name="cur_password" placeholder="Current Password">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="new_password" class="col-sm-2 control-label">New Password</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="password" class="form-control" id="new_password" name="new_password" placeholder="New Password">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="new_confirm_password" class="col-sm-2 control-label">Confirm Password</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="password" class="form-control" id="new_confirm_password" name="new_confirm_password" placeholder="Confirm Password">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="submit" class="btn btn-danger"><i style="margin-right:10px;display:none;" id="rg_btWaiting" class="fa fa-circle-o-notch fa-spin"></i>Submit</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="main-footer" th:replace="vendor/_partials/footer :: footer">
+
+    </footer>
+
+</div>
+<script src="/vendor/lib/fastclick.js"></script>
+<script src="/vendor/js/profile.js"></script>
+
+<script src="/vendor/js/pwchange.js"></script>
+<script>
+
+    $('.tab-pane').on('click', function () {
+        $('.tab-pane').removeClass("active");
+        $(this).addClass("active");
+    });
+
+    $('.Numbers').keypress(function (event) {
+        var keycode = event.which;
+        if (!(event.shiftKey == false && (keycode == 46 || keycode == 8 || keycode == 37 || keycode == 39 || (keycode >= 48 && keycode <= 57)))) {
+            event.preventDefault();
+        }
+    });
+</script>
+
+</body>
+</html>

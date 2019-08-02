@@ -1,0 +1,110 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="vendor/_partials/head :: head">
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <header class="main-header" id="header" th:replace="vendor/_partials/header :: header">
+    </header>
+
+    <aside class="main-sidebar">
+        <section class="sidebar" th:replace="vendor/_partials/sidebar :: sidebar">
+        </section>
+    </aside>
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>
+                Vendor
+                <small>Card List</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li class="active">Card</li>
+            </ol>
+        </section>
+
+        <section class="content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Hover Data Table</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>CREATED TIME</th>
+                                        <th>CARD TYPE</th>
+                                        <th>LAST 4 DIGITS</th>
+                                        <th>IS DEFAULT</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="data : ${dataList}">
+                                        <td>[[${data.update_at}]]</td>
+                                        <td>[[${data.card_type}]]</td>
+                                        <td>XXXXXXXXXXXX[[${data.last_4_digits}]]</td>
+                                        <td th:if="${data.is_default == 1}">DEFAULT</td>
+                                        <td th:if="${data.is_default == 0}">
+                                            <button type="button" class="btn btn-primary"  th:onclick="'javascript: setCardDefault('+${data.id}+');'">
+                                                Set Default
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+    </div>
+
+    <footer class="main-footer" th:replace="vendor/_partials/footer :: footer">
+
+    </footer>
+
+</div>
+
+<script>
+    function setCardDefault(id){
+        $.ajax({
+            url:'/vendor/account/setCardDefault',
+            type:'POST',
+            data:{
+                id: id
+            },
+            success: function(data){
+                if(data.resultCode == "success"){
+                    window.location.href = "/vendor/card/list"
+                }
+                else{
+                    swal({
+                        type: 'error',
+                        title: 'Error',
+                        text: data.errorInfo
+                    });
+//                    sweetAlert(data.errorInfo);
+                    return;
+                }
+            }
+        });
+    }
+
+    $(document).ready(function() {
+
+        $("#card-manage-li").addClass("active");
+        $("#card-list-li").attr("class","active");
+    });
+</script>
+</body>
+</html>

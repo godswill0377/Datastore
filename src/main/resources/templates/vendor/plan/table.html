@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+
+<table class="table table-striped table-bordered table-hover dataTables-example">
+    <thead>
+        <tr>
+            <th>Plan Id</th>
+            <th>Plan Name</th>
+            <th>Frequency</th>
+            <th>Real Price</th>
+            <th>Virtual Price</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    <tr class="gradeX" th:each="data : ${dataList}">
+        <td th:text="${data.plan_id}"></td>
+        <td th:text="${data.plan_name}"></td>
+        <td th:text="${data.frequency}"></td>
+        <td th:text="${data.real_price}"></td>
+        <td th:text="${data.vr_price}"></td>
+
+        <td th:data-id="${data.id}">
+            <button class="btn btn-primary btn-xs user-edit" type="button" title="edit">
+                edit
+            </button>
+       <!--     <button  type="button" class="btn btn-danger btn-xs user-delete" title="delete">
+                delete
+            </button>-->
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+</html>

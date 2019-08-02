@@ -1,0 +1,165 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="_partials/head :: head">
+
+</head>
+
+
+<body>
+
+<div class="wrapper">
+
+	<header id="header" th:replace="_partials/header :: header">
+	</header>
+
+	<input type="hidden" th:value="${stripe_pubkey}" id="stripe_pubkey"  />
+	<input type="hidden" th:value="${expired}" id="expired"  />
+	<input type="hidden" th:value="${membership}" id="membership"  />
+	<input type="hidden" th:value="${balance}" id="balance"  />
+	<input type="hidden" th:value="${data_sets.onetime_price}" id="onetime_price"  />
+	<input type="hidden" th:value="${data_sets.download_price}" id="download_price"  />
+	<input type="hidden" th:value="${data_sets.id}" id="data_sets_id"  />
+
+	<div class="breadcomb">
+		<div class="container">
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+				<li><a href="#">Purchase Dataset</a></li>
+				<li><a href="#">Purchase Dataset</a></li>
+			</ul>
+		</div>
+	</div>
+
+
+		<div class="payment-page-section purchase-datasets">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 payment-option payment-select-btns">
+						<h3>Subscribe To</h3>
+
+						<ul id="purchase-id">
+							<li>
+								<input type="radio" checked name="radio-group" id="test3">
+								<label  for="test3">Purchase</label>
+							</li>
+							<li>
+								<h6 class="select-price">$[[${data_sets.onetime_price}]]</h6>
+							</li>
+							<div class="help">
+								<div class="divide"></div>
+								You should pay each of the data set to download. </div>
+						</ul>
+
+						<ul th:if="${userid != '0' and membership != '0'}" id="download-id">
+							<li >
+								<input type="radio" name="radio-group" id="test4">
+								<label  for="test4">Download</label>
+							</li>
+							<li>
+								<h6 class="select-price">$[[${data_sets.download_price}]] </h6>
+							</li>
+							<div class="help">
+								<div class="divide"></div>
+								You must be a subscription user if you are you going to download directly.</div>
+						</ul>
+					</div>
+					<div class="col-lg-6 right-table-pay show-help4">
+						<div class="payment-table">
+							<div class="header-name">
+								<h5>Product:  [[${data_sets.name}]]</h5>
+							</div>
+							<ul class="ammount-head">
+								<li></li>
+								<li>Price</li>
+								<li>Currency</li>
+							</ul>
+							<ul class="ammount-head totle-amount your-blcnce">
+								<li>Your Balance</li>
+								<li><span class="amounts">$[[${balance}]]</span></li>
+								<li>USD</li>
+							</ul>
+							<ul class="ammount-head totle-amount download-price">
+								<li>Price</li>
+								<li><span class="amounts">$[[${data_sets.download_price}]]</span></li>
+								<li>USD</li>
+							</ul>
+
+							<ul class="ammount-head totle-amount onetime-price">
+								<li>Total</li>
+								<li><span class="amounts">$[[${data_sets.onetime_price}]]</span></li>
+								<li>USD</li>
+							</ul>
+							<ul class="ammount-head totle-amount discount-price">
+								<li>Discount</li>
+								<li><span class="amounts" id="discount-price"></span></li>
+								<li>USD</li>
+							</ul>
+							<ul class="ammount-head totle-amount discount-price">
+								<li>Final</li>
+								<li><span class="amounts" id="final-price"></span></li>
+								<li>USD</li>
+							</ul>
+						</div>
+						<div id="applied-coupon" class="text-danger text-center" style="font-size: 20px"></div>
+						<div class="cold-md-12" style="    margin-left: 30px;padding: 10px 10px 25px; margin-top: 11px;">
+							<label style="float: left;" for="coupon-amount">Coupon:</label>
+							<input style="    margin-left: 10px;float: left;" type="text" class="form-control col-sm-4" id="coupon-amount" placeholder="">
+							<a style="float: left;margin-left: 20px;width: 135px;" class="add-to-crt" id="coupon-apply" href="javascript: void(0);">Apply</a>
+						</div>
+
+						<div class="two-buttons">
+							<a class="add-to-crt" id="btOnetimePurchase" href="javascript: void(0);">Add to cart</a>
+							<a class="add-to-crt" id="btPayNow" href="javascript: void(0);">Pay Now</a>
+							<a class="add-to-crt download-btnns" id="btDownPurchase"  href="javascript: void(0);">Download</a> </div>
+					</div>
+					<div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+
+	<footer th:replace="_partials/footer :: footer"></footer>
+</div>
+
+</body>
+<script>
+    $('#purchase-id').click(function(){
+        $('#purchase-id').addClass('show-help');
+
+        $('#download-id').removeClass('show-help2');
+
+        $('.right-table-pay').removeClass('show-help3');
+
+        $('.right-table-pay').addClass('show-help4');
+
+        $('label[for=coupon-amount], input#coupon-amount').show();
+
+        $('.discount-price').show();
+    });
+
+    $('#download-id').click(function(){
+        $('#purchase-id').removeClass('show-help');
+
+        $('#download-id').addClass('show-help2');
+
+        $('.right-table-pay').addClass('show-help3');
+
+        $('.right-table-pay').removeClass('show-help4');
+
+        $('label[for=coupon-amount], input#coupon-amount').hide();
+
+        $('.discount-price').hide();
+
+
+    });
+
+
+
+</script>
+
+<script src="/js/dataset/data_purchase.js"></script>
+</html>

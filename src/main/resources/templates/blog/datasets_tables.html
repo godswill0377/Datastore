@@ -1,0 +1,230 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head th:replace="blog/part/head :: head"></head>
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/load.css">
+    <link href="/css/lib/bootstrap-glyphicons.css" rel="stylesheet">
+</head>
+
+
+<body>
+<div id="container">
+    <header id="header" th:replace="blog/part/header :: header">
+
+    </header>
+
+    <header id="plannable-header" th:replace="blog/part/plannable-header-table :: plannable-header-table">
+    </header>
+    <div class="outer">
+        <input type="hidden" th:value="${parent_code}" id="parent_code"/>
+        <input type="hidden" th:value="${cateid}" id="cateid"/>
+        <input type="hidden" th:value="${dataset_id}" id="dataset_id"/>
+        <input type="hidden" id="is_free" th:value="${is_free}"/>
+
+        <input type = "hidden" th:value="${base_url}" id="base_url" />
+        <div class="datatables" style="display: block; position: relative; left: 0;float: left;margin-top:22px;">
+            <h3>Data in this database</h3>
+            <p class="u-margin-bottom-20">This database contains data from:</p>
+            <div id="ember1583" th:each="data_set_series : ${data_sets_seriesList}"  class="datatable-card ember-view" style="width:400px;">
+
+                <section>
+                    <h2 class="name">[[${data_set_series.name}]]</h2>
+                </section>
+
+                <section class="middle">
+                    <div class="code">Code: <code>[[${data_set_series.code}]]</code></div>
+                    <div id="ember1584" class="u-float-right qa-datatable-download-dropdown ember-view">
+                        <div id="ember1585" class="b-button b-button--with-caret b-button--small b-button--orange u-uppercase js-dropdown-trigger ember-view">
+                            <span>Preview</span>
+                            <div class="dropdown-arrow">
+                                <img src="/image/arrow.svg" class="dropdown-button__arrow dropdown-button__arrow--down">
+                            </div>
+                        </div>
+                        <div style="width: 84px;" id="ember1586" class="b-select-content js-dropdown-content ember-view">
+                            <a th:href="${base_url} + '/api/v3/datatables/csv/' + ${data_set_series.id}" rel="nofollow" target="_self" id="ember1587" class="b-select-content__link list-item qa-datatable-download-item-csv ember-view">
+                                CSV
+                            </a>
+                            <a th:href="${base_url} + '/api/v3/datatables/json/' + ${data_set_series.id}"  rel="nofollow" target="_blank" id="ember1588" class="b-select-content__link list-item qa-datatable-download-item-json ember-view">  JSON
+                            </a>
+                            <a th:href="${base_url} + '/api/v3/datatables/xml/' + ${data_set_series.id}"  rel="nofollow" target="_blank" id="ember1589" class="b-select-content__link list-item qa-datatable-download-item-xml ember-view">  XML
+                            </a>
+                        </div>
+                    </div>
+                </section>
+                <section class="sample-api-call">
+                    <h4>Sample API Call:</h4>
+                    <div class="available-formats">
+                        Available formats:
+                        <span class="b-button-group">
+                          <a class="b-button-group__button b-button b-button--empty b-button--tiny active"  th:value="${data_set_series.id}">CSV</a>
+                          <a  class="b-button-group__button b-button b-button--empty b-button--tiny " th:value="${data_set_series.id}">JSON</a>
+                          <a class="b-button-group__button b-button b-button--empty b-button--tiny " th:value="${data_set_series.id}">XML</a>
+                        </span>
+                    </div>
+                    <div class="example-api">
+                        <div class="code-block">
+                            <code class="url">
+                                <a th:href="${base_url} + '/api/v3/datatables/csv/' + ${data_set_series.id}" rel="nofollow" target="_blank" th:id="'link'+${data_set_series.id}" class="list-item qa-datatable-download-item-xml ember-view">[[${base_url}]]/api/v3/datatables/[[${data_set_series.code}]].csv
+                                </a>
+                            </code>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </div>
+
+        <div class="ember-view-right-panel">
+            <section class="maindatasets-right-panel">
+                <div class="section-label u-margin-bottom-10">About this database</div>
+                <p class="description u-margin-bottom-20">
+                    [[${data_sets.description}]]
+                </p>
+                <div class="database-statistics">
+                    <div class="column">
+                        <span class="heading">API</span>
+                        <span class="second-heading">[[${data_sets.api}]]</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+    <section class="question-section">
+        <div class="container">
+            <hr>
+            <div class="data-title" style="margin-top: 20px;">
+                <h3>Customer questions & answers</h3>
+            </div>
+            <div  style="float: right;">
+                <div th:include="subpart/question-ask :: question-ask"></div>
+            </div>
+            <div class="data-search col-md-6">
+                <div class="input-group">
+                    <input type="text"  id="searchQuestion" th:value="${searchQuestion}" class="form-control InputSearch" placeholder="Search this database">
+                    <span id="searchQuestionIcon" class="addonIcon"><img  src="/images/searchIcon.png"></span>
+                </div>
+            </div>
+
+            <div id="questionListContent">
+                <div  class="question-list" th:replace="subpart/question-list :: question-list">
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="review-section">
+        <div th:include="subpart/review-edit :: review-edit"></div>
+        <div class="container">
+            <hr>
+            <div class="data-title" style="margin-top: 20px;">
+                <h3>Customer Reviews</h3>
+            </div>
+
+            <div >
+                <input style="float: left;" id="total_rating_stars" name="input-1" class="rating rating-loading" data-min="0" data-max="5" data-step="0.1" th:value="${totalstars}">
+
+                <span class="a-button">
+				  <span class="a-button-inner">
+					<a  class="a-button-text"  data-toggle="modal" data-target="#reviewModal">Write a customer review</a>
+				  </span>
+
+				</span>
+                <br/> <br/>
+                <div style="margin-left: 15px;">[[${totalstars}]] out of 5 Stars</div>
+            </div>
+
+            <br/>  <br/>
+            <div class="review-main-content">
+                <h3 style="margin-left: 10px; font-weight: bold;">Top customer reviews</h3>
+
+                <input type="hidden" id="totalReviewNums" th:value="${#lists.size(reviewList)}" />
+                <div id="reviewListContent">
+                    <div class="review-list" th:replace="subpart/review-list :: review-list">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer" th:replace="blog/part/footer :: footer"></footer>
+</div>
+
+<script>
+
+    var cnt = $("#totalReviewNums").val();
+    cnt = Math.floor(cnt);
+    for(var i = 0 ; i < cnt ; i ++) {
+        $("#users_rating_stars"+i).rating({
+            min: 1, max: 5, step: 0.1, size: 'xs'
+            , displayOnly: true
+            , starCaptions: {
+                0.5: '0.5 out of 5 stars',
+                1: '1 out of 5 stars',
+                1.5: '1.5 out of 5 stars',
+                2: '2 out of 5 stars',
+                2.5: '2.5 out of 5 stars',
+                3: '3 out of 5 stars',
+                3.5: '3.5 out of 5 stars',
+                4: '4 out of 5 stars',
+                4.5: '4.5 out of 5 stars',
+                5: '5 out of 5 stars'
+            }
+            , clearButton: '<i class="glyphicon "></i>'
+        });
+    }
+
+
+    $("#total_rating_stars").rating({min:1, max:5, step:0.1, size:'xs'
+        ,displayOnly: true
+        , starCaptions: {
+            0.5: '0.5 out of 5 stars',
+            1: '1 out of 5 stars',
+            1.5: '1.5 out of 5 stars',
+            2: '2 out of 5 stars',
+            2.5: '2.5 out of 5 stars',
+            3: '3 out of 5 stars',
+            3.5: '3.5 out of 5 stars',
+            4: '4 out of 5 stars',
+            4.5: '4.5 out of 5 stars',
+            5: '5 out of 5 stars'
+        }
+        ,clearButton: '<i class="glyphicon "></i>'
+    });
+
+    $('#askQuestionModal').on('show.bs.modal', function(event) {
+        if($("#userid").val() == "0" || $("#userid").val() == ""){
+            event.preventDefault();
+            $("#btSignin").click();
+        }
+    });
+    $('#reviewModal').on('show.bs.modal', function(event) {
+        if($("#userid").val() == "0" || $("#userid").val() == ""){
+            event.preventDefault();
+            $("#btSignin").click();
+        }
+    });
+</script>
+<script>
+    function toggleBtn(id , flag){
+        if(flag == '0'){
+            $("#btnMoreView"+id).css('display','none');
+        }
+        else{
+            $("#btnMoreView"+id).css('display','block');
+        }
+    }
+</script>
+
+<script src="/js/datasets.js"></script>
+<script src="/js/dataset/question_review.js"></script>
+<script src="/js/jqPaginator.min.js"></script>
+<script src="/admin/js/plugins/chosen/chosen.jquery.js"></script>
+
+</body>
+</html>

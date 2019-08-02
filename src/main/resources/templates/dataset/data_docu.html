@@ -1,0 +1,123 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="_partials/head :: head">
+
+</head>
+
+<style>
+	.footer-section{
+		display: inline-block;
+		width: 100%;
+		clear: both;
+		margin-top: 70px;
+	}
+	.tab-content{
+		min-height: 807px;
+	}
+</style>
+<body>
+
+<div class="wrapper">
+
+	<header id="header" th:replace="_partials/header :: header">
+	</header>
+
+	<input type="hidden" id="is_free" th:value="${is_free}"/>
+	<input type="hidden" th:value="${parent_code}" id="parent_code"/>
+	<input type="hidden" th:value="${cateid}" id="cateid"/>
+
+	<div class="breadcomb">
+		<div class="container">
+			<ul>
+				<li class="menu-item-series"><a th:href="'/data_sets/cateid/' + ${cateid} +'/details/' + ${data_sets.id}">DATA</a></li>
+
+				<li class="menu-item-series active"><a th:href="'/data_sets/cateid/' + ${cateid} +'/details/' + ${parent_code} + '/documentation'">DOCUMENTATION</a></li>
+
+				<li class=""><a href="#">Documentation</a></li>
+			</ul>
+		</div>
+	</div>
+
+
+	<section>
+		<div class="settingSec documentaions">
+			<div class="container">
+				<div class="">
+					<div class="nav-tabs-left nav-tabs">
+						<h2>Contents</h2>
+						<ul class="nav-tabs-vertical nav" role="tablist">
+							<li class="nav-item"> <a href="#profile" role="tab" data-toggle="tab" class="nav-link active">Documentation</a> </li>
+						<!--	<li th:if="${data_sets.api != 'TABLES'}" class="nav-item"> <a href="#profile2" role="tab" data-toggle="tab" class="nav-link">Meta Data</a> </li>-->
+						</ul>
+					</div>
+					<div class="tab-content">
+						<div class="tab-pane fade show active" id="profile" role="tabpanel">
+
+							<div class="tab-innerSec">
+								<div class="documentation-data">
+									<input type="hidden"  id="document_data" />
+									<section id="document_section" th:utext="${data_sets.description_data}">
+									</section>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="profile2" role="tabpanel">
+							<div class="tab-innerSec">
+								<div class="documentation-data">
+									<h3>Download detailed data</h3>
+									<p>These API calls provide detailed metadata for each dataset in the database, including: dataset code, dataset name, start date, end date, date last refreshed, and columns available.</p>
+
+
+									<div class="adusted-tab">
+										<table class="docu-table">
+											<tr>
+												<th>CODE</th>
+												<th>NAME</th>
+												<th>FREQUENCY</th>
+												<th>LAST UPDATED</th>
+												<th>REFRESHED ON</th>
+											</tr>
+											<tr th:each="data_series: ${data_sets_seriesList}">
+												<td>[[${data_series.code}]]</td>
+												<td>[[${data_series.name}]]</td>
+												<td>[[${data_series.data_update_frequency_text}]]</td>
+												<td>[[${data_series.latest_update_date}]]</td>
+												<td>[[${data_series.latest_update_date}]]</td>
+											</tr>
+										</table>
+										<div class="last-data">Not showing [[${datasets_count}]] more rows</div>
+									</div>
+									<div class="big-divide"></div>
+									<div class="link-docs">
+										<h3>CSV - </h3>
+										<a target="_blank" th:href="${base_url} + '/api/v3/datasets/csv/' + ${data_sets.code}" >[[${base_url}]]/api/v3/datasets.csv?database_code=[[${data_sets.code}]]&amp;per_page=100&amp;sort_by=id&amp;<b>page=1</b></a>
+
+										<h3>JSON - </h3>
+										<a target="_blank" th:href="${base_url} + '/api/v3/datasets/json/' + ${data_sets.code}">[[${base_url}]]/api/v3/datasets.json?database_code=[[${data_sets.code}]]&amp;per_page=100&amp;sort_by=id&amp;<b>page=1</b></a>
+
+										<p>This list is too big to send as one page. You need to make API calls to get the full list. To do this, repeat the same call increasing the "page" parameter
+										<div class="small-divide"></div>
+										</p>
+										<h3>Download all Codes</h3>
+										<p>This API call is used to download all of the dataset codes and dataset names available in this database. The call will return a ZIP file containing a CSV.</p>
+										<h3 class="zipper-here">Zipped CSV</h3>
+										<a target="_blank" th:href="${base_url} + '/api/v3/database/' + ${data_sets.code}">[[${base_url}]]/api/v3/databases/[[${data_sets.code}]]/codes .</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<footer th:replace="_partials/footer :: footer"></footer>
+</div>
+
+</body>
+
+
+
+</html>
