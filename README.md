@@ -1,9 +1,6 @@
-# dataexo
-
-
-这个项目是使用spring boot + thymeleaf 
-
-初期开发已经完成,网站已经上线.
+# DATAEXO
+This project has been developed using Java Spring + Thymeleaf. 
+Initial development has been completed.
 
 # What do you need?
 - JDK 8
@@ -11,7 +8,7 @@
 - Maven
 - MySQL (or other SQL database)
 
-# 主要技术
+# Main technique
 
 - Spring && Spring security && Spring boot
 - Mybatis
@@ -20,9 +17,9 @@
 - thymeleaf
 - editor.md
 
-# 安装步骤 
+# Installation steps 
 
-0 - download or clone quandl-clone project
+0 - Download or clone quandl-clone project
 
 1 - Create the database using the **dataexo.sql** file
       
@@ -49,7 +46,7 @@
     
 5 - Copy **dataexo.war** to webapps folder
 
-6 - run **apache/bin/startup.bat** file
+6 - Run **apache/bin/startup.bat** file
 
 7.- Type **http://localhost:8085** into your browser
 
